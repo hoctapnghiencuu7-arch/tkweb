@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hoạt động 2 - Tổng hợp Loading, AOS & Refactoring</title>
+  
+  <!-- 1. Nhúng thư viện AOS CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  
+  <!-- 2. Nhúng duy nhất file style2.css -->
+  <link rel="stylesheet" href="style2.css">
+</head>
+<body>
+
+  <!-- ================= HOẠT ĐỘNG 2 CỦ: SPINNER ================= -->
+  <section class="loading-section">
+    <div class="spinner"></div>
+    <p>Đang tải dữ liệu...</p>
+  </section>
+
+  <!-- ================= HOẠT ĐỘNG 3 CỦ: AOS SCROLL REVEAL ================= -->
+  <section class="hero">
+    <h1>Portfolio Của Tôi</h1>
+    <p>Cuộn xuống để xem các hiệu ứng AOS và Demo Refactoring</p>
+  </section>
+
+  <section class="card" data-aos="fade-up">
+    <h2>Dự án 1</h2>
+    <p>Nội dung hiện lên kiểu fade-up (mờ dần và đi lên).</p>
+  </section>
+
+  <section class="card" data-aos="fade-right">
+    <h2>Dự án 2</h2>
+    <p>Nội dung hiện lên từ bên trái trượt sang.</p>
+  </section>
+
+  <section class="card" data-aos="fade-left">
+    <h2>Dự án 3</h2>
+    <p>Nội dung hiện lên từ bên phải trượt sang.</p>
+  </section>
+
+  <section class="card" data-aos="zoom-in">
+    <h2>Dự án 4</h2>
+    <p>Nội dung phóng to khi cuộn tới.</p>
+  </section>
+
+  <!-- ================= HOẠT ĐỘNG 4 CỦ: REFACTORING PERFORMANCE ================= -->
+  <section class="performance-section" data-aos="fade-up">
+    <div class="container">
+      <h3>Tối ưu hiệu năng Animation (GPU Acceleration)</h3>
+      <div class="box box-bad">Sử dụng Top/Left (Gây giật lag)</div>
+      <div class="box box-good">Sử dụng Transform (Hiệu năng cao)</div>
+    </div>
+  </section>
+
+  <!-- Nhúng Thư viện AOS JS và khởi tạo (Đổi vị trí xuống cuối body) -->
+  <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
+  <script>
+    AOS.init({
+      duration: 1000,
+      once: false
+    });
+  </script>
+</body>
+</html>
