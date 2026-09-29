@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 62" width="100%" height="100%">
+  <!-- Mastercard Interlocking Circles -->
+  <!-- Left Red Circle -->
+  <circle cx="35" cy="31" r="28" fill="#eb001b"/>
+  <!-- Right Yellow Circle -->
+  <circle cx="65" cy="31" r="28" fill="#f79e1b"/>
+  <!-- Middle Overlapping Translucent Lens -->
+  <path d="M 50,11.2 C 55.4,16.2 58.9,23.2 58.9,31 C 58.9,38.8 55.4,45.8 50,50.8 C 44.6,45.8 41.1,38.8 41.1,31 C 41.1,23.2 44.6,16.2 50,11.2 Z" fill="#ff5f00"/>
+</svg>

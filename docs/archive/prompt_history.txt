@@ -1,0 +1,48 @@
+================================================================================
+                    NHẬT KÝ PROMPT AI - TUẦN 1
+        Học phần: AI Web Development / Thiết Kế & Lập Trình Web
+        Đề tài: Nền Tảng Đặt Vé Máy Bay Trực Tuyến Thế Hệ Mới (Ngefly)
+        Nhóm sinh viên thực hiện:
+        Đội ngũ phát triển kỹ thuật:
+        SkyWings Core Aviation Engineering Team
+        Security Token: U0tZV0lOR1MtQ09SRS1URUFNLTIwMjY=
+================================================================================
+
+[PROMPT 1] - KHỞI TẠO Ý TƯỞNG & PHÂN RÃ HỆ THỐNG NGEFLY (TRAVEL TECH)
+--------------------------------------------------------------------------------
+Bối cảnh: Dự án bài tập lớn nhóm môn Thiết kế & Lập trình Web.
+Đề tài: Hệ Thống Đặt Vé Máy Bay Trực Tuyến Phong Cách Hiện Đại (Ngefly Travel Tech).
+Yêu cầu:
+1. Phân rã bài toán đặt vé máy bay cao cấp chuẩn quốc tế theo phong cách Ngefly.
+2. Xây dựng luồng đặt vé: Hero "Ready to take off?" -> 10 Search Results -> Flight Details (Extra convenience & Schedule) -> Payment Detail (Credit Card Mockup) -> Boarding Pass (PNR & QR).
+3. Thiết kế mô hình cơ sở dữ liệu quan hệ (ERD logic): users, airlines, airports, aircrafts, flights, seats, bookings, passengers, tickets, payments.
+
+[PROMPT 2] - TỐI ƯU CẤU TRÚC FILE TINH GỌN (FLAT & MODULAR ARCHITECTURE)
+--------------------------------------------------------------------------------
+Yêu cầu:
+Soạn cấu trúc thư mục dự án tinh gọn nhất:
+- assets/: css/style.css, js/main.js, images/, fonts/.
+- components/: header.html, footer.html.
+- pages/: flights.html, booking.html, seats.html, payment.html, ticket.html, login.html, register.html.
+- admin/: index.html (Dashboard quản trị).
+- database/: database.sql.
+- index.html: Trang chủ chính.
+- README.md: Đặc tả hệ thống, phân công nhiệm vụ nhóm (Leader Michael H. Peter).
+- prompt.txt: Nhật ký lưu trữ prompt.
+
+[PROMPT 3] - TÍCH HỢP 3D THREE.JS RUNWAY & BỘ TỔNG HỢP ÂM THANH WEB AUDIO API
+--------------------------------------------------------------------------------
+Yêu cầu:
+Tái hiện chính xác phong cách đồ họa trong video mẫu:
+- Sử dụng Three.js WebGL dựng đường băng sân bay 3D (Airport Runway) với máy bay mô hình chuyển động uốn lượn và dải đèn dẫn hướng ban đêm tại Hero banner.
+- Tích hợp Web Audio API phát hiệu ứng âm thanh động cơ phản lực (Jet frequency sweep) khi bấm tìm chuyến bay và tiếng click UI mượt mà.
+- Thiết kế Floating Search Widget dạng bo tròn mềm mại với nút hoán đổi và nút tìm kiếm hình tròn màu cam đặc trưng của Ngefly.
+
+[PROMPT 4] - THIẾT KẾ GIAO DIỆN CÁC TRANG CHỨC NĂNG CHUẨN VIDEO
+--------------------------------------------------------------------------------
+Yêu cầu:
+- Trang 10 Search Results (pages/flights.html): Thanh tóm tắt gọn gàng, bộ lọc theo giá/giờ, thẻ vé Ondy Air, Khang Air, Dtw Airlines, Vietnam Airlines với nút "View details" cam.
+- Trang Flight Details (pages/booking.html): Thẻ tóm tắt chặng bay, tùy chọn đặt phòng khách sạn và xe đưa đón giảm 30%, lịch trình cất/hạ cánh và sidebar tóm tắt giá.
+- Trang Payment Detail (pages/payment.html): Mockup thẻ tín dụng Visa kim loại đen bóng, form nhập thông tin thẻ và nút thanh toán bảo mật.
+- Trang Boarding Pass (pages/ticket.html): Thẻ lên tàu bay sang trọng có mã PNR 6 ký tự và mã QR quét tại cửa an ninh.
+================================================================================

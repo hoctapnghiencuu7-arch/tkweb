@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="sqNavy" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00205b"/>
+      <stop offset="100%" stop-color="#00143a"/>
+    </linearGradient>
+    <linearGradient id="sqGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffecb3"/>
+      <stop offset="50%" stop-color="#ffc107"/>
+      <stop offset="100%" stop-color="#ffa000"/>
+    </linearGradient>
+    <filter id="sqGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#ffc107" flood-opacity="0.4"/>
+    </filter>
+  </defs>
+  <circle cx="50" cy="50" r="48" fill="url(#sqNavy)" stroke="#ffc107" stroke-width="1.5" stroke-opacity="0.6"/>
+  <circle cx="50" cy="50" r="44" fill="none" stroke="#ffffff" stroke-width="0.8" stroke-opacity="0.2"/>
+  
+  <!-- Majestic Singapore Airlines Silverkris Bird Icon -->
+  <g filter="url(#sqGlow)" fill="url(#sqGold)" transform="translate(50, 48)">
+    <!-- Bird Crest Wing Primary -->
+    <path d="M -30 -6 C -18 -26, 12 -28, 30 -16 C 34 -13, 30 -6, 22 -6 C 8 -10, -12 -6, -26 4 Z"/>
+    <!-- Bird Secondary Feather -->
+    <path d="M -22 6 C -10 -8, 14 -10, 26 -2 C 28 0, 24 4, 18 4 C 8 2, -6 6, -18 14 Z"/>
+    <!-- Bird Tail Feather -->
+    <path d="M -16 16 C -8 6, 10 4, 20 10 C 22 12, 18 14, 14 14 C 6 12, -4 14, -12 20 Z"/>
+    <!-- Head & Beak -->
+    <polygon points="30,-16 38,-15 32,-11"/>
+  </g>
+  <text x="50" y="82" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="7.5" text-anchor="middle" fill="#ffffff" letter-spacing="1.5">SINGAPORE</text>
+</svg>

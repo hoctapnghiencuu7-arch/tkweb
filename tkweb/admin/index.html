@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <script src="../js/core-store.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FlyNest Admin - Bảng Điều Khiển Vận Hành Hàng Không</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <!-- Phông chữ tiếng Việt chuẩn đẹp số 1: Be Vietnam Pro -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Header -->
+  <!-- FlyNest Reusable Header -->
+<header style="background: #ffffff; border-bottom: 1px solid var(--c-border); width: 100%; position: sticky; top: 0; z-index: 50;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 16px 20px;">
+    
+    <!-- Logo -->
+    <a href="../index.html" class="fn-logo-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--c-text-main); font-weight: bold; font-size: 24px;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+      </svg>
+      FlyNest
+    </a>
+
+    <!-- Navigation -->
+    <nav>
+      <ul style="display: flex; gap: 32px; list-style: none; margin: 0; padding: 0;">
+        <li><a href="../index.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Trang chủ</a></li>
+        <li><a href="../pages/flights.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Chuyến bay</a></li>
+        <li><a href="../pages/booking.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Đặt vé</a></li>
+        <li><a href="../pages/schedule.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Lịch trình</a></li>
+      </ul>
+    </nav>
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 16px; align-items: center;">
+      <a href="../pages/login.html" class="fn-clickable fn-btn-outline" style="text-decoration: none; font-weight: 600; padding: 8px 20px; border-radius: 8px;">Đăng nhập</a>
+      <a href="../pages/register.html" class="fn-clickable fn-btn-primary" style="text-decoration: none; font-weight: 600; padding: 8px 20px; border-radius: 8px;">Đăng ký</a>
+    </div>
+
+  </div>
+</header>
+
+
+  <div class="admin-layout-grid">
+    <!-- Sidebar Navigation -->
+    <aside class="admin-sidebar-nav">
+      <ul class="admin-nav-list">
+        <li><a href="index.html" class="active">📊 Tổng Quan</a></li>
+        <li><a href="#website-editor" id="nav-link-website-editor">📝 Chỉnh Sửa Website</a></li>
+        <li><a href="#flights">🛫 Lịch Trình Bay</a></li>
+        <li><a href="#orders">🎫 Đơn Đặt Vé & PNR</a></li>
+        <li><a href="#airports">🏢 Sân Bay & Cửa Khởi Hành</a></li>
+        <li><a href="#passengers">👥 Quản Lý Hành Khách</a></li>
+        <li><a href="#promotions">🏷️ Khuyến Mãi & Giá</a></li>
+        <li><a href="#reports">📈 Báo Cáo & Thống Kê</a></li>
+        <li><a href="#settings">⚙️ Cài Đặt Hệ Thống</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="admin-main-area">
+
+
+
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.2rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h1 style="font-size: 2rem; font-weight: 900; letter-spacing: -0.5px;">Bảng Điều Khiển Vận Hành Bay</h1>
+          <p style="color: var(--text-muted); font-size: 0.95rem;">
+            Giám sát chặng bay thời gian thực & hệ thống đặt vé PNR • GV hướng dẫn: <strong>Chuyên Gia Hàng Không IATA</strong> | Đơn vị Phát triển: FlyNest Core Engineering Team
+          </p>
+        </div>
+        <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+          <a href="../index.html" target="_blank" rel="noopener noreferrer" class="btn-signin" style="background: linear-gradient(135deg, #ff5f38, #ff8c42); color: white; border: none; font-weight: 800; padding: 0.65rem 1.25rem; display: flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+            <span>🌐 Xem Website Khách Hàng</span>
+          </a>
+          <button type="button" class="btn-signin" style="border: 1.5px solid var(--border-subtle); padding: 0.65rem 1.25rem;">Xuất Báo Cáo CSV</button>
+          <button type="button" class="btn-view-details" style="padding: 0.65rem 1.35rem;">+ Điều Phối Chuyến Bay Mới</button>
+        </div>
+      </div>
+
+      <!-- ==============================================================================
+           WEBSITE CONTENT EDITOR & CMS (P1-03 REQUIREMENT)
+           Quản lý nội dung hiển thị trên website mà không cần sửa source code
+           ============================================================================== -->
+      <section id="website-editor" class="white-panel-card admin-section-card" style="padding: 2rem; margin-bottom: 2.2rem;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.75rem; flex-wrap: wrap; gap: 1rem; padding-bottom: 1.25rem; border-bottom: 1px solid var(--border-subtle);">
+          <div>
+            <div style="display: flex; align-items: center; gap: 0.75rem;">
+              <h2 style="font-size: 1.5rem; font-weight: 900; margin: 0; color: var(--text-main);">📝 Chỉnh Sửa Website &amp; Nội Dung CMS</h2>
+              <span id="cms-status-indicator" class="cms-status-badge published">✓ Đã Xuất Bản (Mô Phỏng)</span>
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.92rem; margin: 0.35rem 0 0;">
+              Biên tập tiêu đề Hero, khẩu hiệu thương hiệu, thông tin hỗ trợ và cấu hình SEO thời gian thực mà không cần sửa mã nguồn.
+            </p>
+          </div>
+          <div style="display: flex; gap: 0.65rem; flex-wrap: wrap; align-items: center;">
+            <button type="button" id="btn-cms-reset-default" class="btn-signin" style="border: 1.5px solid var(--border-subtle); padding: 0.65rem 1.1rem; font-size: 0.88rem; font-weight: 750;">
+              ↺ Khôi Phục Mặc Định
+            </button>
+            <button type="button" id="btn-cms-save-draft" class="btn-signin" style="background: var(--bg-card-alt); border: 1.5px solid var(--accent-orange); color: var(--accent-orange); padding: 0.65rem 1.25rem; font-size: 0.88rem; font-weight: 800;">
+              💾 Lưu Bản Nháp
+            </button>
+            <button type="button" id="btn-cms-publish" class="btn-view-details" style="padding: 0.65rem 1.45rem; font-size: 0.92rem; box-shadow: var(--shadow-orange);">
+              🚀 Lưu &amp; Xuất Bản Ngay
+            </button>
+          </div>
+        </div>
+
+        <!-- Academic / Prototype Transparency Notice (UI-005 & AGENTS.md compliance) -->
+        <div class="cms-prototype-banner" role="status" aria-live="polite">
+          <div class="cms-prototype-badge">
+            <span class="pulse-dot"></span>
+            <strong>Chế Độ Mô Phỏng / Client-side Storage Prototype</strong>
+          </div>
+          <p class="cms-prototype-desc">
+            💡 <strong>Lưu ý học thuật &amp; kỹ thuật:</strong> Bộ công cụ Chỉnh Sửa Website (CMS) đang hoạt động ở chế độ mô phỏng lưu trữ cục bộ (Client-side Storage Prototype qua Web Storage mã hóa AES). Dữ liệu sau khi lưu nháp hoặc xuất bản sẽ được đồng bộ tức thì sang Trang Chủ trong cùng trình duyệt này để phục vụ demo đồ án, chưa đồng bộ trực tiếp vào cơ sở dữ liệu máy chủ sản xuất (Production Database).
+          </p>
+        </div>
+
+        <div class="website-editor-grid">
+          <!-- Form Inputs Column -->
+          <form id="website-editor-form">
+            <!-- 1. Hero Section -->
+            <div class="editor-section-card">
+              <div class="editor-section-header">
+                <span style="font-size: 1.25rem;">✨</span>
+                <h3 class="editor-section-title">Khối Mở Đầu (Hero Banner &amp; CTA)</h3>
+              </div>
+              <div class="editor-field-group">
+                <label class="editor-field-label" for="cms-hero-badge">
+                  <span>Huy Hiệu Giới Thiệu (Hero Badge)</span>
+                  <span class="editor-field-hint">Tối đa 80 ký tự</span>
+                </label>
+                <input type="text" id="cms-hero-badge" name="heroBadge" class="editor-input-control" value="Khám Phá Bầu Trời Cùng FlyNest • Ưu Đãi 2026" maxlength="80">
+              </div>
+              <div class="editor-field-group">
+                <label class="editor-field-label" for="cms-hero-title">
+                  <span>Tiêu Đề Chính Hero (H1)</span>
+                  <span class="editor-field-hint">Tối đa 120 ký tự</span>
+                </label>
+                <input type="text" id="cms-hero-title" name="heroTitle" class="editor-input-control" value="Chạm Đến Bầu Trời Với Đẳng Cấp Thượng Lưu" maxlength="120" required>
+              </div>
+              <div class="editor-field-group">
+                <label class="editor-field-label" for="cms-hero-desc">
+                  <span>Mô Tả Phụ Hero (Hero Subtitle)</span>
+                  <span class="editor-field-hint">Tối đa 300 ký tự</span>
+                </label>
+                <textarea id="cms-hero-desc" name="heroDesc" class="editor-input-control" rows="3" maxlength="300">Trải nghiệm những chuyến bay tuyệt vời cùng dịch vụ 5 sao quốc tế, đường bay kết nối toàn cầu và hỗ trợ khách hàng chu đáo 24/7.</textarea>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="editor-field-group">
+                  <label class="editor-field-label" for="cms-hero-cta-text">Nhãn Nút Kêu Gọi (CTA Text)</label>
+                  <input type="text" id="cms-hero-cta-text" name="heroCtaText" class="editor-input-control" value="Khám Phá Chuyến Bay ➔" maxlength="40">
+                </div>
+                <div class="editor-field-group">
+                  <label class="editor-field-label" for="cms-hero-cta-link">Liên Kết Nút CTA</label>
+                  <input type="text" id="cms-hero-cta-link" name="heroCtaLink" class="editor-input-control" value="pages/flights.html">
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Why Choose FlyNest -->
+            <div class="editor-section-card">
+              <div class="editor-section-header">
+                <span style="font-size: 1.25rem;">💎</span>
+                <h3 class="editor-section-title">Khối Dịch Vụ &amp; Giá Trị Cốt Lõi</h3>
+              </div>
+              <div class="editor-field-group">
+                <label class="editor-field-label" for="cms-why-title">Tiêu Đề Mục "Vì Sao Chọn FlyNest"</label>
+                <input type="text" id="cms-why-title" name="whyTitle" class="editor-input-control" value="Tại Sao Lựa Chọn FlyNest?">
+              </div>
+              <div class="editor-field-group">
+                <label class="editor-field-label" for="cms-why-desc">Mô Tả Phụ Mục Dịch Vụ</label>
+                <textarea id="cms-why-desc" name="whyDesc" class="editor-input-control" rows="2">Hệ thống đặt vé máy bay thế hệ mới kết hợp mô phỏng đường băng 3D tương tác và thanh toán an toàn chuẩn quốc tế</textarea>
+              </div>
+            </div>
+
+            <!-- 3. Contact & Support Information -->
+            <div class="editor-section-card">
+              <div class="editor-section-header">
+                <span style="font-size: 1.25rem;">📞</span>
+                <h3 class="editor-section-title">Thông Tin Liên Hệ &amp; Chân Trang (Footer)</h3>
+              </div>
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="editor-field-group">
+                  <label class="editor-field-label" for="cms-support-hotline">Tổng Đài Hotline 24/7</label>
+                  <input type="text" id="cms-support-hotline" name="supportHotline" class="editor-input-control" value="1900 6868 (Miễn cước)">
+                </div>
+                <div class="editor-field-group">
+                  <label class="editor-field-label" for="cms-support-email">Email Hỗ Trợ Khách Hàng</label>
+                  <input type="email" id="cms-support-email" name="supportEmail" class="editor-input-control" value="hotro@flynest.vn">
+                </div>
+              </div>
+              <div class="editor-field-group">
+                <label class="editor-field-label" for="cms-newsletter-title">Tiêu Đề Bản Tin Khuyến Mãi (Footer Newsletter)</label>
+                <input type="text" id="cms-newsletter-title" name="newsletterTitle" class="editor-input-control" value="Đăng Ký Nhận Đặc Quyền &amp; Ưu Đãi Bay FlyNest">
+              </div>
+            </div>
+
+            <!-- 4. SEO & Social Meta -->
+            <div class="editor-section-card">
+              <div class="editor-section-header">
+                <span style="font-size: 1.25rem;">🔍</span>
+                <h3 class="editor-section-title">Tối Ưu SEO &amp; Thẻ Tiêu Đề Tìm Kiếm</h3>
+              </div>
+              <div class="editor-field-group">
+                <label class="editor-field-label" for="cms-seo-title">
+                  <span>Tiêu Đề Trang (Page Title / Meta Title)</span>
+                  <span class="editor-field-hint">Tối đa 70 ký tự</span>
+                </label>
+                <input type="text" id="cms-seo-title" name="seoTitle" class="editor-input-control" value="FlyNest - Hệ Thống Đặt Vé Máy Bay Trực Tuyến &amp; Trải Nghiệm 3D" maxlength="70">
+              </div>
+              <div class="editor-field-group">
+                <label class="editor-field-label" for="cms-seo-desc">
+                  <span>Mô Tả Tìm Kiếm (Meta Description)</span>
+                  <span class="editor-field-hint">Tối đa 160 ký tự</span>
+                </label>
+                <textarea id="cms-seo-desc" name="seoDesc" class="editor-input-control" rows="2" maxlength="160">Đặt vé máy bay trực tuyến giá tốt nhất với công nghệ mô phỏng 3D hiện đại, so sánh vé hơn 500 hãng bay uy tín và check-in thẻ bay số tức thì.</textarea>
+              </div>
+            </div>
+
+            <!-- Version Revision History -->
+            <div class="editor-section-card" style="background: var(--bg-card-alt);">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <strong style="font-size: 0.9rem;">🕒 Lịch Sử Phiên Bản &amp; Rollback</strong>
+                <small id="cms-last-saved-time" style="color: var(--text-muted);">Cập nhật: Vừa xong</small>
+              </div>
+              <div id="cms-revisions-list" style="margin-top: 0.75rem;">
+                <div class="revision-item-chip" data-rev="1">
+                  <span><strong>Phiên bản #1 (Gốc)</strong> • Nội dung chuẩn giao diện FlyNest 2026</span>
+                  <span style="color: var(--badge-green); font-weight: 800;">Khôi phục ↺</span>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <!-- Interactive Live Preview Side Column -->
+          <aside class="website-preview-panel" aria-label="Xem trước website thời gian thực">
+            <div class="preview-toolbar">
+              <strong style="font-size: 0.92rem; display: flex; align-items: center; gap: 0.4rem;">
+                <span>👁️</span> Xem Trước Trực Quan
+              </strong>
+              <div class="preview-device-switch">
+                <button type="button" class="btn-preview-device active" data-device="desktop">🖥 Desktop</button>
+                <button type="button" class="btn-preview-device" data-device="tablet">📱 Tablet</button>
+                <button type="button" class="btn-preview-device" data-device="mobile">📲 Mobile</button>
+              </div>
+            </div>
+
+            <div id="preview-frame-wrapper" class="preview-frame-container device-desktop">
+              <iframe id="websitePreviewFrame" src="../index.html?preview=true" title="Xem trước giao diện website thời gian thực"></iframe>
+            </div>
+
+            <div style="margin-top: 0.85rem; text-align: center;">
+              <small style="color: var(--text-muted); font-size: 0.78rem;">
+                💡 Dữ liệu được đồng bộ hóa tức thì giữa form biên tập và khung hiển thị.
+              </small>
+            </div>
+          </aside>
+        </div>
+      
+<!-- ================== ADDED FROM SPEC 02 ================== -->
+<div style="margin-top: 2rem; border-top: 1px solid var(--border-subtle); padding-top: 2rem;">
+<div class="editor-section-title" style="font-weight: 800; margin-bottom: 1rem; font-size: 1.1rem;">⚡ Hiệu Năng Hiển Thị (Áp Dụng Cho Toàn Bộ Khách Truy Cập)</div>
+<label class="admin-toggle-row" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; background: var(--bg-card-alt); padding: 1rem; border-radius: 8px;">
+  <span>Chế độ Tiết Kiệm / Máy Yếu (30 FPS, tắt hiệu ứng đổ bóng GPU)</span>
+  <input type="checkbox" id="admin-perf-eco-toggle" style="width: 20px; height: 20px;">
+</label>
+<p class="field-hint" style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 2rem; padding: 0 0.5rem;">Bật khi cần demo trên máy cấu hình thấp hoặc ưu tiên tốc độ tải trang hơn hiệu ứng 3D đường băng ở Trang Chủ.</p>
+
+<div class="editor-section-title" style="font-weight: 800; margin-bottom: 1rem; font-size: 1.1rem;">🎨 Màu Sắc Thương Hiệu</div>
+<div class="color-picker-row" style="display: flex; gap: 2rem; margin-bottom: 1rem; background: var(--bg-card-alt); padding: 1rem; border-radius: 8px;">
+  <label style="display: flex; flex-direction: column; gap: 0.5rem; font-weight: 600;">Màu Chủ Đạo (hiện tại: Cam FlyNest)
+    <input type="color" id="admin-color-primary" value="#ff6b00" style="width: 100%; height: 40px; cursor: pointer; border: none; padding: 0;">
+  </label>
+  <label style="display: flex; flex-direction: column; gap: 0.5rem; font-weight: 600;">Nền Tối
+    <input type="color" id="admin-color-bgdark" value="#0b1325" style="width: 100%; height: 40px; cursor: pointer; border: none; padding: 0;">
+  </label>
+  <label style="display: flex; flex-direction: column; gap: 0.5rem; font-weight: 600;">Thẻ Nền Tối
+    <input type="color" id="admin-color-carddark" value="#152238" style="width: 100%; height: 40px; cursor: pointer; border: none; padding: 0;">
+  </label>
+</div>
+<div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+  <button id="btn-apply-colors" class="btn-view-details" style="padding: 0.5rem 1rem;">Áp Dụng Cho Toàn Site</button>
+  <button id="btn-reset-colors" class="btn-signin" style="padding: 0.5rem 1rem; border: 1px solid var(--border-subtle);">Khôi Phục Mặc Định (Cam #ff6b00)</button>
+</div>
+
+<div class="editor-section-title" style="font-weight: 800; margin-bottom: 1rem; font-size: 1.1rem;">🎟️ Quản Lý Mã Giảm Giá</div>
+<div style="background: var(--bg-card-alt); padding: 1rem; border-radius: 8px; margin-bottom: 1rem;">
+<table class="admin-coupon-table" style="width: 100%; margin-bottom: 1rem; border-collapse: collapse; text-align: left;">
+  <thead>
+    <tr style="border-bottom: 2px solid var(--border-subtle);">
+      <th style="padding: 0.5rem;">Mã Code</th>
+      <th style="padding: 0.5rem;">Giảm</th>
+      <th style="padding: 0.5rem;">Loại</th>
+      <th style="padding: 0.5rem;">Thao tác</th>
+    </tr>
+  </thead>
+  <tbody id="coupon-table-body">
+    <!-- render động từ CoreStore.getData().coupons -->
+  </tbody>
+</table>
+<button id="btn-add-coupon" class="btn-signin" style="padding: 0.5rem 1rem; border: 1px solid var(--border-subtle);">+ Thêm Mã Mới</button>
+</div>
+
+<div class="editor-section-title" style="font-weight: 800; margin-bottom: 1rem; font-size: 1.1rem; margin-top: 2rem;">🎬 Chế Độ Trình Diễn & Debug</div>
+<label class="admin-toggle-row" style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; background: var(--bg-card-alt); padding: 1rem; border-radius: 8px;">
+  <span>Chế Độ Trình Diễn (Demo Mode) — ẩn dữ liệu nhạy cảm, hiện banner "Môi trường thử nghiệm"</span>
+  <input type="checkbox" id="admin-demo-mode-toggle" style="width: 20px; height: 20px;">
+</label>
+
+<button id="btn-generate-random-flight" class="btn-view-details" style="padding: 0.5rem 1rem;">🎲 Sinh 1 Chuyến Bay Demo Ngẫu Nhiên</button>
+</div>
+<!-- ======================================================== -->
+      </section>
+
+
+      <!-- Stat Cards -->
+      <div id="flights" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2.2rem;">
+        <div class="stat-metric-card">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <small style="color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Chuyến Bay Hoạt Động</small>
+            <span style="font-size: 1.5rem;">✈️</span>
+          </div>
+          <div class="stat-metric-val">128</div>
+          <span style="color: var(--badge-green); font-weight: 800; font-size: 0.85rem;">↑ 100% khởi hành đúng giờ</span>
+        </div>
+
+        <div class="stat-metric-card">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <small style="color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Vé Đã Đặt Hôm Nay</small>
+            <span style="font-size: 1.5rem;">🎫</span>
+          </div>
+          <div class="stat-metric-val">342</div>
+          <span style="color: var(--badge-green); font-weight: 800; font-size: 0.85rem;">↑ 92% tỷ lệ lấp đầy ghế</span>
+        </div>
+
+        <div class="stat-metric-card">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <small style="color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Doanh Thu Hôm Nay</small>
+            <span style="font-size: 1.5rem;">💰</span>
+          </div>
+          <div class="stat-metric-val" style="color: var(--accent-orange);">$684,200</div>
+          <span style="color: var(--badge-green); font-weight: 800; font-size: 0.85rem;">↑ +18.4% so với hôm qua</span>
+        </div>
+
+        <div class="stat-metric-card">
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <small style="color: var(--text-muted); font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">Đánh Giá Hành Khách</small>
+            <span style="font-size: 1.5rem;">⭐</span>
+          </div>
+          <div class="stat-metric-val">4.9 / 5.0</div>
+          <span style="color: var(--badge-blue); font-weight: 800; font-size: 0.85rem;">Dựa trên 1.420 đánh giá 5 sao</span>
+        </div>
+      </div>
+
+      <!-- Analytics Charts Grid (Powered by Chart.js) -->
+      <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem; margin-bottom: 2.2rem;">
+        <div class="white-panel-card" style="padding: 1.75rem; margin-bottom: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <h3 class="panel-header-title" style="margin-bottom: 0;">Biểu Đồ Doanh Thu 7 Ngày Gần Nhất</h3>
+            <span style="font-size: 0.85rem; color: var(--accent-orange); font-weight: 800; background: rgba(255, 95, 56, 0.1); padding: 0.25rem 0.75rem; border-radius: 20px;">Tuần Này (USD)</span>
+          </div>
+          <div style="height: 250px; position: relative;">
+            <canvas id="revenueTrendChart"></canvas>
+          </div>
+        </div>
+
+        <div class="white-panel-card" style="padding: 1.75rem; margin-bottom: 0;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+            <h3 class="panel-header-title" style="margin-bottom: 0;">Tỷ Lệ Hạng Vé</h3>
+            <span style="font-size: 0.85rem; color: var(--badge-blue); font-weight: 800; background: rgba(14, 165, 233, 0.1); padding: 0.25rem 0.75rem; border-radius: 20px;">Lấp Đầy 92%</span>
+          </div>
+          <div style="height: 250px; position: relative; display: flex; align-items: center; justify-content: center;">
+            <canvas id="ticketClassChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table: Recent Orders -->
+      <div id="orders" class="white-panel-card admin-section-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+          <h3 class="panel-header-title" style="margin-bottom: 0;">Đơn Đặt Vé Mới Nhất</h3>
+          <input type="text" placeholder="🔍 Tìm kiếm mã PNR, hành khách, chuyến bay..." class="auth-input-control" style="width: 320px; max-width: 100%; padding: 0.5rem 0.9rem; font-size: 0.88rem;">
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Mã PNR</th>
+                <th>Hành Khách</th>
+                <th>Chặng Bay</th>
+                <th>Hãng & Số Hiệu</th>
+                <th>Số Ghế</th>
+                <th>Số Tiền</th>
+                <th>Trạng Thái</th>
+                <th style="text-align: center;">Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong class="admin-pnr-code">SW882P</strong></td>
+                <td><strong>Jonathan Ben</strong></td>
+                <td>SGN ➔ HAN</td>
+                <td>FlyNest Airlines (SW-882)</td>
+                <td><span class="meta-pill" style="color: var(--accent-orange); font-weight: 800;">10F</span></td>
+                <td><strong>$2,120.00</strong></td>
+                <td><span class="admin-badge-confirmed">Đã Xác Nhận</span></td>
+                <td style="white-space: nowrap; text-align: center;">
+                  <div class="admin-actions-cell">
+                    <button type="button" class="btn-order-action btn-order-view admin-btn-action-view" data-pnr="SW882P" data-pax="Jonathan Ben" data-route="SGN ➔ HAN" data-flight="FlyNest Airlines (SW-882)" data-seat="10F" data-amount="$2,120.00" data-status="Đã Xác Nhận" title="Xem chi tiết">👁</button>
+                    <button type="button" class="btn-order-action btn-order-edit admin-btn-action-edit" title="Sửa thông tin">✏</button>
+                    <button type="button" class="btn-order-action btn-order-cancel admin-btn-action-delete" title="Hủy / Hoàn tiền">⛔</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong class="admin-pnr-code">VJ188K</strong></td>
+                <td><strong>Sarah Al-Hassan</strong></td>
+                <td>SGN ➔ HAN</td>
+                <td>Vietjet Air (VJ-188)</td>
+                <td><span class="meta-pill">14C</span></td>
+                <td><strong>$1,200.00</strong></td>
+                <td><span class="admin-badge-confirmed">Đã Xác Nhận</span></td>
+                <td style="white-space: nowrap; text-align: center;">
+                  <div class="admin-actions-cell">
+                    <button type="button" class="btn-order-action btn-order-view admin-btn-action-view" data-pnr="VJ188K" data-pax="Sarah Al-Hassan" data-route="SGN ➔ HAN" data-flight="Vietjet Air (VJ-188)" data-seat="14C" data-amount="$1,200.00" data-status="Đã Xác Nhận" title="Xem chi tiết">👁</button>
+                    <button type="button" class="btn-order-action btn-order-edit admin-btn-action-edit" title="Sửa thông tin">✏</button>
+                    <button type="button" class="btn-order-action btn-order-cancel admin-btn-action-delete" title="Hủy / Hoàn tiền">⛔</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong class="admin-pnr-code">VN214P</strong></td>
+                <td><strong>Michael H. Peter</strong></td>
+                <td>SGN ➔ HAN</td>
+                <td>Vietnam Airlines (VN-214)</td>
+                <td><span class="meta-pill" style="color: var(--accent-orange); font-weight: 800;">02B</span></td>
+                <td><strong>$2,250.00</strong></td>
+                <td><span class="admin-badge-confirmed">Đã Xác Nhận</span></td>
+                <td style="white-space: nowrap; text-align: center;">
+                  <div class="admin-actions-cell">
+                    <button type="button" class="btn-order-action btn-order-view admin-btn-action-view" data-pnr="VN214P" data-pax="Michael H. Peter" data-route="SGN ➔ HAN" data-flight="Vietnam Airlines (VN-214)" data-seat="02B" data-amount="$2,250.00" data-status="Đã Xác Nhận" title="Xem chi tiết">👁</button>
+                    <button type="button" class="btn-order-action btn-order-edit admin-btn-action-edit" title="Sửa thông tin">✏</button>
+                    <button type="button" class="btn-order-action btn-order-cancel admin-btn-action-delete" title="Hủy / Hoàn tiền">⛔</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong class="admin-pnr-code">EK902L</strong></td>
+                <td><strong>Alexander Brooks</strong></td>
+                <td>SGN ➔ HAN</td>
+                <td>Emirates (EK-902)</td>
+                <td><span class="meta-pill">08A</span></td>
+                <td><strong>$1,890.00</strong></td>
+                <td><span style="background: var(--badge-blue-bg); color: var(--badge-blue); padding: 0.3rem 0.75rem; border-radius: var(--radius-full); font-weight: 800; font-size: 0.8rem;">Đang Bay</span></td>
+                <td style="white-space: nowrap; text-align: center;">
+                  <div class="admin-actions-cell">
+                    <button type="button" class="btn-order-action btn-order-view admin-btn-action-view" data-pnr="EK902L" data-pax="Alexander Brooks" data-route="SGN ➔ HAN" data-flight="Emirates (EK-902)" data-seat="08A" data-amount="$1,890.00" data-status="Đang Bay" title="Xem chi tiết">👁</button>
+                    <button type="button" class="btn-order-action btn-order-edit admin-btn-action-edit" title="Sửa thông tin">✏</button>
+                    <button type="button" class="btn-order-action btn-order-cancel admin-btn-action-delete" title="Hủy / Hoàn tiền">⛔</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong class="admin-pnr-code">FZ808D</strong></td>
+                <td><strong>David Henderson</strong></td>
+                <td>HAN ➔ SGN</td>
+                <td>Flydubai (FZ-808)</td>
+                <td><span class="meta-pill">19F</span></td>
+                <td><strong>$980.00</strong></td>
+                <td><span class="admin-badge-confirmed">Đã Xác Nhận</span></td>
+                <td style="white-space: nowrap; text-align: center;">
+                  <div class="admin-actions-cell">
+                    <button type="button" class="btn-order-action btn-order-view admin-btn-action-view" data-pnr="FZ808D" data-pax="David Henderson" data-route="HAN ➔ SGN" data-flight="Flydubai (FZ-808)" data-seat="19F" data-amount="$980.00" data-status="Đã Xác Nhận" title="Xem chi tiết">👁</button>
+                    <button type="button" class="btn-order-action btn-order-edit admin-btn-action-edit" title="Sửa thông tin">✏</button>
+                    <button type="button" class="btn-order-action btn-order-cancel admin-btn-action-delete" title="Hủy / Hoàn tiền">⛔</button>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td><strong class="admin-pnr-code">QH88T</strong></td>
+                <td><strong>Victoria Sterling</strong></td>
+                <td>SGN ➔ HAN</td>
+                <td>Bamboo Airways (QH-88)</td>
+                <td><span class="meta-pill">16D</span></td>
+                <td><strong>$1,320.00</strong></td>
+                <td><span class="admin-badge-confirmed">Đã Xác Nhận</span></td>
+                <td style="white-space: nowrap; text-align: center;">
+                  <div class="admin-actions-cell">
+                    <button type="button" class="btn-order-action btn-order-view admin-btn-action-view" data-pnr="QH88T" data-pax="Victoria Sterling" data-route="SGN ➔ HAN" data-flight="Bamboo Airways (QH-88)" data-seat="16D" data-amount="$1,320.00" data-status="Đã Xác Nhận" title="Xem chi tiết">👁</button>
+                    <button type="button" class="btn-order-action btn-order-edit admin-btn-action-edit" title="Sửa thông tin">✏</button>
+                    <button type="button" class="btn-order-action btn-order-cancel admin-btn-action-delete" title="Hủy / Hoàn tiền">⛔</button>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Airports & Gates Grid Section -->
+      <div id="airports" class="white-panel-card admin-section-card">
+        <h3 class="panel-header-title">Các Trung Tâm Sân Bay & Cửa Khởi Hành</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+          <div style="background: var(--bg-card-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <strong style="font-size: 1.1rem; display: block; color: var(--accent-orange);">HAN • Hà Nội</strong>
+            <small style="color: var(--text-muted);">Ga Quốc Nội T1 • Cửa 1-15</small>
+            <div style="margin-top: 0.5rem; font-weight: 700; color: var(--badge-green); font-size: 0.85rem;">● Hoạt động bình thường</div>
+          </div>
+          <div style="background: var(--bg-card-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <strong style="font-size: 1.1rem; display: block; color: var(--accent-orange);">DAD • Đà Nẵng</strong>
+            <small style="color: var(--text-muted);">Ga Quốc Tế T1 • Cửa 1-8</small>
+            <div style="margin-top: 0.5rem; font-weight: 700; color: var(--badge-green); font-size: 0.85rem;">● Hoạt động bình thường</div>
+          </div>
+          <div style="background: var(--bg-card-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <strong style="font-size: 1.1rem; display: block; color: var(--accent-orange);">SGN • Hồ Chí Minh</strong>
+            <small style="color: var(--text-muted);">Ga Quốc Tế T2 • Cửa 12-28</small>
+            <div style="margin-top: 0.5rem; font-weight: 700; color: var(--badge-green); font-size: 0.85rem;">● Lưu lượng bay cao</div>
+          </div>
+          <div style="background: var(--bg-card-alt); padding: 1.25rem; border-radius: var(--radius-md); border: 1px solid var(--border-subtle);">
+            <strong style="font-size: 1.1rem; display: block; color: var(--accent-orange);">HAN • Hà Nội</strong>
+            <small style="color: var(--text-muted);">Ga Quốc Nội T1 • Cửa 3-15</small>
+            <div style="margin-top: 0.5rem; font-weight: 700; color: var(--badge-green); font-size: 0.85rem;">● Hoạt động bình thường</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Actions / Passenger Management -->
+      <div id="passengers" class="white-panel-card admin-section-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h3 class="panel-header-title" style="margin-bottom: 0.25rem;">Quản Lý Hành Khách &amp; Hội Viên VIP</h3>
+            <small style="color: var(--text-muted);">Tra cứu thông tin danh tính, số dặm bay SkyMiles và trạng thái thủ tục</small>
+          </div>
+          <button type="button" class="btn-view-details" style="padding: 0.5rem 1.1rem; font-size: 0.88rem;">+ Thêm Hành Khách Mới</button>
+        </div>
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Họ &amp; Tên</th>
+                <th>Số Hộ Chiếu / CCCD</th>
+                <th>Email Liên Hệ</th>
+                <th>Số Điện Thoại</th>
+                <th>Hạng Hội Viên</th>
+                <th>SkyMiles</th>
+                <th style="text-align: center;">Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Jonathan Ben</strong></td>
+                <td><span class="meta-pill">A98765432</span></td>
+                <td>jonathan.ben@example.com</td>
+                <td>+971 50 123 4567</td>
+                <td><span style="color: #f59e0b; font-weight: 800;">⭐ Kim Cương</span></td>
+                <td><strong>48,500 dặm</strong></td>
+                <td style="text-align: center;"><button type="button" class="btn-order-action admin-btn-action-view">👁 Xem Hồ Sơ</button></td>
+              </tr>
+              <tr>
+                <td><strong>Sarah Al-Hassan</strong></td>
+                <td><span class="meta-pill">B88219430</span></td>
+                <td>sarah.hassan@flyflynest.com</td>
+                <td>+84 912 345 678</td>
+                <td><span style="color: #94a3b8; font-weight: 800;">🥈 Bạch Kim</span></td>
+                <td><strong>26,100 dặm</strong></td>
+                <td style="text-align: center;"><button type="button" class="btn-order-action admin-btn-action-view">👁 Xem Hồ Sơ</button></td>
+              </tr>
+              <tr>
+                <td><strong>Michael H. Peter</strong></td>
+                <td><span class="meta-pill">C12984501</span></td>
+                <td>michael.peter@globalcorp.net</td>
+                <td>+84 988 776 655</td>
+                <td><span style="color: #d97706; font-weight: 800;">🥉 Hội Viên Vàng</span></td>
+                <td><strong>14,200 dặm</strong></td>
+                <td style="text-align: center;"><button type="button" class="btn-order-action admin-btn-action-view">👁 Xem Hồ Sơ</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION: Khuyến Mãi & Giá (Requirement 22) -->
+      <div id="promotions" class="white-panel-card admin-section-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h3 class="panel-header-title" style="margin-bottom: 0.25rem;">🏷️ Quản Lý Khuyến Mãi &amp; Chính Sách Giá</h3>
+            <small style="color: var(--text-muted);">Cấu hình các voucher giảm giá, mã khuyến mại và ưu đãi chiến dịch hàng không</small>
+          </div>
+          <div style="display: flex; gap: 0.75rem;">
+            <button type="button" id="btn-create-promo" class="btn-view-details" style="padding: 0.55rem 1.25rem; font-size: 0.9rem;">+ Tạo Mã Giảm Giá Mới</button>
+          </div>
+        </div>
+
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Mã Khuyến Mại</th>
+                <th>Mức Giảm</th>
+                <th>Điều Kiện Áp Dụng</th>
+                <th>Đã Dùng / Giới Hạn</th>
+                <th>Thời Hạn Hiệu Lực</th>
+                <th>Trạng Thái</th>
+                <th style="text-align: center;">Thao Tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong class="admin-pnr-code" style="font-size: 0.95rem;">SKYWINGS2026</strong></td>
+                <td><span style="color: var(--badge-green); font-weight: 800;">Giảm 25% (Tối đa $150)</span></td>
+                <td>Vé khứ hồi quốc nội &amp; quốc tế</td>
+                <td><strong>1,420</strong> / 2,000 lượt</td>
+                <td>31/12/2026</td>
+                <td><span style="background: var(--badge-green-bg); color: var(--badge-green); padding: 0.25rem 0.65rem; border-radius: 999px; font-weight: 800; font-size: 0.78rem;">Đang Kích Hoạt</span></td>
+                <td style="text-align: center;"><button type="button" class="btn-order-action admin-btn-action-edit">✏ Sửa</button></td>
+              </tr>
+              <tr>
+                <td><strong class="admin-pnr-code" style="font-size: 0.95rem;">SUMMERFLY</strong></td>
+                <td><span style="color: var(--badge-green); font-weight: 800;">Giảm 15%</span></td>
+                <td>Chặng bay đến Đà Nẵng &amp; Phú Quốc</td>
+                <td><strong>880</strong> / 1,000 lượt</td>
+                <td>30/09/2026</td>
+                <td><span style="background: var(--badge-green-bg); color: var(--badge-green); padding: 0.25rem 0.65rem; border-radius: 999px; font-weight: 800; font-size: 0.78rem;">Đang Kích Hoạt</span></td>
+                <td style="text-align: center;"><button type="button" class="btn-order-action admin-btn-action-edit">✏ Sửa</button></td>
+              </tr>
+              <tr>
+                <td><strong class="admin-pnr-code" style="font-size: 0.95rem;">VIPFIRST</strong></td>
+                <td><span style="color: var(--badge-green); font-weight: 800;">Giảm $200 trực tiếp</span></td>
+                <td>Áp dụng khoang Thương Gia (SkyFirst)</td>
+                <td><strong>215</strong> / 500 lượt</td>
+                <td>15/10/2026</td>
+                <td><span style="background: var(--badge-green-bg); color: var(--badge-green); padding: 0.25rem 0.65rem; border-radius: 999px; font-weight: 800; font-size: 0.78rem;">Đang Kích Hoạt</span></td>
+                <td style="text-align: center;"><button type="button" class="btn-order-action admin-btn-action-edit">✏ Sửa</button></td>
+              </tr>
+              <tr>
+                <td><strong class="admin-pnr-code" style="font-size: 0.95rem;">WELCOME50</strong></td>
+                <td><span style="color: var(--badge-green); font-weight: 800;">Giảm $50</span></td>
+                <td>Đơn hàng đầu tiên của thành viên mới</td>
+                <td><strong>5,420</strong> / 10,000 lượt</td>
+                <td>31/12/2026</td>
+                <td><span style="background: var(--badge-green-bg); color: var(--badge-green); padding: 0.25rem 0.65rem; border-radius: 999px; font-weight: 800; font-size: 0.78rem;">Đang Kích Hoạt</span></td>
+                <td style="text-align: center;"><button type="button" class="btn-order-action admin-btn-action-edit">✏ Sửa</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION: Báo Cáo & Thống Kê (Requirement 22) -->
+      <div id="reports" class="white-panel-card admin-section-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+          <div>
+            <h3 class="panel-header-title" style="margin-bottom: 0.25rem;">📈 Báo Cáo Doanh Thu &amp; Hiệu Suất Vận Hành</h3>
+            <small style="color: var(--text-muted);">Phân tích doanh thu theo tuyến bay, tỷ lệ lấp đầy ghế (Load Factor) và chỉ số tài chính</small>
+          </div>
+          <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
+            <button type="button" id="btn-export-excel" class="btn-signin" style="background: #10b981; color: white; border: none; font-weight: 800; padding: 0.55rem 1.15rem; display: flex; align-items: center; gap: 0.4rem;">
+              <span>📥 Xuất File Excel</span>
+            </button>
+            <button type="button" onclick="window.print()" class="btn-signin" style="border: 1.5px solid var(--border-subtle); padding: 0.55rem 1.15rem;">🖨 In Báo Cáo</button>
+          </div>
+        </div>
+
+        <!-- 4 Key Report Metrics -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
+          <div style="background: var(--bg-card-alt); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+            <small style="color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Doanh Thu Toàn Mạng Bay</small>
+            <div style="font-size: 1.75rem; font-weight: 900; color: var(--accent-orange); margin: 0.2rem 0;">$1,248,500</div>
+            <span style="color: var(--badge-green); font-weight: 800; font-size: 0.82rem;">↑ 14.8% so với tháng trước</span>
+          </div>
+
+          <div style="background: var(--bg-card-alt); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+            <small style="color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Tỷ Lệ Lấp Đầy Ghế (Load Factor)</small>
+            <div style="font-size: 1.75rem; font-weight: 900; color: #0f172a; margin: 0.2rem 0;">87.4%</div>
+            <span style="color: var(--badge-green); font-weight: 800; font-size: 0.82rem;">Đạt chuẩn Skytrax 5 Sao</span>
+          </div>
+
+          <div style="background: var(--bg-card-alt); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+            <small style="color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Doanh Thu / Khách (Yield)</small>
+            <div style="font-size: 1.75rem; font-weight: 900; color: #0f172a; margin: 0.2rem 0;">$425.80</div>
+            <span style="color: var(--badge-green); font-weight: 800; font-size: 0.82rem;">↑ $32.40 tăng trưởng</span>
+          </div>
+
+          <div style="background: var(--bg-card-alt); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 1.25rem;">
+            <small style="color: var(--text-muted); font-weight: 700; text-transform: uppercase;">Chỉ Số Đúng Giờ (OTP)</small>
+            <div style="font-size: 1.75rem; font-weight: 900; color: var(--badge-green); margin: 0.2rem 0;">99.2%</div>
+            <span style="color: var(--text-muted); font-weight: 600; font-size: 0.82rem;">Dẫn đầu toàn ngành</span>
+          </div>
+        </div>
+
+        <!-- Breakdown Table by Route -->
+        <div style="overflow-x: auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Tuyến Đường Bay</th>
+                <th>Số Chuyến/Tuần</th>
+                <th>Tổng Ghế Cung Ứng</th>
+                <th>Tỷ Lệ Lấp Đầy</th>
+                <th>Doanh Thu Tháng</th>
+                <th>Đóng Góp Doanh Thu</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>SGN ➔ HAN (Trục Vàng)</strong></td>
+                <td>84 chuyến</td>
+                <td>25,200 ghế</td>
+                <td><strong style="color: var(--badge-green);">92.4%</strong></td>
+                <td><strong>$512,000</strong></td>
+                <td><span class="meta-pill" style="color: var(--accent-orange); font-weight: 800;">41.0%</span></td>
+              </tr>
+              <tr>
+                <td><strong>SGN ➔ DAD (Đà Nẵng)</strong></td>
+                <td>42 chuyến</td>
+                <td>12,600 ghế</td>
+                <td><strong style="color: var(--badge-green);">86.8%</strong></td>
+                <td><strong>$284,000</strong></td>
+                <td><span class="meta-pill">22.7%</span></td>
+              </tr>
+              <tr>
+                <td><strong>HAN ➔ PQC (Phú Quốc)</strong></td>
+                <td>28 chuyến</td>
+                <td>8,400 ghế</td>
+                <td><strong style="color: var(--badge-green);">88.5%</strong></td>
+                <td><strong>$228,500</strong></td>
+                <td><span class="meta-pill">18.3%</span></td>
+              </tr>
+              <tr>
+                <td><strong>SGN ➔ BKK (Bangkok Quốc Tế)</strong></td>
+                <td>28 chuyến</td>
+                <td>8,400 ghế</td>
+                <td><strong style="color: var(--badge-green);">84.2%</strong></td>
+                <td><strong>$224,000</strong></td>
+                <td><span class="meta-pill">18.0%</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- SECTION: Trạng Thái Hệ Thống (Expanded - Requirement 20) -->
+      <div id="settings" class="white-panel-card admin-section-card">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 1.25rem;">
+          <div>
+            <h4 style="font-size: 1.15rem; font-weight: 800; margin-bottom: 0.25rem;">⚙️ Trạng Thái Hệ Thống &amp; Điều Phối Bay</h4>
+            <small style="color: var(--text-muted);">Tự động đối soát đơn hàng PNR, cổng thanh toán và đồng bộ hóa lịch bay theo chuẩn IATA</small>
+          </div>
+          <span style="background: var(--badge-green-bg); color: var(--badge-green); font-weight: 800; padding: 0.45rem 1.1rem; border-radius: var(--radius-full); font-size: 0.85rem; border: 1px solid rgba(16, 185, 129, 0.3);">
+            ✓ Tất Cả Dịch Vụ Ổn Định
+          </span>
+        </div>
+
+        <!-- Mini Status List (Requirement 20) -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; border-top: 1px solid var(--border-subtle); padding-top: 1.25rem;">
+          <div style="background: var(--bg-card-alt); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 0.85rem 1.1rem; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-weight: 700;">
+              <span>💳</span> Cổng thanh toán:
+            </div>
+            <span style="background: var(--badge-green-bg); color: var(--badge-green); font-weight: 800; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.8rem;">✓ Hoạt động</span>
+          </div>
+
+          <div style="background: var(--bg-card-alt); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 0.85rem 1.1rem; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-weight: 700;">
+              <span>🌐</span> Đồng bộ GDS:
+            </div>
+            <span style="background: var(--badge-green-bg); color: var(--badge-green); font-weight: 800; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.8rem;">✓ Hoạt động</span>
+          </div>
+
+          <div style="background: var(--bg-card-alt); border: 1px solid var(--border-subtle); border-radius: var(--radius-md); padding: 0.85rem 1.1rem; display: flex; justify-content: space-between; align-items: center;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; font-weight: 700;">
+              <span>📬</span> Dịch vụ Email/SMS:
+            </div>
+            <span style="background: var(--badge-green-bg); color: var(--badge-green); font-weight: 800; padding: 0.25rem 0.75rem; border-radius: 999px; font-size: 0.8rem;">✓ Hoạt động</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODAL: Chi Tiết Đơn Đặt Vé (Requirement 19) -->
+      <div id="admin-order-modal" class="admin-modal-backdrop">
+        <div class="white-panel-card" style="max-width: 540px; width: 100%; padding: 2rem; position: relative; box-shadow: var(--shadow-float); border-radius: var(--radius-xl); animation: paymentFadeIn 0.25s ease-out;">
+          <button type="button" id="btn-close-order-modal" style="position: absolute; right: 1.25rem; top: 1.25rem; background: none; border: none; font-size: 1.3rem; cursor: pointer; color: var(--text-muted);">✕</button>
+          
+          <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem;">
+            <span style="font-size: 1.6rem;">🎫</span>
+            <div>
+              <h3 style="font-size: 1.3rem; font-weight: 900; margin: 0;">Chi Tiết Đơn Đặt Vé PNR</h3>
+              <small id="modal-pnr-title" style="color: var(--accent-orange); font-weight: 800; letter-spacing: 1px;">Mã PNR: SW882P</small>
+            </div>
+          </div>
+
+          <div class="admin-card-inner" style="margin-bottom: 1.5rem; font-size: 0.92rem; line-height: 1.8;">
+            <div class="admin-modal-row"><span style="color: var(--text-muted);">Hành khách:</span> <strong id="modal-pax-name">Jonathan Ben</strong></div>
+            <div class="admin-modal-row"><span style="color: var(--text-muted);">Hành trình:</span> <strong id="modal-route">SGN ➔ HAN</strong></div>
+            <div class="admin-modal-row"><span style="color: var(--text-muted);">Chuyến bay:</span> <strong id="modal-flight">FlyNest Airlines (SW-882)</strong></div>
+            <div class="admin-modal-row"><span style="color: var(--text-muted);">Số ghế chỉ định:</span> <strong id="modal-seat" style="color: var(--accent-orange);">10F</strong></div>
+            <div class="admin-modal-row"><span style="color: var(--text-muted);">Tổng thanh toán:</span> <strong id="modal-amount" style="font-size: 1.1rem; color: var(--badge-green);">$2,120.00</strong></div>
+            <div class="admin-modal-row"><span style="color: var(--text-muted);">Trạng thái vé:</span> <span id="modal-status" style="background: var(--badge-green-bg); color: var(--badge-green); font-weight: 800; padding: 0.2rem 0.65rem; border-radius: 999px; font-size: 0.8rem;">Đã Xác Nhận</span></div>
+          </div>
+
+          <div style="display: flex; justify-content: flex-end; gap: 0.75rem;">
+            <button type="button" id="btn-modal-dismiss" class="btn-signin" style="border: 1px solid var(--border-subtle); padding: 0.6rem 1.25rem;">Đóng</button>
+            <button type="button" id="btn-modal-print" class="btn-view-details" style="padding: 0.6rem 1.35rem;">🖨 In Thẻ Lên Tàu</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="../assets/vendor/chartjs/chart.umd.min.js"></script>
+  <script src="../assets/js/main.js"></script>
+  <script src="admin-cms.js"></script>
+</body>
+</html>

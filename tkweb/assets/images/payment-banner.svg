@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 220" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Deep Luxury Midnight Gradient -->
+    <linearGradient id="paySkyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#070d19"/>
+      <stop offset="40%" stop-color="#0e1a30"/>
+      <stop offset="80%" stop-color="#18294b"/>
+      <stop offset="100%" stop-color="#243b68"/>
+    </linearGradient>
+
+    <!-- Gold Shimmer Gradient -->
+    <linearGradient id="goldShimmer" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b"/>
+      <stop offset="50%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#d97706"/>
+    </linearGradient>
+
+    <!-- Radial Amber Atmosphere Glow -->
+    <radialGradient id="payAmberGlow" cx="50%" cy="30%" r="60%">
+      <stop offset="0%" stop-color="#ff6b00" stop-opacity="0.18"/>
+      <stop offset="40%" stop-color="#f59e0b" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#070d19" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="paySoftGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background Base -->
+  <rect width="1440" height="220" fill="url(#paySkyGrad)"/>
+  <rect width="1440" height="220" fill="url(#payAmberGlow)"/>
+
+  <!-- Subtle Constellation & Geometric FinTech Network Lines -->
+  <g stroke="#ffffff" stroke-opacity="0.08" stroke-width="1">
+    <line x1="80" y1="50" x2="220" y2="110"/>
+    <line x1="220" y1="110" x2="380" y2="70"/>
+    <line x1="380" y1="70" x2="540" y2="140"/>
+    <line x1="540" y1="140" x2="720" y2="60"/>
+    <line x1="720" y1="60" x2="900" y2="130"/>
+    <line x1="900" y1="130" x2="1080" y2="80"/>
+    <line x1="1080" y1="80" x2="1240" y2="150"/>
+    <line x1="1240" y1="150" x2="1380" y2="90"/>
+
+    <!-- Cross connections -->
+    <line x1="220" y1="110" x2="540" y2="140"/>
+    <line x1="720" y1="60" x2="1080" y2="80"/>
+  </g>
+
+  <!-- Glowing Nodes in Network -->
+  <g fill="#f59e0b" opacity="0.6" filter="url(#paySoftGlow)">
+    <circle cx="220" cy="110" r="3"/>
+    <circle cx="540" cy="140" r="3"/>
+    <circle cx="720" cy="60" r="4" fill="#fbbf24"/>
+    <circle cx="900" cy="130" r="3"/>
+    <circle cx="1080" cy="80" r="3.5"/>
+    <circle cx="1240" cy="150" r="2.5"/>
+  </g>
+
+  <!-- Global Iso-Arcs (Latitudinal Waves) -->
+  <g stroke="url(#goldShimmer)" stroke-opacity="0.16" stroke-width="1.2" fill="none">
+    <path d="M 0 160 Q 720 100 1440 160"/>
+    <path d="M 0 190 Q 720 130 1440 190"/>
+    <path d="M 0 220 Q 720 160 1440 220"/>
+  </g>
+
+  <!-- Central Subtle Security Shield Emblem in Distance -->
+  <g transform="translate(720, 60) scale(0.65)" opacity="0.22" filter="url(#paySoftGlow)">
+    <path d="M 0 -40 L 35 -24 L 35 12 C 35 34, 18 52, 0 60 C -18 52, -35 34, -35 12 L -35 -24 Z" fill="none" stroke="url(#goldShimmer)" stroke-width="3"/>
+    <!-- Keyhole Icon inside Shield -->
+    <circle cx="0" cy="4" r="7" fill="url(#goldShimmer)"/>
+    <polygon points="-4,8 4,8 6,24 -6,24" fill="url(#goldShimmer)"/>
+  </g>
+</svg>

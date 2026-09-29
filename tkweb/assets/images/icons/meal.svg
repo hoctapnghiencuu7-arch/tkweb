@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="100%" height="100%">
+  <defs>
+    <linearGradient id="clocheGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="45%" stop-color="#e2e8f0"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </linearGradient>
+    <linearGradient id="plateGold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fde047"/>
+      <stop offset="50%" stop-color="#eab308"/>
+      <stop offset="100%" stop-color="#ca8a04"/>
+    </linearGradient>
+  </defs>
+  <!-- Serving Platter Base Tray -->
+  <ellipse cx="24" cy="38" rx="19" ry="3.5" fill="url(#plateGold)"/>
+  <line x1="5" y1="38" x2="43" y2="38" stroke="#ca8a04" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Dome Cloche Lid -->
+  <path d="M 9,37 C 9,21 15,16 24,16 C 33,16 39,21 39,37 Z" fill="url(#clocheGrad)" stroke="#64748b" stroke-width="1.5"/>
+  <!-- Specular Highlight Curve on Dome -->
+  <path d="M 14,35 C 14,23 18,20 24,20" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.8"/>
+
+  <!-- Top Handle Knob -->
+  <circle cx="24" cy="13" r="3" fill="url(#plateGold)" stroke="#ca8a04" stroke-width="1"/>
+  <path d="M 22,14 L 26,14 L 25,16 L 23,16 Z" fill="#ca8a04"/>
+
+  <!-- Rising Delicious Steam Aromas -->
+  <path d="M 19,10 Q 17,6 20,3" fill="none" stroke="#ff6b00" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M 24,9 Q 26,5 23,2" fill="none" stroke="#ff6b00" stroke-width="1.6" stroke-linecap="round"/>
+  <path d="M 29,10 Q 27,6 30,3" fill="none" stroke="#ff6b00" stroke-width="1.6" stroke-linecap="round"/>
+</svg>

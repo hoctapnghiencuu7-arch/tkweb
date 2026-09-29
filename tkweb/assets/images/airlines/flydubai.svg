@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="fzBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#0369a1"/>
+    </linearGradient>
+    <linearGradient id="fzOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fb923c"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+    <filter id="fzGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0284c7" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+  <circle cx="50" cy="50" r="48" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+  <circle cx="50" cy="50" r="44" fill="none" stroke="#0284c7" stroke-width="0.8" stroke-opacity="0.2"/>
+  
+  <!-- Dynamic Flydubai Curved Wing Swooshes -->
+  <g filter="url(#fzGlow)" transform="translate(50, 48)">
+    <!-- Blue Swoosh (Left / Top) -->
+    <path d="M -30 6 C -18 -22, 10 -26, 28 -12 C 32 -9, 28 -2, 22 -4 C 10 -12, -10 -8, -22 14 Z" fill="url(#fzBlue)"/>
+    <!-- Orange Swoosh (Right / Bottom) -->
+    <path d="M -22 14 C -8 24, 18 24, 30 8 C 34 3, 28 0, 22 2 C 12 12, -4 12, -14 6 Z" fill="url(#fzOrange)"/>
+  </g>
+  <text x="50" y="80" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="8" text-anchor="middle" fill="#0369a1" letter-spacing="1.5">FLYDUBAI</text>
+</svg>

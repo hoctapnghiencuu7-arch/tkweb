@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="100%" height="100%">
+  <defs>
+    <linearGradient id="carGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff8c00"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+  </defs>
+  <!-- Aerodynamic Car Body -->
+  <path d="M 6,28 
+           L 12,18 
+           L 32,18 
+           L 41,26 
+           L 44,28 
+           Q 44,35 40,35 
+           L 8,35 
+           Q 6,35 6,28 Z" 
+        fill="url(#carGrad)" stroke="#c2410c" stroke-width="1.2"/>
+
+  <!-- Tinted Windshields -->
+  <polygon points="14,20 23,20 23,26 10,26" fill="#0f172a"/>
+  <polygon points="25,20 31,20 38,26 25,26" fill="#0f172a"/>
+
+  <!-- Luxury Headlamp -->
+  <polygon points="41,28 44,28 43,31 41,31" fill="#fef08a"/>
+
+  <!-- Front & Rear Wheels -->
+  <circle cx="15" cy="35" r="5" fill="#0f172a"/>
+  <circle cx="15" cy="35" r="2.5" fill="#94a3b8"/>
+  <circle cx="35" cy="35" r="5" fill="#0f172a"/>
+  <circle cx="35" cy="35" r="2.5" fill="#94a3b8"/>
+
+  <!-- Speed Dust Streaks -->
+  <line x1="2" y1="26" x2="5" y2="26" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+  <line x1="1" y1="31" x2="4" y2="31" stroke="#94a3b8" stroke-width="1.5" stroke-linecap="round"/>
+</svg>

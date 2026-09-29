@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kết Quả Tìm Kiếm Chuyến Bay - FlyNest</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  
+  <style>
+
+    * {
+      box-sizing: border-box;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    /* SEARCH SUMMARY BAR */
+    .search-summary {
+      background: #ffffff;
+      padding: 16px 24px;
+      border-radius: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 24px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border: none;
+    }
+    
+    .search-summary-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .search-route {
+      font-size: 18px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-details {
+      font-size: 14px;
+      color: var(--c-text-sub);
+    }
+
+    .btn-edit-search {
+      padding: 8px 16px;
+      border: 1px solid var(--c-primary);
+      color: var(--c-primary);
+      background: transparent;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-edit-search:hover {
+      background: var(--c-primary);
+      color: #ffffff !important;
+    }
+
+    /* MAIN GRID */
+    .main-grid {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 24px;
+      margin-top: 24px;
+      padding-bottom: 40px;
+    }
+
+    /* FILTER SIDEBAR */
+        .filter-sidebar {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      border: none;
+      height: fit-content;
+    }
+
+    .mobile-only-header {
+      display: none;
+    }
+
+    .filter-group {
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--c-border);
+      padding-bottom: 20px;
+    }
+    .filter-group:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .filter-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .filter-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      color: var(--c-text-main);
+      transition: color 0.2s;
+    }
+    .filter-label:hover {
+      color: var(--c-primary);
+    }
+
+    
+    /* Custom Checkbox and Radio */
+    .filter-label input[type="checkbox"],
+    .filter-label input[type="radio"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border: 1.5px solid var(--c-border);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      position: relative;
+      background: #ffffff;
+      margin: 0;
+      flex-shrink: 0;
+    }
+
+    .filter-label input[type="checkbox"] {
+      border-radius: 4px;
+    }
+    .filter-label input[type="checkbox"]:checked {
+      background: var(--c-primary);
+      border-color: var(--c-primary);
+    }
+    .filter-label input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 1px;
+      width: 4px;
+      height: 9px;
+      border: solid #ffffff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .filter-label input[type="radio"] {
+      border-radius: 50%;
+    }
+    .filter-label input[type="radio"]:checked {
+      border-color: var(--c-primary);
+    }
+    .filter-label input[type="radio"]:checked::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--c-primary);
+    }
+
+
+    
+    .price-slider {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+      height: 6px;
+      background: var(--c-border);
+      border-radius: 4px;
+      outline: none;
+      margin: 12px 0;
+    }
+    .price-slider::-webkit-slider-thumb {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--c-primary);
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(10, 102, 194, 0.3);
+      transition: transform 0.1s;
+    }
+    .price-slider::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+    }
+    .price-slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border: none;
+      border-radius: 50%;
+      background: var(--c-primary);
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(10, 102, 194, 0.3);
+      transition: transform 0.1s;
+    }
+    .price-slider::-moz-range-thumb:hover {
+      transform: scale(1.1);
+    }
+
+    
+    .price-display {
+      font-size: 14px;
+      color: var(--c-primary);
+      font-weight: 600;
+      margin-top: 8px;
+    }
+
+    /* SORT BAR */
+    .sort-bar {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .sort-btn {
+      padding: 8px 16px;
+      border: 1px solid var(--c-border);
+      background: #ffffff;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--c-text-sub);
+      transition: all 0.2s;
+    }
+
+        .sort-btn.active {
+      background-color: var(--c-primary);
+      color: #ffffff !important;
+      border-color: var(--c-primary);
+    }
+
+    /* FLIGHT CARDS */
+    .flight-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+    }
+
+    .flight-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--c-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: transform 0.25s ease-out, box-shadow 0.25s ease-out, opacity 0.3s;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .flight-card.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .flight-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    }
+
+    .flight-info {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      flex: 1;
+    }
+
+    .airline-info {
+      width: 120px;
+    }
+    
+    .airline-logo {
+      height: 32px;
+      width: auto;
+      object-fit: contain;
+      margin-top: 4px;
+    }
+    
+    .airline-name {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--c-text-sub);
+    }
+
+    .flight-time-block {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .time-detail {
+      text-align: center;
+    }
+
+    .time {
+      font-size: 20px;
+      font-weight: 700;
+    }
+    .airport {
+      font-size: 14px;
+      color: var(--c-text-sub);
+    }
+
+    .flight-duration {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      min-width: 100px;
+    }
+    
+    .duration-text {
+      font-size: 12px;
+      color: var(--c-text-sub);
+    }
+    .duration-line {
+      width: 100%;
+      height: 2px;
+      background: var(--c-border);
+      position: relative;
+    }
+    .duration-line::after {
+      content: '';
+      position: absolute;
+      top: -3px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 8px;
+      height: 8px;
+      background: var(--c-primary);
+      border-radius: 50%;
+    }
+    .stops-text {
+      font-size: 12px;
+      color: var(--c-primary);
+      font-weight: 500;
+    }
+
+        .flight-price-block {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: flex-end;
+      gap: 12px;
+      text-align: right;
+    }
+
+    .price {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--c-accent);
+    }
+
+    .fn-btn-primary {
+      background: var(--c-primary);
+      color: #ffffff !important;
+      padding: 10px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.15s ease-out, background 0.15s ease-out;
+    }
+    .fn-btn-primary:hover {
+      background: var(--c-primary-dark);
+      transform: scale(1.03);
+    }
+    .fn-btn-primary:active {
+      transform: scale(0.95);
+    }
+
+    /* MOBILE FILTER BUTTON */
+    .btn-mobile-filter {
+      display: none;
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--c-primary);
+      color: #ffffff !important;
+      padding: 12px 24px;
+      border-radius: 24px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(10, 102, 194, 0.4);
+      z-index: 100;
+      border: none;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* LOADING SKELETON */
+    @keyframes pulse {
+      0% { opacity: 1; }
+      50% { opacity: 0.5; }
+      100% { opacity: 1; }
+    }
+    .skeleton-card {
+      height: 110px;
+      background: var(--c-border);
+      border-radius: 12px;
+      animation: pulse 1.5s infinite;
+      margin-bottom: 16px;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .btn-mobile-filter {
+        display: flex;
+      }
+
+      .mobile-only-header {
+        display: flex !important;
+      }
+
+      .filter-sidebar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 85vh;
+        border-radius: 20px 20px 0 0;
+        transform: translateY(100%);
+        transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+        z-index: 1000;
+        overflow-y: auto;
+        padding-bottom: 80px;
+      }
+      
+      .filter-sidebar.open {
+        transform: translateY(0);
+      }
+
+      .filter-backdrop {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 999;
+        opacity: 0;
+        transition: opacity 0.3s;
+      }
+      .filter-backdrop.open {
+        display: block;
+        opacity: 1;
+      }
+
+      .flight-card {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      
+      .flight-info {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .flight-time-block {
+        width: 100%;
+        justify-content: space-between;
+      }
+
+      .airline-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+
+      .airline-info .airline-logo {
+        margin-top: 0;
+      }
+      
+      .flight-price-block {
+        margin-top: 16px;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        border-top: 1px solid var(--c-border);
+        padding-top: 16px;
+      }
+      
+      .sort-bar {
+        overflow-x: auto;
+        padding-bottom: 8px;
+        white-space: nowrap;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <!-- FlyNest Reusable Header -->
+<header style="background: #ffffff; border-bottom: 1px solid var(--c-border); width: 100%; position: sticky; top: 0; z-index: 50;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 16px 20px;">
+    
+    <!-- Logo -->
+    <a href="../index.html" class="fn-logo-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--c-text-main); font-weight: bold; font-size: 24px;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+      </svg>
+      FlyNest
+    </a>
+
+    <!-- Navigation -->
+    <nav>
+      <ul style="display: flex; gap: 32px; list-style: none; margin: 0; padding: 0;">
+        <li><a href="../index.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Trang chủ</a></li>
+        <li><a href="../pages/flights.html" class="fn-nav-link active" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Chuyến bay</a></li>
+        <li><a href="../pages/booking.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Đặt vé</a></li>
+        <li><a href="../pages/schedule.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Lịch trình</a></li>
+      </ul>
+    </nav>
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 16px; align-items: center;">
+      <a href="../pages/login.html" class="fn-clickable fn-btn-outline" style="text-decoration: none; font-weight: 600; padding: 8px 20px; border-radius: 8px;">Đăng nhập</a>
+      <a href="../pages/register.html" class="fn-clickable fn-btn-primary" style="text-decoration: none; font-weight: 600; padding: 8px 20px; border-radius: 8px;">Đăng ký</a>
+    </div>
+
+  </div>
+</header>
+
+
+  <main class="container">
+    <!-- SEARCH SUMMARY -->
+    <div class="search-summary">
+      <div class="search-summary-info">
+        <div class="search-route">
+          TP. Hồ Chí Minh (SGN) <span style="color: var(--c-primary);">→</span> Hà Nội (HAN)
+        </div>
+        <div class="search-details">
+          10 Thg 9, 2026 • 2 Lớn, 1 Trẻ • Thương gia
+        </div>
+      </div>
+      <button class="btn-edit-search" onclick="alert('Tính năng mở lại form tìm kiếm đang được cập nhật.')">Sửa tìm kiếm</button>
+    </div>
+
+    <!-- MAIN GRID -->
+    <div class="main-grid">
+      <!-- SIDEBAR -->
+      <aside class="filter-sidebar" id="filterSidebar">
+        <!-- Close button on mobile -->
+        <div style="justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--c-border);" class="mobile-only-header">
+          <h3 style="margin: 0; font-size: 18px;">Bộ lọc</h3>
+          <button id="btnCloseFilter" style="background: none; border: none; font-size: 24px; cursor: pointer; color: var(--c-text-sub);">&times;</button>
+        </div>
+        
+        <div class="filter-group">
+          <div class="filter-title">Giờ cất cánh</div>
+          <label class="filter-label">
+            <input type="checkbox" name="time" value="morning"> Sáng (00:00 - 12:00)
+          </label>
+          <label class="filter-label">
+            <input type="checkbox" name="time" value="noon"> Trưa (12:00 - 15:00)
+          </label>
+          <label class="filter-label">
+            <input type="checkbox" name="time" value="afternoon"> Chiều (15:00 - 18:00)
+          </label>
+          <label class="filter-label">
+            <input type="checkbox" name="time" value="evening"> Tối (18:00 - 24:00)
+          </label>
+        </div>
+        
+        <div class="filter-group">
+          <div class="filter-title">Số điểm dừng</div>
+          <label class="filter-label">
+            <input type="radio" name="stops" value="all" checked> Tất cả
+          </label>
+          <label class="filter-label">
+            <input type="radio" name="stops" value="0"> Bay thẳng
+          </label>
+          <label class="filter-label">
+            <input type="radio" name="stops" value="1"> 1 điểm dừng
+          </label>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-title">Hãng bay</div>
+          <label class="filter-label">
+            <input type="checkbox" name="airline" value="FlyNest Airlines"> FlyNest Airlines
+          </label>
+          <label class="filter-label">
+            <input type="checkbox" name="airline" value="Vietnam Airlines"> Vietnam Airlines
+          </label>
+          <label class="filter-label">
+            <input type="checkbox" name="airline" value="Bamboo Airways"> Bamboo Airways
+          </label>
+          <label class="filter-label">
+            <input type="checkbox" name="airline" value="Vietjet Air"> Vietjet Air
+          </label>
+          <label class="filter-label">
+            <input type="checkbox" name="airline" value="Vietravel Airlines"> Vietravel Airlines
+          </label>
+        </div>
+
+        <div class="filter-group">
+          <div class="filter-title">Giá vé tối đa (VNĐ)</div>
+          <input type="range" class="price-slider" id="priceRange" min="500000" max="5000000" step="100000" value="5000000">
+          <div class="price-display">Dưới: <span id="priceValue">5.000.000 ₫</span></div>
+        </div>
+      </aside>
+
+      <!-- RESULTS -->
+      <div class="results-column">
+        <!-- SORT BAR -->
+        <div class="sort-bar">
+          <button class="sort-btn active" data-sort="price">Giá thấp nhất</button>
+          <button class="sort-btn" data-sort="time">Bay sớm nhất</button>
+          <button class="sort-btn" data-sort="duration">Thời gian ngắn nhất</button>
+        </div>
+        
+        <!-- LIST -->
+        <div class="flight-list" id="flightList">
+          <!-- JS Render -->
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  <button class="btn-mobile-filter" id="btnOpenFilter">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></svg>
+    Bộ lọc
+  </button>
+  <div class="filter-backdrop" id="filterBackdrop"></div>
+
+  <!-- FOOTER -->
+  <footer style="background: #ffffff; border-top: 1px solid var(--c-border); padding: 40px 20px; text-align: center; color: var(--c-text-sub); margin-top: auto;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+    <div style="display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 20px; color: var(--c-text-main);">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+      </svg>
+      FlyNest
+    </div>
+    <div style="font-size: 14px;">Bản quyền &copy; 2026 FlyNest. Đã đăng ký bản quyền.</div>
+  </div>
+</footer>
+
+  <script>
+    // 1. MOCK DATA
+    const mockFlights = [
+      { id: 1, airline: "FlyNest Airlines", logo: "../assets/images/airlines/flynest.svg", deptime: "07:40 AM", arrtime: "09:50 AM", deptimeVal: 7.66, durationVal: 130, duration: "02h 10m", price: 1970000, stops: 0 },
+      { id: 2, airline: "Vietnam Airlines", logo: "../assets/images/airlines/vietnam-airlines.svg", deptime: "08:30 AM", arrtime: "10:45 AM", deptimeVal: 8.50, durationVal: 135, duration: "02h 15m", price: 2050000, stops: 0 },
+      { id: 3, airline: "Bamboo Airways", logo: "../assets/images/airlines/bamboo-airways.svg", deptime: "02:15 PM", arrtime: "04:25 PM", deptimeVal: 14.25, durationVal: 130, duration: "02h 10m", price: 1450000, stops: 1 },
+      { id: 4, airline: "Vietjet Air", logo: "../assets/images/airlines/vietjet-air.svg", deptime: "06:15 AM", arrtime: "08:25 AM", deptimeVal: 6.25, durationVal: 130, duration: "02h 10m", price: 950000, stops: 0 },
+      { id: 5, airline: "Vietravel Airlines", logo: "../assets/images/airlines/vietravel-airlines.svg", deptime: "06:45 PM", arrtime: "08:55 PM", deptimeVal: 18.75, durationVal: 130, duration: "02h 10m", price: 880000, stops: 0 },
+      { id: 6, airline: "Vietnam Airlines", logo: "../assets/images/airlines/vietnam-airlines.svg", deptime: "09:20 PM", arrtime: "11:50 PM", deptimeVal: 21.33, durationVal: 150, duration: "02h 30m", price: 1200000, stops: 1 },
+      { id: 7, airline: "FlyNest Airlines", logo: "../assets/images/airlines/flynest.svg", deptime: "12:10 PM", arrtime: "02:15 PM", deptimeVal: 12.16, durationVal: 125, duration: "02h 05m", price: 1750000, stops: 0 },
+      { id: 8, airline: "Bamboo Airways", logo: "../assets/images/airlines/bamboo-airways.svg", deptime: "05:00 AM", arrtime: "07:00 AM", deptimeVal: 5.0, durationVal: 120, duration: "02h 00m", price: 1100000, stops: 0 }
+    ];
+
+    let currentFlights = [];
+    let currentSort = 'price';
+    const flightList = document.getElementById('flightList');
+    const priceRange = document.getElementById('priceRange');
+    const priceValue = document.getElementById('priceValue');
+
+    function formatCurrency(value) {
+      return value.toLocaleString('vi-VN') + ' ₫';
+    }
+
+    // 2. RENDER FLIGHTS
+    function renderFlights(flights) {
+      flightList.innerHTML = Array(3).fill('<div class="skeleton-card"></div>').join('');
+      
+      // Giả lập Loading State 400ms
+      setTimeout(() => {
+        flightList.innerHTML = '';
+        
+        if (flights.length === 0) {
+          flightList.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--c-text-sub);">Không tìm thấy chuyến bay nào phù hợp với bộ lọc hiện tại.</div>';
+          return;
+        }
+        
+        flights.forEach((flight, index) => {
+          const card = document.createElement('article');
+          card.className = 'flight-card';
+          card.innerHTML = `
+            <div class="flight-info">
+              <div class="airline-info">
+                <div class="airline-name">${flight.airline}</div>
+                <img src="${flight.logo}" alt="${flight.airline}" class="airline-logo" onerror="this.src='../assets/images/airlines/flynest.svg'">
+              </div>
+              <div class="flight-time-block">
+                <div class="time-detail">
+                  <div class="time">${flight.deptime}</div>
+                  <div class="airport">SGN</div>
+                </div>
+                <div class="flight-duration">
+                  <div class="duration-text">${flight.duration}</div>
+                  <div class="duration-line"></div>
+                  <div class="stops-text">${flight.stops === 0 ? 'Bay thẳng' : flight.stops + ' điểm dừng'}</div>
+                </div>
+                <div class="time-detail">
+                  <div class="time">${flight.arrtime}</div>
+                  <div class="airport">HAN</div>
+                </div>
+              </div>
+            </div>
+            <div class="flight-price-block">
+              <div class="price">${formatCurrency(flight.price)}</div>
+              <button class="fn-btn-primary fn-clickable" onclick="location.href='booking.html'">Chọn</button>
+            </div>
+          `;
+          flightList.appendChild(card);
+          
+          // Animation Stagger
+          setTimeout(() => {
+            card.classList.add('show');
+          }, 50 + index * 80);
+        });
+      }, 400); 
+    }
+
+    // 3. APPLY FILTERS
+    function applyFilters() {
+      const timeCheckboxes = Array.from(document.querySelectorAll('input[name="time"]:checked')).map(cb => cb.value);
+      const stopsVal = document.querySelector('input[name="stops"]:checked').value;
+      const airlineCheckboxes = Array.from(document.querySelectorAll('input[name="airline"]:checked')).map(cb => cb.value);
+      const maxPrice = parseInt(priceRange.value, 10);
+      
+      currentFlights = mockFlights.filter(f => {
+        if (f.price > maxPrice) return false;
+        
+        if (stopsVal !== 'all' && f.stops !== parseInt(stopsVal, 10)) return false;
+        
+        if (airlineCheckboxes.length > 0 && !airlineCheckboxes.includes(f.airline)) return false;
+        
+        if (timeCheckboxes.length > 0) {
+          let isMatch = false;
+          const h = f.deptimeVal;
+          if (timeCheckboxes.includes('morning') && h >= 0 && h < 12) isMatch = true;
+          if (timeCheckboxes.includes('noon') && h >= 12 && h < 15) isMatch = true;
+          if (timeCheckboxes.includes('afternoon') && h >= 15 && h < 18) isMatch = true;
+          if (timeCheckboxes.includes('evening') && h >= 18 && h <= 24) isMatch = true;
+          if (!isMatch) return false;
+        }
+        
+        return true;
+      });
+    }
+
+    // 4. APPLY SORT
+    function applySort() {
+      if (currentSort === 'price') {
+        currentFlights.sort((a, b) => a.price - b.price);
+      } else if (currentSort === 'time') {
+        currentFlights.sort((a, b) => a.deptimeVal - b.deptimeVal);
+      } else if (currentSort === 'duration') {
+        currentFlights.sort((a, b) => a.durationVal - b.durationVal);
+      }
+    }
+
+    function updateView() {
+      const currentCards = document.querySelectorAll('.flight-card');
+      currentCards.forEach(card => {
+        card.style.opacity = '0';
+      });
+      
+      setTimeout(() => {
+        applyFilters();
+        applySort();
+        renderFlights(currentFlights);
+      }, 150);
+    }
+
+    // EVENT LISTENERS
+    document.querySelectorAll('input[type="checkbox"], input[type="radio"]').forEach(el => {
+      el.addEventListener('change', updateView);
+    });
+
+    priceRange.addEventListener('input', (e) => {
+      priceValue.textContent = formatCurrency(parseInt(e.target.value, 10));
+    });
+    priceRange.addEventListener('change', updateView);
+
+    document.querySelectorAll('.sort-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+        e.target.classList.add('active');
+        currentSort = e.target.getAttribute('data-sort');
+        updateView();
+      });
+    });
+
+    // MOBILE FILTER SHEET
+    const btnOpenFilter = document.getElementById('btnOpenFilter');
+    const btnCloseFilter = document.getElementById('btnCloseFilter');
+    const filterSidebar = document.getElementById('filterSidebar');
+    const filterBackdrop = document.getElementById('filterBackdrop');
+
+    function openFilter() {
+      filterSidebar.classList.add('open');
+      filterBackdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeFilter() {
+      filterSidebar.classList.remove('open');
+      filterBackdrop.classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    btnOpenFilter.addEventListener('click', openFilter);
+    btnCloseFilter.addEventListener('click', closeFilter);
+    filterBackdrop.addEventListener('click', closeFilter);
+
+    // INITIAL LOAD
+    applyFilters();
+    applySort();
+    renderFlights(currentFlights);
+  </script>
+</body>
+</html>

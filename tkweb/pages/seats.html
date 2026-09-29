@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chọn ghế - FlyNest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: var(--c-bg);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto 80px;
+      padding: 0 20px;
+      flex: 1;
+      width: 100%;
+    }
+
+
+    /* ── Progress Steps ─────────────────────────────────────────────── */
+    .progress-wrapper {
+      margin-top: 32px;
+      margin-bottom: 32px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeUp 0.6s ease forwards 0.1s;
+    }
+    .progress-bar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      min-width: 72px;
+    }
+    .step-connector {
+      flex: 1;
+      height: 2px;
+      background: var(--c-border);
+      margin-top: 15px;
+      transition: background 0.4s ease;
+      min-width: 24px;
+      max-width: 120px;
+    }
+    .step-connector.done {
+      background: var(--c-primary);
+    }
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2px solid var(--c-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--c-text-sub);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      flex-shrink: 0;
+    }
+    .step.completed .step-circle {
+      background: var(--c-primary);
+      border-color: var(--c-primary);
+      color: #ffffff;
+    }
+    .step.active .step-circle {
+      background: #ffffff;
+      border: 2px solid var(--c-primary);
+      color: var(--c-primary);
+      box-shadow: 0 0 0 4px rgba(10, 102, 194, 0.1);
+    }
+    .step-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--c-text-sub);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .step.completed .step-label,
+    .step.active .step-label {
+      color: var(--c-text-main);
+      font-weight: 600;
+    }
+    a.step {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+    a.step:hover .step-circle {
+      transform: scale(1.08);
+    }
+    a.step:hover .step-label {
+      color: var(--c-primary);
+    }
+    @media (max-width: 480px) {
+      .step { min-width: 32px; }
+      .step-label { display: none; }
+      .step-connector { min-width: 12px; }
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+
+    /* === Seat Map Styles === */
+    .seats-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+
+    .seat-map {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    
+    .seat-map__section {
+      border: 1px solid var(--c-border);
+      padding: 24px;
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .seat-map__section-title {
+      margin: 0 0 16px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--c-text-main);
+      border-bottom: 1px solid var(--c-border);
+      padding-bottom: 12px;
+    }
+    .seat-map__row {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .seat-map__row:last-child {
+      margin-bottom: 0;
+    }
+    
+    /* Aisle spacer */
+    .aisle {
+      width: 24px;
+    }
+
+    .seat {
+      width: 44px;
+      height: 44px;
+      border: 2px solid var(--c-border);
+      border-radius: 8px;
+      background: #ffffff;
+      color: var(--c-text-sub);
+      font-weight: 600;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+    }
+    .seat:hover:not(.seat--occupied) {
+      transform: scale(1.1);
+      border-color: var(--c-primary);
+      color: var(--c-primary);
+    }
+    .seat--occupied {
+      background: var(--c-border);
+      color: #9ca3af;
+      cursor: not-allowed;
+      border-color: var(--c-border);
+    }
+    .seat--selected {
+      background: var(--c-primary);
+      color: #ffffff !important;
+      border-color: var(--c-primary);
+      box-shadow: 0 4px 12px rgba(10, 102, 194, 0.3);
+    }
+    .seat--premium {
+      background: rgba(10, 102, 194, 0.05);
+      border-color: #93c5fd;
+      color: var(--c-primary);
+    }
+
+    /* === Booking Summary Styles === */
+    .booking-summary {
+      position: sticky;
+      top: 100px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .booking-summary h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 20px;
+      color: var(--c-text-main);
+      border-bottom: 1px solid var(--c-border);
+      padding-bottom: 12px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: var(--c-text-sub);
+    }
+    .summary-row .val {
+      color: var(--c-text-main);
+      font-weight: 500;
+      text-align: right;
+    }
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--c-border);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--c-text-main);
+    }
+    .summary-total .total-val {
+      font-size: 24px;
+      color: var(--c-primary);
+    }
+
+    #proceed-payment {
+      width: 100%;
+      padding: 14px;
+      margin-top: 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      background: var(--c-primary);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    #proceed-payment:hover:not(:disabled) {
+      background: #084c91;
+      transform: scale(1.02);
+    }
+    #proceed-payment:disabled {
+      background: var(--c-border);
+      color: var(--c-text-sub);
+      cursor: not-allowed;
+    }
+
+    @media (max-width: 900px) {
+      .seats-layout {
+        grid-template-columns: 1fr;
+      }
+      .booking-summary {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        margin: 0;
+        border-radius: 20px 20px 0 0;
+        z-index: 100;
+        box-shadow: 0 -4px 16px rgba(0,0,0,0.1);
+      }
+      .container { margin-bottom: 250px; }
+    }
+  </style>
+</head>
+<body>
+<!-- FlyNest Reusable Header -->
+<header style="background: #ffffff; border-bottom: 1px solid var(--c-border); width: 100%; position: sticky; top: 0; z-index: 50;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 16px 20px;">
+    
+    <!-- Logo -->
+    <a href="../index.html" class="fn-logo-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--c-text-main); font-weight: bold; font-size: 24px;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+      </svg>
+      FlyNest
+    </a>
+
+    <!-- Navigation -->
+    <nav>
+      <ul style="display: flex; gap: 32px; list-style: none; margin: 0; padding: 0;">
+        <li><a href="../index.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Trang chủ</a></li>
+        <li><a href="../pages/flights.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Chuyến bay</a></li>
+        <li><a href="../pages/booking.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Đặt vé</a></li>
+        <li><a href="../pages/schedule.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Lịch trình</a></li>
+      </ul>
+    </nav>
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 16px; align-items: center;">
+      <a href="../pages/login.html" class="fn-clickable fn-btn-outline" style="text-decoration: none; font-weight: 600; padding: 8px 20px; border-radius: 8px;">Đăng nhập</a>
+      <a href="../pages/register.html" class="fn-clickable fn-btn-primary" style="text-decoration: none; font-weight: 600; padding: 8px 20px; border-radius: 8px;">Đăng ký</a>
+    </div>
+
+  </div>
+</header>
+
+
+  <div class="container">
+
+    <!-- Progress Steps -->
+    <div class="progress-wrapper">
+      <div class="progress-bar">
+
+        <!-- Step 1 -->
+        <a href="flights.html" class="step active" title="Quay lại chọn chuyến bay">
+          <div class="step-circle">1</div>
+          <div class="step-label">Chọn ghế</div>
+        </a>
+
+        <!-- Connector 1->2 -->
+        <div class="step-connector "></div>
+
+        <!-- Step 2 -->
+        <div class="step ">
+          <div class="step-circle">2</div>
+          <div class="step-label">Thông tin hành khách</div>
+        </div>
+
+        <!-- Connector 2->3 -->
+        <div class="step-connector "></div>
+
+        <!-- Step 3 -->
+        <div class="step ">
+          <div class="step-circle">3</div>
+          <div class="step-label">Thanh toán</div>
+        </div>
+
+        <!-- Connector 3->4 -->
+        <div class="step-connector "></div>
+
+        <!-- Step 4 -->
+        <div class="step ">
+          <div class="step-circle">4</div>
+          <div class="step-label">Hoàn tất</div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="seats-layout">
+      <!-- Bên trái: sơ đồ ghế -->
+      <div class="seat-map">
+        <!-- First Class -->
+        <div class="seat-map__section">
+          <h3 class="seat-map__section-title">Thương gia (Business)</h3>
+          <div class="seat-map__row">
+            <button class="seat seat--available seat--premium" role="button" aria-pressed="false" data-seat="1A" data-price="800000">1A</button>
+            <button class="seat seat--occupied" role="button" aria-pressed="false" data-seat="1C" data-price="800000">1C</button>
+            <div class="aisle"></div>
+            <button class="seat seat--available seat--premium" role="button" aria-pressed="false" data-seat="1D" data-price="800000">1D</button>
+            <button class="seat seat--available seat--premium" role="button" aria-pressed="false" data-seat="1F" data-price="800000">1F</button>
+          </div>
+          <div class="seat-map__row">
+            <button class="seat seat--available seat--premium" role="button" aria-pressed="false" data-seat="2A" data-price="800000">2A</button>
+            <button class="seat seat--available seat--premium" role="button" aria-pressed="false" data-seat="2C" data-price="800000">2C</button>
+            <div class="aisle"></div>
+            <button class="seat seat--occupied" role="button" aria-pressed="false" data-seat="2D" data-price="800000">2D</button>
+            <button class="seat seat--available seat--premium" role="button" aria-pressed="false" data-seat="2F" data-price="800000">2F</button>
+          </div>
+        </div>
+
+        <!-- Economy Class -->
+        <div class="seat-map__section">
+          <h3 class="seat-map__section-title">Phổ thông (Economy)</h3>
+          <div class="seat-map__row">
+            <button class="seat seat--available" role="button" aria-pressed="false" data-seat="10A" data-price="150000">10A</button>
+            <button class="seat seat--available" role="button" aria-pressed="false" data-seat="10B" data-price="150000">10B</button>
+            <button class="seat seat--available" role="button" aria-pressed="false" data-seat="10C" data-price="150000">10C</button>
+            <div class="aisle"></div>
+            <button class="seat seat--occupied" role="button" aria-pressed="false" data-seat="10D" data-price="150000">10D</button>
+            <button class="seat seat--available" role="button" aria-pressed="false" data-seat="10E" data-price="150000">10E</button>
+            <button class="seat seat--available" role="button" aria-pressed="false" data-seat="10F" data-price="150000">10F</button>
+          </div>
+          <div class="seat-map__row">
+            <button class="seat seat--available" role="button" aria-pressed="false" data-seat="11A" data-price="150000">11A</button>
+            <button class="seat seat--occupied" role="button" aria-pressed="false" data-seat="11B" data-price="150000">11B</button>
+            <button class="seat seat--available" role="button" aria-pressed="false" data-seat="11C" data-price="150000">11C</button>
+            <div class="aisle"></div>
+            <button class="seat seat--available" role="button" aria-pressed="false" data-seat="11D" data-price="150000">11D</button>
+            <button class="seat seat--available" role="button" aria-pressed="false" data-seat="11E" data-price="150000">11E</button>
+            <button class="seat seat--occupied" role="button" aria-pressed="false" data-seat="11F" data-price="150000">11F</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bên phải: booking summary -->
+      <aside class="booking-summary">
+        <h2>Tóm tắt đơn hàng</h2>
+        <div class="summary-row">
+          <span>Chuyến bay</span>
+          <span class="val">VN-214 (SGN - HAN)</span>
+        </div>
+        <div class="summary-row">
+          <span>Ghế đã chọn</span>
+          <span class="val" id="selected-seats" style="font-weight: 700; color: var(--c-primary);">Chưa có</span>
+        </div>
+        
+        <div class="summary-total">
+          <span>Phụ phí ghế</span>
+          <span class="total-val" id="total-price">0 ₫</span>
+        </div>
+        
+        <button id="proceed-payment" disabled>Tiếp tục &rarr;</button>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="background: #ffffff; border-top: 1px solid var(--c-border); padding: 40px 20px; text-align: center; color: var(--c-text-sub); margin-top: auto;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div style="display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 20px; color: var(--c-text-main);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+        </svg>
+        FlyNest
+      </div>
+      <div style="font-size: 14px;">Bản quyền &copy; 2026 FlyNest. Đã đăng ký bản quyền.</div>
+    </div>
+  </footer>
+
+  <script>
+    function formatMoney(num) {
+      return num.toLocaleString('vi-VN') + ' ₫';
+    }
+
+    const seats = document.querySelectorAll('.seat:not(.seat--occupied)');
+    const selectedSeatsEl = document.getElementById('selected-seats');
+    const totalPriceEl = document.getElementById('total-price');
+    const proceedBtn = document.getElementById('proceed-payment');
+
+    let selectedSeats = [];
+
+    seats.forEach(seat => {
+      seat.addEventListener('click', () => {
+        const seatNo = seat.getAttribute('data-seat');
+        const price = parseInt(seat.getAttribute('data-price'), 10);
+        const index = selectedSeats.findIndex(s => s.seatNo === seatNo);
+
+        if (index > -1) {
+          selectedSeats.splice(index, 1);
+          seat.classList.remove('seat--selected');
+          seat.setAttribute('aria-pressed', 'false');
+        } else {
+          selectedSeats.push({ seatNo, price });
+          seat.classList.add('seat--selected');
+          seat.setAttribute('aria-pressed', 'true');
+        }
+        updateSummary();
+      });
+    });
+
+    function updateSummary() {
+      if (selectedSeats.length > 0) {
+        const seatsList = selectedSeats.map(s => s.seatNo).join(', ');
+        const total = selectedSeats.reduce((sum, s) => sum + s.price, 0);
+        selectedSeatsEl.textContent = seatsList;
+        totalPriceEl.textContent = formatMoney(total);
+        proceedBtn.disabled = false;
+      } else {
+        selectedSeatsEl.textContent = 'Chưa có';
+        totalPriceEl.textContent = '0 ₫';
+        proceedBtn.disabled = true;
+      }
+    }
+
+    proceedBtn.addEventListener('click', () => {
+      const selected = selectedSeats.map(s => s.seatNo);
+      sessionStorage.setItem('flynest_seats', JSON.stringify(selected));
+      
+      const total = selectedSeats.reduce((sum, s) => sum + s.price, 0);
+      sessionStorage.setItem('flynest_seat_price', total);
+      
+      window.location.href = 'booking.html';
+    });
+  </script>
+</body>
+</html>

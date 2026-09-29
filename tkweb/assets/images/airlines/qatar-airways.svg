@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="qrBurgundy" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#881337"/>
+      <stop offset="60%" stop-color="#5b0b24"/>
+      <stop offset="100%" stop-color="#400618"/>
+    </linearGradient>
+    <linearGradient id="qrSilver" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+    <filter id="qrGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#881337" flood-opacity="0.5"/>
+    </filter>
+  </defs>
+  <circle cx="50" cy="50" r="48" fill="url(#qrBurgundy)" stroke="#fda4af" stroke-width="1.5" stroke-opacity="0.5"/>
+  <circle cx="50" cy="50" r="44" fill="none" stroke="#ffffff" stroke-width="0.8" stroke-opacity="0.3"/>
+  
+  <!-- Arabian Oryx Silhouette -->
+  <g filter="url(#qrGlow)" transform="translate(50, 48)">
+    <!-- Long Sweeping Horns -->
+    <path d="M -4 -8 Q -16 -28 -24 -36 Q -14 -22 -2 -14" fill="url(#qrSilver)"/>
+    <path d="M 0 -8 Q -8 -26 -14 -34 Q -6 -20 2 -14" fill="url(#qrSilver)"/>
+    <!-- Head & Muzzle -->
+    <path d="M -8 -8 C -14 0, -18 8, -14 18 C -10 24, -2 24, 6 18 C 16 10, 14 -2, 4 -8 Z" fill="url(#qrSilver)"/>
+    <!-- Eye & Facial Markings -->
+    <ellipse cx="-2" cy="4" rx="2.5" ry="1.5" fill="#5b0b24"/>
+    <path d="M -8 10 Q -4 14 2 12" stroke="#5b0b24" stroke-width="1.5" fill="none"/>
+  </g>
+  <text x="50" y="84" font-family="'Plus Jakarta Sans', Arial, sans-serif" font-weight="900" font-size="8" text-anchor="middle" fill="#ffffff" letter-spacing="2">QATAR</text>
+</svg>

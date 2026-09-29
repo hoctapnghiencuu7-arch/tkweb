@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 220" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Stratosphere Sunset Gradient -->
+    <linearGradient id="bookSkyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#09182d"/>
+      <stop offset="35%" stop-color="#142e54"/>
+      <stop offset="65%" stop-color="#1e3a8a"/>
+      <stop offset="85%" stop-color="#7c2d12"/>
+      <stop offset="95%" stop-color="#c2410c"/>
+      <stop offset="100%" stop-color="#ea580c"/>
+    </linearGradient>
+
+    <!-- Cloud Sea Gradient -->
+    <linearGradient id="seaClouds" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#fed7aa" stop-opacity="0.8"/>
+      <stop offset="30%" stop-color="#f8fafc" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#cbd5e1" stop-opacity="0.95"/>
+    </linearGradient>
+
+    <filter id="glowFilt" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Sky Base -->
+  <rect width="1440" height="220" fill="url(#bookSkyGrad)"/>
+
+  <!-- Earth Curvature Atmosphere Arc -->
+  <path d="M 0 180 Q 720 155 1440 180 L 1440 220 L 0 220 Z" fill="url(#seaClouds)"/>
+
+  <!-- Fluffy Cloud Under-Blanket -->
+  <g fill="#ffffff" opacity="0.85">
+    <ellipse cx="140" cy="188" rx="160" ry="24"/>
+    <ellipse cx="360" cy="180" rx="140" ry="22"/>
+    <ellipse cx="600" cy="176" rx="180" ry="25"/>
+    <ellipse cx="880" cy="178" rx="170" ry="23"/>
+    <ellipse cx="1140" cy="182" rx="150" ry="24"/>
+    <ellipse cx="1380" cy="186" rx="160" ry="25"/>
+  </g>
+
+  <!-- High-altitude Horizon Glow Line -->
+  <path d="M 0 178 Q 720 153 1440 178" stroke="#ffedd5" stroke-width="2.5" fill="none" opacity="0.75" filter="url(#glowFilt)"/>
+
+  <!-- Flight Route Flight Path Arc -->
+  <path d="M 120 130 Q 720 30 1320 120" stroke="#f97316" stroke-width="2.5" stroke-dasharray="8 6" fill="none" opacity="0.65"/>
+
+  <!-- Waypoint Nodes on Route -->
+  <g fill="#ffedd5" filter="url(#glowFilt)">
+    <!-- Origin Node -->
+    <circle cx="120" cy="130" r="5" fill="#f97316"/>
+    <circle cx="120" cy="130" r="2.5" fill="#ffffff"/>
+    
+    <!-- Midpoint Aircraft Location -->
+    <circle cx="720" cy="78" r="4" fill="#38bdf8"/>
+
+    <!-- Destination Node -->
+    <circle cx="1320" cy="120" r="5" fill="#10b981"/>
+    <circle cx="1320" cy="120" r="2.5" fill="#ffffff"/>
+  </g>
+
+  <!-- Modern Jet Cruising along Path -->
+  <g transform="translate(710, 75) rotate(2) scale(0.75)">
+    <!-- Fuselage -->
+    <path d="M -30 0 C -10 -4, 25 -4, 45 0 C 35 3, -10 3, -30 0 Z" fill="#ffffff"/>
+    <!-- Cockpit Glazing -->
+    <path d="M 38 -2 Q 44 -1 42 1 Q 38 0 38 -2 Z" fill="#0f172a"/>
+    <!-- Wings -->
+    <path d="M 0 -2 L 12 -28 L 18 -27 L 8 -1 Z" fill="#e2e8f0"/>
+    <path d="M 12 -28 L 16 -32 L 18 -27 Z" fill="#ff6b00"/> <!-- Winglet -->
+    <path d="M -4 1 L 6 22 L 11 21 L 4 1 Z" fill="#cbd5e1"/>
+    <!-- Tail Fin -->
+    <path d="M -24 -2 L -34 -18 L -30 -18 L -20 -1 Z" fill="#ff6b00"/>
+    <!-- Jet Engine -->
+    <rect x="4" y="2" width="12" height="6" rx="2.5" fill="#94a3b8"/>
+    <!-- Contrail Plume -->
+    <path d="M -32 0 Q -150 2 -320 8" stroke="#ffffff" stroke-width="2" fill="none" opacity="0.4" filter="url(#glowFilt)"/>
+  </g>
+</svg>

@@ -1,0 +1,910 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chi Tiết & Đặt Chỗ - FlyNest</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  
+  <style>
+    /* LOCAL STYLES FOR BOOKING PAGE */
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: var(--c-bg);
+    }
+    
+    .booking-container {
+      max-width: 1200px;
+      margin: 32px auto 80px;
+      padding: 0 20px;
+      flex: 1;
+      width: 100%;
+    }
+
+    /* ── Progress Steps ─────────────────────────────────────────────── */
+    .progress-wrapper {
+      margin-bottom: 32px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeUp 0.6s ease forwards 0.1s;
+    }
+
+    /* Outer flex row: steps + connectors */
+    .progress-bar {
+      display: flex;
+      align-items: flex-start;   /* top-align so circles line up */
+      justify-content: center;
+    }
+
+    /* Individual step column */
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      min-width: 72px;          /* prevent labels from collapsing */
+    }
+
+    /* Connector segment between steps */
+    .step-connector {
+      flex: 1;
+      height: 2px;
+      background: var(--c-border);
+      margin-top: 15px;         /* align with center of 32px circle */
+      transition: background 0.4s ease;
+      min-width: 24px;
+      max-width: 120px;
+    }
+    .step-connector.done {
+      background: var(--c-primary);
+    }
+
+    /* Circle */
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2px solid var(--c-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--c-text-sub);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    /* Completed */
+    .step.completed .step-circle {
+      background: var(--c-primary);
+      border-color: var(--c-primary);
+      color: #ffffff;
+    }
+
+    /* Active / current */
+    .step.active .step-circle {
+      background: #ffffff;
+      border: 2px solid var(--c-primary);
+      color: var(--c-primary);
+      box-shadow: 0 0 0 4px rgba(10, 102, 194, 0.1);
+    }
+
+    /* Labels */
+    .step-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--c-text-sub);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .step.completed .step-label,
+    .step.active    .step-label {
+      color: var(--c-text-main);
+      font-weight: 600;
+    }
+
+    /* ── Clickable step (step 1) ─────────────────────────────────────── */
+    a.step {
+      text-decoration: none;   /* kill default blue underline */
+      color: inherit;
+      cursor: pointer;
+    }
+    a.step:hover .step-circle {
+      transform: scale(1.08);
+    }
+    a.step:hover .step-label {
+      color: var(--c-primary);
+    }
+
+    /* ── Mobile ─────────────────────────────────────────────────────── */
+    @media (max-width: 480px) {
+      .step { min-width: 32px; }
+      .step-label { display: none; }    /* hide labels, keep circles */
+      .step-connector { min-width: 12px; }
+    }
+
+    /* Flight Summary Card */
+    .flight-summary-card {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+    .fsc-left {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+    .fsc-airline {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 600;
+    }
+    .fsc-airline img {
+      height: 32px;
+    }
+    .fsc-time {
+      text-align: center;
+    }
+    .fsc-time .time {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--c-text-main);
+    }
+    .fsc-time .airport {
+      font-size: 13px;
+      color: var(--c-text-sub);
+    }
+    .fsc-duration {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .fsc-line {
+      width: 100px;
+      height: 1px;
+      background: var(--c-border);
+      position: relative;
+    }
+    .fsc-line::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: -3px;
+      border: solid var(--c-border);
+      border-width: 0 1px 1px 0;
+      display: inline-block;
+      padding: 3px;
+      transform: rotate(-45deg);
+    }
+    .fsc-stops {
+      font-size: 12px;
+      color: var(--c-text-sub);
+    }
+
+    /* Layout Grid */
+    .booking-grid {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+    }
+    
+    .main-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeUp 0.6s ease forwards 0.3s;
+    }
+
+    .side-col {
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeUp 0.6s ease forwards 0.4s;
+    }
+
+    /* Sections */
+    .b-section {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .b-section h2 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 20px;
+      color: var(--c-text-main);
+    }
+
+    /* Passenger Form */
+    .pax-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--c-border);
+      transition: all 0.3s ease;
+    }
+    .pax-form:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .form-group label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--c-text-sub);
+    }
+    .form-input {
+      padding: 10px 14px;
+      border: 1px solid var(--c-border);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      transition: all 0.2s;
+      background: #fff;
+      color: var(--c-text-main);
+    }
+    .form-input:focus {
+      outline: none;
+      border-color: var(--c-primary);
+      box-shadow: 0 0 0 3px rgba(10, 102, 194, 0.1);
+    }
+    .btn-add-pax {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--c-primary);
+      font-weight: 600;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 8px 0;
+      margin-top: 10px;
+      transition: opacity 0.2s;
+    }
+    .btn-add-pax:hover {
+      opacity: 0.8;
+    }
+
+    /* Addons */
+    .addon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .addon-card {
+      border: 1.5px solid var(--c-border);
+      border-radius: 12px;
+      padding: 16px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+      background: #ffffff;
+    }
+    .addon-card:active {
+      transform: scale(0.97);
+    }
+    .addon-card.selected {
+      border-color: var(--c-primary);
+      background: rgba(10, 102, 194, 0.04);
+    }
+    .addon-icon {
+      color: var(--c-primary);
+    }
+    .addon-title {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--c-text-main);
+    }
+    .addon-price {
+      color: var(--c-primary);
+      font-weight: 700;
+      font-size: 14px;
+    }
+    /* Addon checkbox — square, not circle */
+    .addon-card:not(.selected):hover {
+      border-color: #9ca3af;
+    }
+    .addon-check {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 20px;
+      height: 20px;
+      border-radius: 4px;        /* square checkbox */
+      border: 1.5px solid var(--c-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+      background: #ffffff;
+    }
+    .addon-card.selected .addon-check {
+      background: var(--c-primary);
+      border-color: var(--c-primary);
+    }
+    .addon-card.selected .addon-check::after {
+      content: '';
+      width: 5px;
+      height: 10px;
+      border: solid #fff;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg) translateY(-1px);
+    }
+
+    /* Summary Sticky */
+    .order-summary {
+      position: sticky;
+      top: 100px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .order-summary h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 20px;
+      color: var(--c-text-main);
+      border-bottom: 1px solid var(--c-border);
+      padding-bottom: 12px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: var(--c-text-sub);
+    }
+    .summary-row .val {
+      color: var(--c-text-main);
+      font-weight: 500;
+    }
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--c-border);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--c-text-main);
+    }
+    .summary-total .total-val {
+      font-size: 24px;
+      color: var(--c-primary);
+    }
+    
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      margin-top: 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      background: var(--c-primary);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-submit:hover:not(:disabled) {
+      background: #084c91;
+      transform: scale(1.02);
+    }
+    .btn-submit:disabled {
+      background: var(--c-border);
+      color: var(--c-text-sub);
+      cursor: not-allowed;
+    }
+    
+    /* Animations */
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    @keyframes pulseActive {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(10, 102, 194, 0.4); }
+      70% { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(10, 102, 194, 0); }
+      100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(10, 102, 194, 0); }
+    }
+    .pulse {
+      animation: pulseActive 0.4s ease-out;
+    }
+
+    .slide-in {
+      animation: slideIn 0.3s ease-out forwards;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Validation error styles */
+    .form-input.error {
+      border-color: #EF4444 !important;
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1) !important;
+    }
+    .field-error {
+      font-size: 12px;
+      color: #EF4444;
+      margin-top: -2px;
+    }
+    .submit-hint {
+      font-size: 12px;
+      color: #f97316;
+      text-align: center;
+      margin-top: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header style="background: #ffffff; border-bottom: 1px solid var(--c-border); width: 100%; position: sticky; top: 0; z-index: 50;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 16px 20px;">
+      
+      <!-- Logo -->
+      <a href="../index.html" class="fn-logo-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--c-text-main); font-weight: bold; font-size: 24px;">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+        </svg>
+        FlyNest
+      </a>
+  
+      <!-- Navigation -->
+      <nav>
+        <ul style="display: flex; gap: 32px; list-style: none; margin: 0; padding: 0;">
+          <li><a href="../index.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Trang chủ</a></li>
+          <li><a href="flights.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Chuyến bay</a></li>
+          <li><a href="booking.html" class="fn-nav-link active" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Đặt vé</a></li>
+          <li><a href="schedule.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Lịch trình</a></li>
+        </ul>
+      </nav>
+  
+      <!-- Actions -->
+      <div style="display: flex; gap: 16px; align-items: center;">
+        <a href="login.html" class="fn-clickable fn-btn-outline" style="text-decoration: none; font-weight: 600; padding: 8px 20px; border-radius: 8px; border: 1px solid var(--c-border); color: var(--c-text-main);">Đăng nhập</a>
+        <a href="register.html" class="fn-clickable fn-btn-primary" style="text-decoration: none; font-weight: 600; padding: 8px 20px; border-radius: 8px; background: var(--c-primary); color: #ffffff;">Đăng ký</a>
+      </div>
+  
+    </div>
+  </header>
+
+  <div class="booking-container">
+    
+
+    <!-- Progress Steps -->
+    <div class="progress-wrapper">
+      <div class="progress-bar">
+
+        <!-- Step 1 — clickable, wrapped in <a> -->
+        <a href="flights.html" class="step completed" title="Quay lại chọn chuyến bay">
+          <div class="step-circle">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+          </div>
+          <div class="step-label">Chọn chuyến bay</div>
+        </a>
+
+        <!-- Connector 1→2 (done) -->
+        <div class="step-connector done"></div>
+
+        <!-- Step 2 — active, not clickable -->
+        <div class="step active">
+          <div class="step-circle">2</div>
+          <div class="step-label">Thông tin hành khách</div>
+        </div>
+
+        <!-- Connector 2→3 (pending) -->
+        <div class="step-connector"></div>
+
+        <!-- Step 3 — pending, not clickable -->
+        <div class="step">
+          <div class="step-circle">3</div>
+          <div class="step-label">Thanh toán</div>
+        </div>
+
+        <!-- Connector 3→4 (pending) -->
+        <div class="step-connector"></div>
+
+        <!-- Step 4 — pending, not clickable -->
+        <div class="step">
+          <div class="step-circle">4</div>
+          <div class="step-label">Hoàn tất</div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Flight Summary Card -->
+    <div class="flight-summary-card">
+      <div class="fsc-left">
+        <div class="fsc-airline">
+          <img src="../assets/images/airlines/vietnam-airlines.svg" alt="Vietnam Airlines" onerror="this.src='../assets/images/airlines/flynest.svg'">
+          <span>Vietnam Airlines &bull; VN-214</span>
+        </div>
+        <div class="fsc-time">
+          <div class="time">08:30</div>
+          <div class="airport">SGN</div>
+        </div>
+        <div class="fsc-duration">
+          <div class="fsc-stops">2h 15m</div>
+          <div class="fsc-line"></div>
+          <div class="fsc-stops">Bay thẳng</div>
+        </div>
+        <div class="fsc-time">
+          <div class="time">10:45</div>
+          <div class="airport">HAN</div>
+        </div>
+      </div>
+      <div>
+        <a href="flights.html" class="fn-clickable" style="display: inline-block; padding: 8px 16px; border: 1px solid var(--c-primary); color: var(--c-primary); border-radius: 8px; text-decoration: none; font-weight: 600; transition: all 0.2s;">Đổi chuyến bay khác</a>
+      </div>
+    </div>
+
+    <!-- 2-Column Grid -->
+    <div class="booking-grid">
+      
+      <!-- Main Column -->
+      <div class="main-col">
+        
+        <!-- Passenger Info -->
+        <section class="b-section">
+          <h2>Thông tin hành khách</h2>
+          <form id="paxContainer" onsubmit="event.preventDefault();">
+            <!-- Pax Form 1 -->
+            <div class="pax-form">
+              <div class="form-group">
+                <label>Họ và tên (như trên giấy tờ)</label>
+                <input type="text" class="form-input req-input" placeholder="VD: NGUYEN VAN A">
+              </div>
+              <div class="form-group">
+                <label>Ngày sinh</label>
+                <input type="date" class="form-input req-input">
+              </div>
+              <div class="form-group">
+                <label>Giới tính</label>
+                <select class="form-input req-input">
+                  <option value="">Chọn giới tính</option>
+                  <option value="M">Nam</option>
+                  <option value="F">Nữ</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label>Số CCCD / Hộ chiếu</label>
+                <input type="text" class="form-input req-input" placeholder="Nhập số giấy tờ">
+              </div>
+            </div>
+          </form>
+          <button type="button" class="btn-add-pax" id="btnAddPax">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            Thêm hành khách
+          </button>
+        </section>
+
+        <!-- Add-ons -->
+        <section class="b-section">
+          <h2>Tiện ích bổ sung</h2>
+          <div class="addon-grid">
+            <div class="addon-card" data-price="250000" onclick="toggleAddon(this, 'baggage')">
+              <div class="addon-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="4" width="12" height="16" rx="2" ry="2"></rect><path d="M10 4V2a2 2 0 0 1 2-2h0a2 2 0 0 1 2 2v2"></path><path d="M8 12h8"></path></svg>
+              </div>
+              <div class="addon-title">Hành lý ký gửi 20kg</div>
+              <div class="addon-price">+250.000 ₫</div>
+              <div class="addon-check"></div>
+            </div>
+            <div class="addon-card" data-price="120000" onclick="toggleAddon(this, 'meal')">
+              <div class="addon-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20"></path><path d="M8 2v20"></path><path d="M16 2v20"></path><path d="M2 12h20"></path></svg>
+              </div>
+              <div class="addon-title">Suất ăn nóng</div>
+              <div class="addon-price">+120.000 ₫</div>
+              <div class="addon-check"></div>
+            </div>
+            <div class="addon-card" data-price="85000" onclick="toggleAddon(this, 'insurance')">
+              <div class="addon-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+              </div>
+              <div class="addon-title">Bảo hiểm chuyến bay</div>
+              <div class="addon-price">+85.000 ₫</div>
+              <div class="addon-check"></div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+      <!-- Sticky Side Column -->
+      <div class="side-col">
+        <div class="order-summary">
+          <h3>Tóm tắt đơn hàng</h3>
+          <div class="summary-row">
+            <span>Giá vé (1 hành khách)</span>
+            <span class="val">1.250.000 ₫</span>
+          </div>
+          <div class="summary-row">
+            <span>Thuế & phí dịch vụ</span>
+            <span class="val">450.000 ₫</span>
+          </div>
+          <div id="summaryAddons"></div>
+          
+          <div class="summary-total">
+            <span>Tổng cộng</span>
+            <span class="total-val" id="totalPrice">1.700.000 ₫</span>
+          </div>
+          
+          <button class="btn-submit" id="btnSubmit" disabled onclick="handleSubmit()">Tiếp tục thanh toán</button>
+          <div class="submit-hint" id="submitHint">Vui lòng điền đầy đủ thông tin hành khách</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="background: #ffffff; border-top: 1px solid var(--c-border); padding: 40px 20px; text-align: center; color: var(--c-text-sub); margin-top: auto;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div style="display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 20px; color: var(--c-text-main);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+        </svg>
+        FlyNest
+      </div>
+      <div style="font-size: 14px;">Bản quyền &copy; 2026 FlyNest. Đã đăng ký bản quyền.</div>
+    </div>
+  </footer>
+
+  <script>
+    // ─── Constants & State ───────────────────────────────────────────────
+    const BASE_PRICE = 1700000;
+    let currentTotal = BASE_PRICE;
+    let targetTotal  = BASE_PRICE;
+    let selectedAddons = {};
+
+    // ─── DOM refs ────────────────────────────────────────────────────────
+    const paxContainer = document.getElementById('paxContainer');
+    const btnAddPax    = document.getElementById('btnAddPax');
+    const btnSubmit    = document.getElementById('btnSubmit');
+    const submitHint   = document.getElementById('submitHint');
+    const summaryAddons = document.getElementById('summaryAddons');
+    const totalPriceEl  = document.getElementById('totalPrice');
+
+    // ─── Helpers ─────────────────────────────────────────────────────────
+    function formatMoney(num) {
+      return num.toLocaleString('vi-VN') + ' ₫';
+    }
+
+    function showError(input, msg) {
+      input.classList.add('error');
+      let errEl = input.parentElement.querySelector('.field-error');
+      if (!errEl) {
+        errEl = document.createElement('div');
+        errEl.className = 'field-error';
+        input.parentElement.appendChild(errEl);
+      }
+      errEl.textContent = msg;
+    }
+
+    function clearError(input) {
+      input.classList.remove('error');
+      const errEl = input.parentElement.querySelector('.field-error');
+      if (errEl) errEl.remove();
+    }
+
+    // ─── Per-field validators ────────────────────────────────────────────
+    function validateField(input) {
+      const val = input.value.trim();
+      const type = input.type;
+      const placeholder = input.placeholder || '';
+
+      // Name field
+      if (placeholder.startsWith('VD: NGUYEN')) {
+        if (!val) { showError(input, 'Vui lòng nhập họ tên'); return false; }
+        clearError(input); return true;
+      }
+
+      // Date of birth
+      if (type === 'date') {
+        if (!val) { showError(input, 'Vui lòng chọn ngày sinh'); return false; }
+        const selected = new Date(val);
+        const today    = new Date(); today.setHours(0,0,0,0);
+        if (selected >= today) { showError(input, 'Ngày sinh không được là ngày tương lai'); return false; }
+        clearError(input); return true;
+      }
+
+      // CCCD / Passport
+      if (placeholder.startsWith('Nhập số giấy tờ')) {
+        if (!val) { showError(input, 'Vui lòng nhập số giấy tờ'); return false; }
+        if (val.length < 8) { showError(input, 'Phải có ít nhất 8 ký tự'); return false; }
+        clearError(input); return true;
+      }
+
+      // Generic (select)
+      if (!val) { showError(input, 'Vui lòng chọn'); return false; }
+      clearError(input); return true;
+    }
+
+    // ─── Full form validation ─────────────────────────────────────────────
+    function validateForm(showErrors = false) {
+      const inputs = document.querySelectorAll('.req-input');
+      let allValid = true;
+
+      inputs.forEach(input => {
+        const fieldValid = showErrors ? validateField(input) : (input.value.trim() !== '');
+        if (!fieldValid) allValid = false;
+      });
+
+      const wasDisabled = btnSubmit.disabled;
+      btnSubmit.disabled = !allValid;
+      submitHint.style.display = 'none'; // Hide hint on every re-check
+
+      // Pulse when it first becomes valid
+      if (wasDisabled && !btnSubmit.disabled) {
+        btnSubmit.classList.remove('pulse');
+        void btnSubmit.offsetWidth;
+        btnSubmit.classList.add('pulse');
+      }
+
+      return allValid;
+    }
+
+    // ─── Submit handler ───────────────────────────────────────────────────
+    window.handleSubmit = function() {
+      const isValid = validateForm(true); // Show all errors on click
+      if (!isValid) {
+        submitHint.style.display = 'block';
+        // Shake the first error field for attention
+        const firstErr = document.querySelector('.form-input.error');
+        if (firstErr) firstErr.focus();
+        return;
+      }
+      location.href = 'payment.html';
+    };
+
+    // ─── Addons ──────────────────────────────────────────────────────────
+    window.toggleAddon = function(card, type) {
+      const price = parseInt(card.getAttribute('data-price'), 10);
+      const title = card.querySelector('.addon-title').innerText;
+
+      if (card.classList.contains('selected')) {
+        card.classList.remove('selected');
+        delete selectedAddons[type];
+      } else {
+        card.classList.add('selected');
+        selectedAddons[type] = { price, title };
+      }
+      renderSummary();
+    };
+
+    function renderSummary() {
+      summaryAddons.innerHTML = '';
+      let addonTotal = 0;
+
+      for (const key in selectedAddons) {
+        const item = selectedAddons[key];
+        addonTotal += item.price;
+        summaryAddons.innerHTML += `
+          <div class="summary-row">
+            <span>${item.title}</span>
+            <span class="val">${formatMoney(item.price)}</span>
+          </div>
+        `;
+      }
+
+      const newTarget = BASE_PRICE + addonTotal;
+      if (newTarget !== targetTotal) {
+        targetTotal = newTarget;
+        animateTotal();
+      }
+    }
+
+    function animateTotal() {
+      const start    = currentTotal;
+      const end      = targetTotal;
+      const duration = 400;
+      const steps    = 20;
+      const stepTime = duration / steps;
+      const diff     = end - start;
+
+      let step = 0;
+      const timer = setInterval(() => {
+        step++;
+        currentTotal = start + (diff * step / steps);
+        if (step >= steps) {
+          currentTotal = end;
+          clearInterval(timer);
+        }
+        totalPriceEl.innerText = formatMoney(Math.round(currentTotal));
+      }, stepTime);
+    }
+
+    // ─── Add Passenger ────────────────────────────────────────────────────
+    btnAddPax.addEventListener('click', () => {
+      const newForm = document.createElement('div');
+      newForm.className = 'pax-form slide-in';
+      newForm.innerHTML = `
+        <div class="form-group">
+          <label>Họ và tên (như trên giấy tờ)</label>
+          <input type="text" class="form-input req-input" placeholder="VD: NGUYEN VAN B">
+        </div>
+        <div class="form-group">
+          <label>Ngày sinh</label>
+          <input type="date" class="form-input req-input">
+        </div>
+        <div class="form-group">
+          <label>Giới tính</label>
+          <select class="form-input req-input">
+            <option value="">Chọn giới tính</option>
+            <option value="M">Nam</option>
+            <option value="F">Nữ</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Số CCCD / Hộ chiếu</label>
+          <input type="text" class="form-input req-input" placeholder="Nhập số giấy tờ">
+        </div>
+      `;
+      paxContainer.appendChild(newForm);
+      attachValidation();
+      validateForm();
+    });
+
+    // ─── Attach listeners ─────────────────────────────────────────────────
+    function attachValidation() {
+      document.querySelectorAll('.req-input').forEach(input => {
+        // Remove old handlers to avoid duplicates
+        input.replaceWith(input.cloneNode(true));
+      });
+      document.querySelectorAll('.req-input').forEach(input => {
+        input.addEventListener('input',  () => { validateField(input); validateForm(); });
+        input.addEventListener('change', () => { validateField(input); validateForm(); });
+        input.addEventListener('blur',   () => { validateField(input); });
+      });
+    }
+
+    // ─── Init ─────────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      attachValidation();
+      validateForm();
+    });
+  </script>
+</body>
+</html>

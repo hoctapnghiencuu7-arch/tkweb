@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <script src="../js/core-store.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lịch Trình Bay & Giờ Cất Cánh Toàn Mạng Bay - FlyNest</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <!-- Phông chữ hàng không cao cấp chuẩn hóa: Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <!-- FlyNest Reusable Header -->
+<header style="background: #ffffff; border-bottom: 1px solid var(--c-border); width: 100%; position: sticky; top: 0; z-index: 50;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 16px 20px;">
+    
+    <!-- Logo -->
+    <a href="../index.html" class="fn-logo-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--c-text-main); font-weight: bold; font-size: 24px;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+      </svg>
+      FlyNest
+    </a>
+
+    <!-- Navigation -->
+    <nav>
+      <ul style="display: flex; gap: 32px; list-style: none; margin: 0; padding: 0;">
+        <li><a href="../index.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Trang chủ</a></li>
+        <li><a href="../pages/flights.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Chuyến bay</a></li>
+        <li><a href="../pages/booking.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Đặt vé</a></li>
+        <li><a href="../pages/schedule.html" class="fn-nav-link active" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Lịch trình</a></li>
+      </ul>
+    </nav>
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 16px; align-items: center;">
+      <a href="../pages/login.html" class="fn-clickable fn-btn-outline" style="text-decoration: none; font-weight: 600; padding: 8px 20px; border-radius: 8px;">Đăng nhập</a>
+      <a href="../pages/register.html" class="fn-clickable fn-btn-primary" style="text-decoration: none; font-weight: 600; padding: 8px 20px; border-radius: 8px;">Đăng ký</a>
+    </div>
+
+  </div>
+</header>
+
+
+  <main class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+
+    <!-- 6.1 SCHEDULE HERO & LIVE RADAR INTRO HEADER -->
+    <div class="schedule-hero-card">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1.5rem;">
+        <div>
+          <div class="radar-live-indicator">
+            <span class="radar-pulse-beacon"></span>
+            Bảng Lịch Trình Bay Công Khai · Dữ Liệu Thời Gian Thực (LIVE)
+          </div>
+          <h1 style="font-size: 1.85rem; font-weight: 900; letter-spacing: -0.02em; margin-bottom: 0.6rem; color: var(--text-main);">
+            Lịch Trình Bay &amp; Giờ Cất Cánh Toàn Mạng Bay
+          </h1>
+          <p style="color: var(--text-muted); font-size: 0.95rem; max-width: 720px; line-height: 1.55; margin-bottom: 0;">
+            Tra cứu giờ cất cánh (STD), giờ hạ cánh (STA) cố định theo ngày trong tuần, loại tàu bay khai thác và tỷ lệ đúng giờ (On-Time Performance) trên toàn mạng bay nội địa và quốc tế.
+          </p>
+        </div>
+
+        <!-- 6.1 Analog & Digital Dual Clock (GMT+7) -->
+        <div class="schedule-clock-card">
+          <div class="analog-mini-clock" id="analog-clock" title="Đồng hồ Analog GMT+7 thời gian thực">
+            <div class="clock-hand hour" id="clock-hand-hour"></div>
+            <div class="clock-hand minute" id="clock-hand-minute"></div>
+            <div class="clock-hand second" id="clock-hand-second"></div>
+          </div>
+          <div style="text-align: right;">
+            <span style="font-size: 0.72rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 0.2rem; letter-spacing: 0.5px;">Giờ Hệ Thống (GMT+7)</span>
+            <strong id="live-system-clock" style="font-family: 'JetBrains Mono', monospace; font-size: 1.45rem; color: var(--accent-orange); display: block; font-weight: 900; letter-spacing: 0.5px;">16:45:00</strong>
+            <span style="font-size: 0.74rem; color: #10b981; font-weight: 750; display: inline-flex; align-items: center; gap: 0.35rem; margin-top: 0.25rem;">
+              <span>✓</span> Đồng bộ Radar Hàng Không
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6.2 SCHEDULE SEARCH & FILTER TOOLBAR (Nổi Khối + Ghost Reset + Coral CTA) -->
+    <div class="schedule-toolbar">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; align-items: flex-end;">
+        
+        <!-- 1. Tra Cứu Theo Mã Chuyến Bay -->
+        <div>
+          <label for="search-flight-code" style="font-size: 0.82rem; font-weight: 850; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 0.45rem; letter-spacing: 0.3px;">
+            🔍 Tra Cứu Theo Số Hiệu Chuyến Bay
+          </label>
+          <div class="sched-search-card-block" style="display: flex; align-items: center; gap: 0.75rem;">
+            <span style="font-size: 1.15rem; color: var(--accent-orange); flex-shrink: 0;">✈</span>
+            <input type="text" id="search-flight-code" class="sched-input-elevated" placeholder="Ví dụ: SW-882, VN-214, VJ-136...">
+          </div>
+        </div>
+
+        <!-- 2. Lọc Theo Tuyến Bay -->
+        <div>
+          <label for="filter-schedule-route" style="font-size: 0.82rem; font-weight: 850; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 0.45rem; letter-spacing: 0.3px;">
+            🗺 Tuyến Bay Khai Thác
+          </label>
+          <div class="sched-search-card-block" style="display: flex; align-items: center; gap: 0.75rem;">
+            <span style="font-size: 1.15rem; color: #3b82f6; flex-shrink: 0;">📍</span>
+            <select id="filter-schedule-route" class="sched-select-elevated">
+              <option value="ALL">Tất Cả Các Tuyến Bay Toàn Mạng</option>
+              <option value="SGN-HAN" selected>TP. Hồ Chí Minh (SGN) ⇄ Hà Nội (HAN)</option>
+              <option value="SGN-DAD">TP. Hồ Chí Minh (SGN) ⇄ Đà Nẵng (DAD)</option>
+              <option value="HAN-DAD">Hà Nội (HAN) ⇄ Đà Nẵng (DAD)</option>
+              <option value="SGN-PQC">TP. Hồ Chí Minh (SGN) ⇄ Phú Quốc (PQC)</option>
+              <option value="HAN-PQC">Hà Nội (HAN) ⇄ Phú Quốc (PQC)</option>
+              <option value="SGN-BKK">TP. Hồ Chí Minh (SGN) ⇄ Bangkok (BKK)</option>
+              <option value="HAN-SIN">Hà Nội (HAN) ⇄ Singapore (SIN)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- 3. Nút đặt lại bộ lọc: Outline Ghost + Coral Đặt Vé Ngay -->
+        <div style="display: flex; gap: 0.75rem;">
+          <button type="button" id="btn-reset-schedule-filter" class="btn-reset-ghost" title="Xóa toàn bộ bộ lọc hiện tại">
+            <span>↺</span> Xóa Lọc
+          </button>
+          <a href="flights.html" class="btn-book-action-coral" title="Chuyển sang trang so sánh giá và đặt chỗ">
+            <span>🎫 Đặt Vé Ngay</span>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- Weekly Day Tabs -->
+      <div style="margin-top: 1.25rem; padding-top: 1.1rem; border-top: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.75rem;">
+        <span style="font-size: 0.82rem; font-weight: 850; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px;">
+          Lọc Theo Ngày Trong Tuần:
+        </span>
+        <div class="schedule-day-tabs" id="schedule-day-tabs" style="display: flex; gap: 0.45rem; flex-wrap: wrap;">
+          <button type="button" class="sched-day-pill active" data-day="ALL">Cả Tuần</button>
+          <button type="button" class="sched-day-pill" data-day="T2">Thứ 2</button>
+          <button type="button" class="sched-day-pill" data-day="T3">Thứ 3</button>
+          <button type="button" class="sched-day-pill" data-day="T4">Thứ 4</button>
+          <button type="button" class="sched-day-pill" data-day="T5">Thứ 5</button>
+          <button type="button" class="sched-day-pill" data-day="T6">Thứ 6</button>
+          <button type="button" class="sched-day-pill" data-day="T7">Thứ 7</button>
+          <button type="button" class="sched-day-pill" data-day="CN">Chủ Nhật</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6.3 WEEKLY TIMETABLE MATRIX (BẢNG MA TRẬN LỊCH BAY THEO TUẦN - HEATMAP MÀU & TOOLTIP) -->
+    <div class="white-panel-card" style="margin-bottom: 2rem;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 0.75rem;">
+        <div>
+          <h2 style="font-size: 1.35rem; font-weight: 900; margin-bottom: 0.25rem; color: var(--text-main);">
+            📅 Ma Trận Tần Suất Chuyến Bay Trong Tuần
+          </h2>
+          <span style="font-size: 0.86rem; color: var(--text-muted);">
+            Lịch bay cố định lặp lại định kỳ mỗi tuần kèm giá vé mở bán thấp nhất khi di chuột
+          </span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1.2rem; font-size: 0.82rem; font-weight: 750;">
+          <span style="display: inline-flex; align-items: center; gap: 0.4rem; color: #059669;">
+            <span style="width: 10px; height: 10px; border-radius: 3px; background: rgba(16, 185, 129, 0.35); border: 1.5px solid #059669;"></span> Bay Hàng Ngày (Daily)
+          </span>
+          <span style="display: inline-flex; align-items: center; gap: 0.4rem; color: #d97706;">
+            <span style="width: 10px; height: 10px; border-radius: 3px; background: rgba(255, 95, 56, 0.35); border: 1.5px solid #d97706;"></span> Giờ Cao Điểm (Peak)
+          </span>
+          <span style="display: inline-flex; align-items: center; gap: 0.4rem; color: var(--text-muted);">
+            <span style="width: 10px; height: 10px; border-radius: 3px; border: 1px dashed var(--border-subtle);"></span> Không Bay
+          </span>
+        </div>
+      </div>
+
+      <!-- Desktop Matrix Table -->
+      <div class="schedule-matrix-desktop-container" style="overflow-x: auto; overflow-y: auto; max-height: 580px; -webkit-overflow-scrolling: touch;">
+        <table class="schedule-matrix-table">
+          <thead>
+            <tr>
+              <th style="padding: 1rem 1.2rem; text-align: left; border-bottom: 1.5px solid var(--border-subtle); min-width: 190px;">Chuyến Bay</th>
+              <th style="padding: 0.9rem 0.6rem; border-bottom: 1.5px solid var(--border-subtle); min-width: 85px;">Thứ 2</th>
+              <th style="padding: 0.9rem 0.6rem; border-bottom: 1.5px solid var(--border-subtle); min-width: 85px;">Thứ 3</th>
+              <th style="padding: 0.9rem 0.6rem; border-bottom: 1.5px solid var(--border-subtle); min-width: 85px;">Thứ 4</th>
+              <th style="padding: 0.9rem 0.6rem; border-bottom: 1.5px solid var(--border-subtle); min-width: 85px;">Thứ 5</th>
+              <th style="padding: 0.9rem 0.6rem; border-bottom: 1.5px solid var(--border-subtle); min-width: 85px;">Thứ 6</th>
+              <th style="padding: 0.9rem 0.6rem; border-bottom: 1.5px solid var(--border-subtle); min-width: 85px;">Thứ 7</th>
+              <th style="padding: 0.9rem 0.6rem; border-bottom: 1.5px solid var(--border-subtle); min-width: 85px;">Chủ Nhật</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Row 1: SW-882 (Flagship) -->
+            <tr class="schedule-matrix-row" data-code="SW-882" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td class="sched-matrix-flight-info">
+                <div class="sched-matrix-flight-code">
+                  <span>SW-882</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: var(--accent-light); color: var(--accent-orange); padding: 0.1rem 0.4rem; border-radius: 4px;">Flagship</span>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem;">SGN ➔ HAN (07:40 - 09:50)</div>
+                <span class="sched-aircraft-pill boeing">✈ Boeing 787-9</span>
+              </td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 48.856.000 ₫ (~$1,970.00 USD)">07:40</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 48.856.000 ₫ (~$1,970.00 USD)">07:40</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 48.856.000 ₫ (~$1,970.00 USD)">07:40</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 48.856.000 ₫ (~$1,970.00 USD)">07:40</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 48.856.000 ₫ (~$1,970.00 USD)">07:40</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 48.856.000 ₫ (~$1,970.00 USD)">07:40</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 48.856.000 ₫ (~$1,970.00 USD)">07:40</span></td>
+            </tr>
+
+            <!-- Row 2: VN-214 (Peak Hour) -->
+            <tr class="schedule-matrix-row" data-code="VN-214" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td class="sched-matrix-flight-info">
+                <div class="sched-matrix-flight-code" style="color: var(--text-main);">
+                  <span>VN-214</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(16, 185, 129, 0.1); color: #059669; padding: 0.1rem 0.4rem; border-radius: 4px;">Vietnam Airlines</span>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem;">SGN ➔ HAN (08:30 - 10:45)</div>
+                <span class="sched-aircraft-pill airbus">🛫 Airbus A350-900</span>
+              </td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 40.920.000 ₫ (~$1,650.00 USD)">08:30</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 40.920.000 ₫ (~$1,650.00 USD)">08:30</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 40.920.000 ₫ (~$1,650.00 USD)">08:30</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 40.920.000 ₫ (~$1,650.00 USD)">08:30</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 40.920.000 ₫ (~$1,650.00 USD)">08:30</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 40.920.000 ₫ (~$1,650.00 USD)">08:30</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 40.920.000 ₫ (~$1,650.00 USD)">08:30</span></td>
+            </tr>
+
+            <!-- Row 3: QH-242 (Custom Schedule: T2, T4, T6, CN) -->
+            <tr class="schedule-matrix-row" data-code="QH-242" data-route="SGN-HAN" data-days="T2,T4,T6,CN">
+              <td class="sched-matrix-flight-info">
+                <div class="sched-matrix-flight-code" style="color: var(--text-main);">
+                  <span>QH-242</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.1rem 0.4rem; border-radius: 4px;">Bamboo</span>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem;">SGN ➔ HAN (10:15 - 12:25)</div>
+                <span class="sched-aircraft-pill boeing">✈ Boeing 787-9</span>
+              </td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 35.960.000 ₫ (~$1,450.00 USD)">10:15</span></td>
+              <td><span class="sched-heatmap-cell empty">—</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 35.960.000 ₫ (~$1,450.00 USD)">10:15</span></td>
+              <td><span class="sched-heatmap-cell empty">—</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 35.960.000 ₫ (~$1,450.00 USD)">10:15</span></td>
+              <td><span class="sched-heatmap-cell empty">—</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 35.960.000 ₫ (~$1,450.00 USD)">10:15</span></td>
+            </tr>
+
+            <!-- Row 4: VJ-136 (Early Saver) -->
+            <tr class="schedule-matrix-row" data-code="VJ-136" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td class="sched-matrix-flight-info">
+                <div class="sched-matrix-flight-code" style="color: var(--text-main);">
+                  <span>VJ-136</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 0.1rem 0.4rem; border-radius: 4px;">Vietjet</span>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem;">SGN ➔ HAN (06:15 - 08:25)</div>
+                <span class="sched-aircraft-pill airbus">🛫 Airbus A321neo</span>
+              </td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 23.560.000 ₫ (~$950.00 USD)">06:15</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 23.560.000 ₫ (~$950.00 USD)">06:15</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 23.560.000 ₫ (~$950.00 USD)">06:15</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 23.560.000 ₫ (~$950.00 USD)">06:15</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 23.560.000 ₫ (~$950.00 USD)">06:15</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 23.560.000 ₫ (~$950.00 USD)">06:15</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 23.560.000 ₫ (~$950.00 USD)">06:15</span></td>
+            </tr>
+
+            <!-- Row 5: VU-772 (Midday) -->
+            <tr class="schedule-matrix-row" data-code="VU-772" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td class="sched-matrix-flight-info">
+                <div class="sched-matrix-flight-code" style="color: var(--text-main);">
+                  <span>VU-772</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(59, 130, 246, 0.1); color: #3b82f6; padding: 0.1rem 0.4rem; border-radius: 4px;">Vietravel</span>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem;">SGN ➔ HAN (11:45 - 13:55)</div>
+                <span class="sched-aircraft-pill airbus">🛫 Airbus A321</span>
+              </td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 21.824.000 ₫ (~$880.00 USD)">11:45</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 21.824.000 ₫ (~$880.00 USD)">11:45</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 21.824.000 ₫ (~$880.00 USD)">11:45</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 21.824.000 ₫ (~$880.00 USD)">11:45</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 21.824.000 ₫ (~$880.00 USD)">11:45</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 21.824.000 ₫ (~$880.00 USD)">11:45</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 21.824.000 ₫ (~$880.00 USD)">11:45</span></td>
+            </tr>
+
+            <!-- Row 6: SQ-178 (Peak International Connection) -->
+            <tr class="schedule-matrix-row" data-code="SQ-178" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td class="sched-matrix-flight-info">
+                <div class="sched-matrix-flight-code" style="color: var(--text-main);">
+                  <span>SQ-178</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(168, 85, 247, 0.1); color: #9333ea; padding: 0.1rem 0.4rem; border-radius: 4px;">Singapore Air</span>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem;">SGN ➔ HAN (13:20 - 15:30)</div>
+                <span class="sched-aircraft-pill boeing">✈ Boeing 777-300ER</span>
+              </td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 52.080.000 ₫ (~$2,100.00 USD)">13:20</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 52.080.000 ₫ (~$2,100.00 USD)">13:20</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 52.080.000 ₫ (~$2,100.00 USD)">13:20</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 52.080.000 ₫ (~$2,100.00 USD)">13:20</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 52.080.000 ₫ (~$2,100.00 USD)">13:20</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 52.080.000 ₫ (~$2,100.00 USD)">13:20</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 52.080.000 ₫ (~$2,100.00 USD)">13:20</span></td>
+            </tr>
+
+            <!-- Row 7: EK-392 (Peak A380) -->
+            <tr class="schedule-matrix-row" data-code="EK-392" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td class="sched-matrix-flight-info">
+                <div class="sched-matrix-flight-code" style="color: var(--text-main);">
+                  <span>EK-392</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(239, 68, 68, 0.1); color: #dc2626; padding: 0.1rem 0.4rem; border-radius: 4px;">Emirates</span>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem;">SGN ➔ HAN (15:40 - 17:50)</div>
+                <span class="sched-aircraft-pill airbus">🛫 Airbus A380-800</span>
+              </td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 55.800.000 ₫ (~$2,250.00 USD)">15:40</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 55.800.000 ₫ (~$2,250.00 USD)">15:40</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 55.800.000 ₫ (~$2,250.00 USD)">15:40</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 55.800.000 ₫ (~$2,250.00 USD)">15:40</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 55.800.000 ₫ (~$2,250.00 USD)">15:40</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 55.800.000 ₫ (~$2,250.00 USD)">15:40</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 55.800.000 ₫ (~$2,250.00 USD)">15:40</span></td>
+            </tr>
+
+            <!-- Row 8: QR-970 (Peak Qsuite) -->
+            <tr class="schedule-matrix-row" data-code="QR-970" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td class="sched-matrix-flight-info">
+                <div class="sched-matrix-flight-code" style="color: var(--text-main);">
+                  <span>QR-970</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(168, 85, 247, 0.1); color: #7c3aed; padding: 0.1rem 0.4rem; border-radius: 4px;">Qatar Airways</span>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem;">SGN ➔ HAN (17:15 - 19:25)</div>
+                <span class="sched-aircraft-pill airbus">🛫 Airbus A350-1000</span>
+              </td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 50.840.000 ₫ (~$2,050.00 USD)">17:15</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 50.840.000 ₫ (~$2,050.00 USD)">17:15</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 50.840.000 ₫ (~$2,050.00 USD)">17:15</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 50.840.000 ₫ (~$2,050.00 USD)">17:15</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 50.840.000 ₫ (~$2,050.00 USD)">17:15</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 50.840.000 ₫ (~$2,050.00 USD)">17:15</span></td>
+              <td><span class="sched-heatmap-cell peak" data-tooltip="Giá từ 50.840.000 ₫ (~$2,050.00 USD)">17:15</span></td>
+            </tr>
+
+            <!-- Row 9: SV-824 (Evening Dreamliner) -->
+            <tr class="schedule-matrix-row" data-code="SV-824" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td class="sched-matrix-flight-info">
+                <div class="sched-matrix-flight-code" style="color: var(--text-main);">
+                  <span>SV-824</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(16, 185, 129, 0.1); color: #047857; padding: 0.1rem 0.4rem; border-radius: 4px;">Saudia</span>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem;">SGN ➔ HAN (20:30 - 22:40)</div>
+                <span class="sched-aircraft-pill boeing">✈ Boeing 787-10</span>
+              </td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 44.640.000 ₫ (~$1,800.00 USD)">20:30</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 44.640.000 ₫ (~$1,800.00 USD)">20:30</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 44.640.000 ₫ (~$1,800.00 USD)">20:30</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 44.640.000 ₫ (~$1,800.00 USD)">20:30</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 44.640.000 ₫ (~$1,800.00 USD)">20:30</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 44.640.000 ₫ (~$1,800.00 USD)">20:30</span></td>
+              <td><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 44.640.000 ₫ (~$1,800.00 USD)">20:30</span></td>
+            </tr>
+
+            <!-- Row 10: FZ-512 (Red-eye Night Flight) -->
+            <tr class="schedule-matrix-row" data-code="FZ-512" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td class="sched-matrix-flight-info" style="border-bottom: none;">
+                <div class="sched-matrix-flight-code" style="color: var(--text-main);">
+                  <span>FZ-512</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(59, 130, 246, 0.1); color: #2563eb; padding: 0.1rem 0.4rem; border-radius: 4px;">Flydubai</span>
+                </div>
+                <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 0.15rem;">SGN ➔ HAN (22:30 - 00:40)</div>
+                <span class="sched-aircraft-pill boeing">✈ Boeing 737 MAX 8</span>
+              </td>
+              <td style="text-align:center; padding:0.6rem;"><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 28.520.000 ₫ (~$1,150.00 USD)">22:30</span></td>
+              <td style="text-align:center; padding:0.6rem;"><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 28.520.000 ₫ (~$1,150.00 USD)">22:30</span></td>
+              <td style="text-align:center; padding:0.6rem;"><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 28.520.000 ₫ (~$1,150.00 USD)">22:30</span></td>
+              <td style="text-align:center; padding:0.6rem;"><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 28.520.000 ₫ (~$1,150.00 USD)">22:30</span></td>
+              <td style="text-align:center; padding:0.6rem;"><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 28.520.000 ₫ (~$1,150.00 USD)">22:30</span></td>
+              <td style="text-align:center; padding:0.6rem;"><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 28.520.000 ₫ (~$1,150.00 USD)">22:30</span></td>
+              <td style="text-align:center; padding:0.6rem;"><span class="sched-heatmap-cell daily" data-tooltip="Giá từ 28.520.000 ₫ (~$1,150.00 USD)">22:30</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 6.6 Mobile View: Vertical Cards with Horizontal Scrollable Weekday Chips -->
+      <div class="schedule-mobile-cards-view">
+        <!-- Mobile Card 1: SW-882 -->
+        <div class="sched-mobile-card" data-code="SW-882" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+          <div class="sched-mobile-card-header">
+            <div>
+              <strong style="color: var(--accent-orange); font-family: 'JetBrains Mono', monospace; font-size: 1.05rem;">SW-882</strong>
+              <span style="font-size: 0.7rem; font-weight: 800; background: var(--accent-light); color: var(--accent-orange); padding: 0.1rem 0.4rem; border-radius: 4px; margin-left: 0.3rem;">Flagship</span>
+              <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-top: 0.2rem;">SGN ➔ HAN (07:40 - 09:50)</div>
+              <small style="color: var(--text-muted);">Boeing 787-9 • Giá từ 48.856.000 ₫ (~$1,970.00 USD)</small>
+            </div>
+            <span class="badge-frequency daily" style="font-size: 0.72rem;">Hàng Ngày</span>
+          </div>
+          <div class="sched-mobile-days-scroll">
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T2</span><span class="sched-heatmap-cell daily">07:40</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T3</span><span class="sched-heatmap-cell daily">07:40</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T4</span><span class="sched-heatmap-cell daily">07:40</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T5</span><span class="sched-heatmap-cell daily">07:40</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T6</span><span class="sched-heatmap-cell daily">07:40</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T7</span><span class="sched-heatmap-cell daily">07:40</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">CN</span><span class="sched-heatmap-cell daily">07:40</span></div>
+          </div>
+        </div>
+
+        <!-- Mobile Card 2: VN-214 -->
+        <div class="sched-mobile-card" data-code="VN-214" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+          <div class="sched-mobile-card-header">
+            <div>
+              <strong style="color: var(--text-main); font-family: 'JetBrains Mono', monospace; font-size: 1.05rem;">VN-214</strong>
+              <span style="font-size: 0.7rem; font-weight: 800; background: rgba(16, 185, 129, 0.1); color: #059669; padding: 0.1rem 0.4rem; border-radius: 4px; margin-left: 0.3rem;">Vietnam Airlines</span>
+              <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-top: 0.2rem;">SGN ➔ HAN (08:30 - 10:45)</div>
+              <small style="color: var(--text-muted);">Airbus A350-900 • Giá từ 40.920.000 ₫ (~$1,650.00 USD)</small>
+            </div>
+            <span class="badge-frequency daily" style="font-size: 0.72rem; background: rgba(255, 95, 56, 0.1); color: var(--accent-orange);">Cao Điểm</span>
+          </div>
+          <div class="sched-mobile-days-scroll">
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T2</span><span class="sched-heatmap-cell peak">08:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T3</span><span class="sched-heatmap-cell peak">08:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T4</span><span class="sched-heatmap-cell peak">08:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T5</span><span class="sched-heatmap-cell peak">08:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T6</span><span class="sched-heatmap-cell peak">08:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T7</span><span class="sched-heatmap-cell peak">08:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">CN</span><span class="sched-heatmap-cell peak">08:30</span></div>
+          </div>
+        </div>
+
+        <!-- Mobile Card 3: QH-242 -->
+        <div class="sched-mobile-card" data-code="QH-242" data-route="SGN-HAN" data-days="T2,T4,T6,CN">
+          <div class="sched-mobile-card-header">
+            <div>
+              <strong style="color: var(--text-main); font-family: 'JetBrains Mono', monospace; font-size: 1.05rem;">QH-242</strong>
+              <span style="font-size: 0.7rem; font-weight: 800; background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.1rem 0.4rem; border-radius: 4px; margin-left: 0.3rem;">Bamboo</span>
+              <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-top: 0.2rem;">SGN ➔ HAN (10:15 - 12:25)</div>
+              <small style="color: var(--text-muted);">Boeing 787-9 • Giá từ 35.960.000 ₫ (~$1,450.00 USD)</small>
+            </div>
+            <span class="badge-frequency custom" style="font-size: 0.72rem;">Thứ 2, 4, 6, CN</span>
+          </div>
+          <div class="sched-mobile-days-scroll">
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T2</span><span class="sched-heatmap-cell daily">10:15</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T3</span><span class="sched-heatmap-cell empty">—</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T4</span><span class="sched-heatmap-cell daily">10:15</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T5</span><span class="sched-heatmap-cell empty">—</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T6</span><span class="sched-heatmap-cell daily">10:15</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T7</span><span class="sched-heatmap-cell empty">—</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">CN</span><span class="sched-heatmap-cell daily">10:15</span></div>
+          </div>
+        </div>
+
+        <!-- Mobile Card 4: VJ-136 -->
+        <div class="sched-mobile-card" data-code="VJ-136" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+          <div class="sched-mobile-card-header">
+            <div>
+              <strong style="color: var(--text-main); font-family: 'JetBrains Mono', monospace; font-size: 1.05rem;">VJ-136</strong>
+              <span style="font-size: 0.7rem; font-weight: 800; background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 0.1rem 0.4rem; border-radius: 4px; margin-left: 0.3rem;">Vietjet</span>
+              <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-top: 0.2rem;">SGN ➔ HAN (06:15 - 08:25)</div>
+              <small style="color: var(--text-muted);">Airbus A321neo • Giá từ 23.560.000 ₫ (~$950.00 USD)</small>
+            </div>
+            <span class="badge-frequency daily" style="font-size: 0.72rem;">Hàng Ngày</span>
+          </div>
+          <div class="sched-mobile-days-scroll">
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T2</span><span class="sched-heatmap-cell daily">06:15</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T3</span><span class="sched-heatmap-cell daily">06:15</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T4</span><span class="sched-heatmap-cell daily">06:15</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T5</span><span class="sched-heatmap-cell daily">06:15</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T6</span><span class="sched-heatmap-cell daily">06:15</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T7</span><span class="sched-heatmap-cell daily">06:15</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">CN</span><span class="sched-heatmap-cell daily">06:15</span></div>
+          </div>
+        </div>
+
+        <!-- Mobile Card 5: VU-772 -->
+        <div class="sched-mobile-card" data-code="VU-772" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+          <div class="sched-mobile-card-header">
+            <div>
+              <strong style="color: var(--text-main); font-family: 'JetBrains Mono', monospace; font-size: 1.05rem;">VU-772</strong>
+              <span style="font-size: 0.7rem; font-weight: 800; background: rgba(59, 130, 246, 0.1); color: #3b82f6; padding: 0.1rem 0.4rem; border-radius: 4px; margin-left: 0.3rem;">Vietravel</span>
+              <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-top: 0.2rem;">SGN ➔ HAN (11:45 - 13:55)</div>
+              <small style="color: var(--text-muted);">Airbus A321 • Giá từ 21.824.000 ₫ (~$880.00 USD)</small>
+            </div>
+            <span class="badge-frequency daily" style="font-size: 0.72rem;">Hàng Ngày</span>
+          </div>
+          <div class="sched-mobile-days-scroll">
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T2</span><span class="sched-heatmap-cell daily">11:45</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T3</span><span class="sched-heatmap-cell daily">11:45</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T4</span><span class="sched-heatmap-cell daily">11:45</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T5</span><span class="sched-heatmap-cell daily">11:45</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T6</span><span class="sched-heatmap-cell daily">11:45</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T7</span><span class="sched-heatmap-cell daily">11:45</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">CN</span><span class="sched-heatmap-cell daily">11:45</span></div>
+          </div>
+        </div>
+
+        <!-- Mobile Card 6: SQ-178 -->
+        <div class="sched-mobile-card" data-code="SQ-178" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+          <div class="sched-mobile-card-header">
+            <div>
+              <strong style="color: var(--text-main); font-family: 'JetBrains Mono', monospace; font-size: 1.05rem;">SQ-178</strong>
+              <span style="font-size: 0.7rem; font-weight: 800; background: rgba(168, 85, 247, 0.1); color: #9333ea; padding: 0.1rem 0.4rem; border-radius: 4px; margin-left: 0.3rem;">Singapore Air</span>
+              <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-top: 0.2rem;">SGN ➔ HAN (13:20 - 15:30)</div>
+              <small style="color: var(--text-muted);">Boeing 777-300ER • Giá từ 52.080.000 ₫ (~$2,100.00 USD)</small>
+            </div>
+            <span class="badge-frequency daily" style="font-size: 0.72rem; background: rgba(255, 95, 56, 0.1); color: var(--accent-orange);">Cao Điểm</span>
+          </div>
+          <div class="sched-mobile-days-scroll">
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T2</span><span class="sched-heatmap-cell peak">13:20</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T3</span><span class="sched-heatmap-cell peak">13:20</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T4</span><span class="sched-heatmap-cell peak">13:20</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T5</span><span class="sched-heatmap-cell peak">13:20</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T6</span><span class="sched-heatmap-cell peak">13:20</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T7</span><span class="sched-heatmap-cell peak">13:20</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">CN</span><span class="sched-heatmap-cell peak">13:20</span></div>
+          </div>
+        </div>
+
+        <!-- Mobile Card 7: EK-392 -->
+        <div class="sched-mobile-card" data-code="EK-392" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+          <div class="sched-mobile-card-header">
+            <div>
+              <strong style="color: var(--text-main); font-family: 'JetBrains Mono', monospace; font-size: 1.05rem;">EK-392</strong>
+              <span style="font-size: 0.7rem; font-weight: 800; background: rgba(239, 68, 68, 0.1); color: #dc2626; padding: 0.1rem 0.4rem; border-radius: 4px; margin-left: 0.3rem;">Emirates</span>
+              <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-top: 0.2rem;">SGN ➔ HAN (15:40 - 17:50)</div>
+              <small style="color: var(--text-muted);">Airbus A380-800 • Giá từ 55.800.000 ₫ (~$2,250.00 USD)</small>
+            </div>
+            <span class="badge-frequency daily" style="font-size: 0.72rem; background: rgba(255, 95, 56, 0.1); color: var(--accent-orange);">Cao Điểm</span>
+          </div>
+          <div class="sched-mobile-days-scroll">
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T2</span><span class="sched-heatmap-cell peak">15:40</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T3</span><span class="sched-heatmap-cell peak">15:40</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T4</span><span class="sched-heatmap-cell peak">15:40</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T5</span><span class="sched-heatmap-cell peak">15:40</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T6</span><span class="sched-heatmap-cell peak">15:40</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T7</span><span class="sched-heatmap-cell peak">15:40</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">CN</span><span class="sched-heatmap-cell peak">15:40</span></div>
+          </div>
+        </div>
+
+        <!-- Mobile Card 8: QR-970 -->
+        <div class="sched-mobile-card" data-code="QR-970" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+          <div class="sched-mobile-card-header">
+            <div>
+              <strong style="color: var(--text-main); font-family: 'JetBrains Mono', monospace; font-size: 1.05rem;">QR-970</strong>
+              <span style="font-size: 0.7rem; font-weight: 800; background: rgba(168, 85, 247, 0.1); color: #7c3aed; padding: 0.1rem 0.4rem; border-radius: 4px; margin-left: 0.3rem;">Qatar Airways</span>
+              <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-top: 0.2rem;">SGN ➔ HAN (17:15 - 19:25)</div>
+              <small style="color: var(--text-muted);">Airbus A350-1000 • Giá từ 50.840.000 ₫ (~$2,050.00 USD)</small>
+            </div>
+            <span class="badge-frequency daily" style="font-size: 0.72rem; background: rgba(255, 95, 56, 0.1); color: var(--accent-orange);">Cao Điểm</span>
+          </div>
+          <div class="sched-mobile-days-scroll">
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T2</span><span class="sched-heatmap-cell peak">17:15</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T3</span><span class="sched-heatmap-cell peak">17:15</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T4</span><span class="sched-heatmap-cell peak">17:15</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T5</span><span class="sched-heatmap-cell peak">17:15</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T6</span><span class="sched-heatmap-cell peak">17:15</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T7</span><span class="sched-heatmap-cell peak">17:15</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">CN</span><span class="sched-heatmap-cell peak">17:15</span></div>
+          </div>
+        </div>
+
+        <!-- Mobile Card 9: SV-824 -->
+        <div class="sched-mobile-card" data-code="SV-824" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+          <div class="sched-mobile-card-header">
+            <div>
+              <strong style="color: var(--text-main); font-family: 'JetBrains Mono', monospace; font-size: 1.05rem;">SV-824</strong>
+              <span style="font-size: 0.7rem; font-weight: 800; background: rgba(16, 185, 129, 0.1); color: #047857; padding: 0.1rem 0.4rem; border-radius: 4px; margin-left: 0.3rem;">Saudia</span>
+              <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-top: 0.2rem;">SGN ➔ HAN (20:30 - 22:40)</div>
+              <small style="color: var(--text-muted);">Boeing 787-10 • Giá từ 44.640.000 ₫ (~$1,800.00 USD)</small>
+            </div>
+            <span class="badge-frequency daily" style="font-size: 0.72rem;">Hàng Ngày</span>
+          </div>
+          <div class="sched-mobile-days-scroll">
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T2</span><span class="sched-heatmap-cell daily">20:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T3</span><span class="sched-heatmap-cell daily">20:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T4</span><span class="sched-heatmap-cell daily">20:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T5</span><span class="sched-heatmap-cell daily">20:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T6</span><span class="sched-heatmap-cell daily">20:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T7</span><span class="sched-heatmap-cell daily">20:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">CN</span><span class="sched-heatmap-cell daily">20:30</span></div>
+          </div>
+        </div>
+
+        <!-- Mobile Card 10: FZ-512 -->
+        <div class="sched-mobile-card" data-code="FZ-512" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+          <div class="sched-mobile-card-header">
+            <div>
+              <strong style="color: var(--text-main); font-family: 'JetBrains Mono', monospace; font-size: 1.05rem;">FZ-512</strong>
+              <span style="font-size: 0.7rem; font-weight: 800; background: rgba(59, 130, 246, 0.1); color: #2563eb; padding: 0.1rem 0.4rem; border-radius: 4px; margin-left: 0.3rem;">Flydubai</span>
+              <div style="font-size: 0.85rem; font-weight: 700; color: var(--text-main); margin-top: 0.2rem;">SGN ➔ HAN (22:30 - 00:40)</div>
+              <small style="color: var(--text-muted);">Boeing 737 MAX 8 • Giá từ 28.520.000 ₫ (~$1,150.00 USD)</small>
+            </div>
+            <span class="badge-frequency daily" style="font-size: 0.72rem;">Hàng Ngày</span>
+          </div>
+          <div class="sched-mobile-days-scroll">
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T2</span><span class="sched-heatmap-cell daily">22:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T3</span><span class="sched-heatmap-cell daily">22:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T4</span><span class="sched-heatmap-cell daily">22:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T5</span><span class="sched-heatmap-cell daily">22:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T6</span><span class="sched-heatmap-cell daily">22:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">T7</span><span class="sched-heatmap-cell daily">22:30</span></div>
+            <div class="sched-mobile-day-item"><span class="sched-mobile-day-label">CN</span><span class="sched-heatmap-cell daily">22:30</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 6.4 LIVE FLIGHT TIMETABLE BOARD (BẢNG FIDS ĐIỆN TỬ TRA CỨU: OTP PROGRESS BAR & ZEBRA) -->
+    <div class="white-panel-card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem;">
+        <div>
+          <h2 style="font-size: 1.35rem; font-weight: 900; margin-bottom: 0.25rem; color: var(--text-main);">
+            ✈️ Bảng Giờ Bay Chi Tiết Toàn Mạng (FIDS Timetable)
+          </h2>
+          <span style="font-size: 0.86rem; color: var(--text-muted);" id="schedule-results-count">
+            Hiển thị 10 chuyến bay cố định theo bộ lọc hiện tại
+          </span>
+        </div>
+
+        <div style="display: flex; align-items: center; gap: 0.5rem;">
+          <button type="button" id="btn-refresh-schedule" style="background: var(--bg-card-alt); border: 1.5px solid var(--border-subtle); color: var(--text-main); padding: 0.5rem 1rem; border-radius: var(--radius-md); font-size: 0.82rem; font-weight: 750; cursor: pointer; display: inline-flex; align-items: center; gap: 0.4rem; transition: var(--transition);">
+            <span>🔄</span> Làm Mới Giờ Bay
+          </button>
+        </div>
+      </div>
+
+      <!-- Schedule Timetable Table with Zebra & Progress Bar -->
+      <div class="schedule-fids-desktop-container" style="overflow-x: auto; overflow-y: auto; max-height: 580px; -webkit-overflow-scrolling: touch;">
+        <table class="schedule-fids-table" style="width: 100%; border-collapse: separate; border-spacing: 0; font-size: 0.88rem;">
+          <thead>
+            <tr style="background: var(--bg-card-alt); border-bottom: 2px solid var(--border-subtle); text-align: left; color: var(--text-muted); font-weight: 800; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.4px;">
+              <th style="padding: 1rem 1.1rem;">Số Hiệu</th>
+              <th style="padding: 1rem 1.1rem;">Tuyến Bay</th>
+              <th style="padding: 1rem 1.1rem;">Giờ Đi (STD)</th>
+              <th style="padding: 1rem 1.1rem;">Giờ Đến (STA)</th>
+              <th style="padding: 1rem 1.1rem;">Tần Suất</th>
+              <th style="padding: 1rem 1.1rem;">Tàu Bay</th>
+              <th style="padding: 1rem 1.1rem;">Độ Chuẩn Giờ (OTP)</th>
+              <th style="padding: 1rem 1.1rem; text-align: right;">Hành Động</th>
+            </tr>
+          </thead>
+          <tbody id="schedule-table-body">
+            <!-- Row 1: SW-882 -->
+            <tr class="schedule-row" data-code="SW-882" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="font-weight: 850; font-family: 'JetBrains Mono', monospace; font-size: 1.02rem; color: var(--accent-orange);">SW-882</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(255, 95, 56, 0.1); color: var(--accent-orange); padding: 0.1rem 0.4rem; border-radius: 4px;">FlyNest</span>
+                </div>
+              </td>
+              <td>
+                <strong style="color: var(--text-main);">SGN ➔ HAN</strong><br>
+                <small style="color: var(--text-muted);">Ga T1 (Quốc nội) ➔ Ga T1 (Nội Bài)</small>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">07:40</strong>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">09:50</strong>
+              </td>
+              <td>
+                <span class="badge-frequency daily">Hàng Ngày</span>
+              </td>
+              <td class="sched-aircraft-cell">
+                Boeing 787-9
+              </td>
+              <td>
+                <div class="otp-cell-container">
+                  <div class="otp-progress-track">
+                    <div class="otp-progress-fill" style="width: 98.8%;"></div>
+                  </div>
+                  <span class="otp-label-val">98.8%</span>
+                </div>
+              </td>
+              <td class="sched-action-cell">
+                <a href="flights.html?from=SGN&to=HAN" class="btn-schedule-action" title="Xem chi tiết và giá vé chuyến bay SW-882">
+                  Chi Tiết &amp; Đặt Vé ➔
+                </a>
+              </td>
+            </tr>
+
+            <!-- Row 2: VN-214 -->
+            <tr class="schedule-row" data-code="VN-214" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="font-weight: 850; font-family: 'JetBrains Mono', monospace; font-size: 1.02rem; color: var(--text-main);">VN-214</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(16, 185, 129, 0.1); color: #059669; padding: 0.1rem 0.4rem; border-radius: 4px;">Vietnam Airlines</span>
+                </div>
+              </td>
+              <td>
+                <strong style="color: var(--text-main);">SGN ➔ HAN</strong><br>
+                <small style="color: var(--text-muted);">Ga T1 (Quốc nội) ➔ Ga T1 (Nội Bài)</small>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">08:30</strong>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">10:45</strong>
+              </td>
+              <td>
+                <span class="badge-frequency daily">Hàng Ngày</span>
+              </td>
+              <td class="sched-aircraft-cell">
+                Airbus A350-900
+              </td>
+              <td>
+                <div class="otp-cell-container">
+                  <div class="otp-progress-track">
+                    <div class="otp-progress-fill" style="width: 97.5%;"></div>
+                  </div>
+                  <span class="otp-label-val">97.5%</span>
+                </div>
+              </td>
+              <td class="sched-action-cell">
+                <a href="flights.html?from=SGN&to=HAN" class="btn-schedule-action" title="Xem chi tiết và giá vé chuyến bay VN-214">
+                  Chi Tiết &amp; Đặt Vé ➔
+                </a>
+              </td>
+            </tr>
+
+            <!-- Row 3: QH-242 -->
+            <tr class="schedule-row" data-code="QH-242" data-route="SGN-HAN" data-days="T2,T4,T6,CN">
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="font-weight: 850; font-family: 'JetBrains Mono', monospace; font-size: 1.02rem; color: var(--text-main);">QH-242</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(16, 185, 129, 0.1); color: #10b981; padding: 0.1rem 0.4rem; border-radius: 4px;">Bamboo</span>
+                </div>
+              </td>
+              <td>
+                <strong style="color: var(--text-main);">SGN ➔ HAN</strong><br>
+                <small style="color: var(--text-muted);">Ga T1 (Quốc nội) ➔ Ga T1 (Nội Bài)</small>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">10:15</strong>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">12:25</strong>
+              </td>
+              <td>
+                <span class="badge-frequency custom">Thứ 2, 4, 6, CN</span>
+              </td>
+              <td class="sched-aircraft-cell">
+                Boeing 787-9
+              </td>
+              <td>
+                <div class="otp-cell-container">
+                  <div class="otp-progress-track">
+                    <div class="otp-progress-fill" style="width: 96.8%;"></div>
+                  </div>
+                  <span class="otp-label-val">96.8%</span>
+                </div>
+              </td>
+              <td class="sched-action-cell">
+                <a href="flights.html?from=SGN&to=HAN" class="btn-schedule-action" title="Xem chi tiết và giá vé chuyến bay QH-242">
+                  Chi Tiết &amp; Đặt Vé ➔
+                </a>
+              </td>
+            </tr>
+
+            <!-- Row 4: VJ-136 -->
+            <tr class="schedule-row" data-code="VJ-136" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="font-weight: 850; font-family: 'JetBrains Mono', monospace; font-size: 1.02rem; color: var(--text-main);">VJ-136</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 0.1rem 0.4rem; border-radius: 4px;">Vietjet</span>
+                </div>
+              </td>
+              <td>
+                <strong style="color: var(--text-main);">SGN ➔ HAN</strong><br>
+                <small style="color: var(--text-muted);">Ga T1 (Quốc nội) ➔ Ga T1 (Nội Bài)</small>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">06:15</strong>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">08:25</strong>
+              </td>
+              <td>
+                <span class="badge-frequency daily">Hàng Ngày</span>
+              </td>
+              <td class="sched-aircraft-cell">
+                Airbus A321neo
+              </td>
+              <td>
+                <div class="otp-cell-container">
+                  <div class="otp-progress-track">
+                    <div class="otp-progress-fill" style="width: 92.5%; background: linear-gradient(90deg, #f59e0b, #d97706);"></div>
+                  </div>
+                  <span class="otp-label-val" style="color: #f59e0b;">92.5%</span>
+                </div>
+              </td>
+              <td class="sched-action-cell">
+                <a href="flights.html?from=SGN&to=HAN" class="btn-schedule-action" title="Xem chi tiết và giá vé chuyến bay VJ-136">
+                  Chi Tiết &amp; Đặt Vé ➔
+                </a>
+              </td>
+            </tr>
+
+            <!-- Row 5: VU-772 -->
+            <tr class="schedule-row" data-code="VU-772" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="font-weight: 850; font-family: 'JetBrains Mono', monospace; font-size: 1.02rem; color: var(--text-main);">VU-772</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(59, 130, 246, 0.1); color: #3b82f6; padding: 0.1rem 0.4rem; border-radius: 4px;">Vietravel</span>
+                </div>
+              </td>
+              <td>
+                <strong style="color: var(--text-main);">SGN ➔ HAN</strong><br>
+                <small style="color: var(--text-muted);">Ga T1 (Quốc nội) ➔ Ga T1 (Nội Bài)</small>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">11:45</strong>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">13:55</strong>
+              </td>
+              <td>
+                <span class="badge-frequency daily">Hàng Ngày</span>
+              </td>
+              <td class="sched-aircraft-cell">
+                Airbus A321
+              </td>
+              <td>
+                <div class="otp-cell-container">
+                  <div class="otp-progress-track">
+                    <div class="otp-progress-fill" style="width: 97.4%;"></div>
+                  </div>
+                  <span class="otp-label-val">97.4%</span>
+                </div>
+              </td>
+              <td class="sched-action-cell">
+                <a href="flights.html?from=SGN&to=HAN" class="btn-schedule-action" title="Xem chi tiết và giá vé chuyến bay VU-772">
+                  Chi Tiết &amp; Đặt Vé ➔
+                </a>
+              </td>
+            </tr>
+
+            <!-- Row 6: SQ-178 -->
+            <tr class="schedule-row" data-code="SQ-178" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="font-weight: 850; font-family: 'JetBrains Mono', monospace; font-size: 1.02rem; color: var(--text-main);">SQ-178</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(168, 85, 247, 0.1); color: #9333ea; padding: 0.1rem 0.4rem; border-radius: 4px;">Singapore Air</span>
+                </div>
+              </td>
+              <td>
+                <strong style="color: var(--text-main);">SGN ➔ HAN</strong><br>
+                <small style="color: var(--text-muted);">Ga T1 (Quốc nội) ➔ Ga T1 (Nội Bài)</small>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">13:20</strong>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">15:30</strong>
+              </td>
+              <td>
+                <span class="badge-frequency daily">Hàng Ngày</span>
+              </td>
+              <td class="sched-aircraft-cell">
+                Boeing 777-300ER
+              </td>
+              <td>
+                <div class="otp-cell-container">
+                  <div class="otp-progress-track">
+                    <div class="otp-progress-fill" style="width: 99.1%;"></div>
+                  </div>
+                  <span class="otp-label-val">99.1%</span>
+                </div>
+              </td>
+              <td class="sched-action-cell">
+                <a href="flights.html?from=SGN&to=HAN" class="btn-schedule-action" title="Xem chi tiết và giá vé chuyến bay SQ-178">
+                  Chi Tiết &amp; Đặt Vé ➔
+                </a>
+              </td>
+            </tr>
+
+            <!-- Row 7: EK-392 -->
+            <tr class="schedule-row" data-code="EK-392" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="font-weight: 850; font-family: 'JetBrains Mono', monospace; font-size: 1.02rem; color: var(--text-main);">EK-392</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(239, 68, 68, 0.1); color: #dc2626; padding: 0.1rem 0.4rem; border-radius: 4px;">Emirates</span>
+                </div>
+              </td>
+              <td>
+                <strong style="color: var(--text-main);">SGN ➔ HAN</strong><br>
+                <small style="color: var(--text-muted);">Ga T1 (Quốc nội) ➔ Ga T1 (Nội Bài)</small>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">15:40</strong>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">17:50</strong>
+              </td>
+              <td>
+                <span class="badge-frequency daily">Hàng Ngày</span>
+              </td>
+              <td class="sched-aircraft-cell">
+                Airbus A380-800
+              </td>
+              <td>
+                <div class="otp-cell-container">
+                  <div class="otp-progress-track">
+                    <div class="otp-progress-fill" style="width: 98.6%;"></div>
+                  </div>
+                  <span class="otp-label-val">98.6%</span>
+                </div>
+              </td>
+              <td class="sched-action-cell">
+                <a href="flights.html?from=SGN&to=HAN" class="btn-schedule-action" title="Xem chi tiết và giá vé chuyến bay EK-392">
+                  Chi Tiết &amp; Đặt Vé ➔
+                </a>
+              </td>
+            </tr>
+
+            <!-- Row 8: QR-970 -->
+            <tr class="schedule-row" data-code="QR-970" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="font-weight: 850; font-family: 'JetBrains Mono', monospace; font-size: 1.02rem; color: var(--text-main);">QR-970</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(168, 85, 247, 0.1); color: #7c3aed; padding: 0.1rem 0.4rem; border-radius: 4px;">Qatar Airways</span>
+                </div>
+              </td>
+              <td>
+                <strong style="color: var(--text-main);">SGN ➔ HAN</strong><br>
+                <small style="color: var(--text-muted);">Ga T1 (Quốc nội) ➔ Ga T1 (Nội Bài)</small>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">17:15</strong>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">19:25</strong>
+              </td>
+              <td>
+                <span class="badge-frequency daily">Hàng Ngày</span>
+              </td>
+              <td class="sched-aircraft-cell">
+                Airbus A350-1000
+              </td>
+              <td>
+                <div class="otp-cell-container">
+                  <div class="otp-progress-track">
+                    <div class="otp-progress-fill" style="width: 98.9%;"></div>
+                  </div>
+                  <span class="otp-label-val">98.9%</span>
+                </div>
+              </td>
+              <td class="sched-action-cell">
+                <a href="flights.html?from=SGN&to=HAN" class="btn-schedule-action" title="Xem chi tiết và giá vé chuyến bay QR-970">
+                  Chi Tiết &amp; Đặt Vé ➔
+                </a>
+              </td>
+            </tr>
+
+            <!-- Row 9: SV-824 -->
+            <tr class="schedule-row" data-code="SV-824" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td>
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="font-weight: 850; font-family: 'JetBrains Mono', monospace; font-size: 1.02rem; color: var(--text-main);">SV-824</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(16, 185, 129, 0.1); color: #047857; padding: 0.1rem 0.4rem; border-radius: 4px;">Saudia</span>
+                </div>
+              </td>
+              <td>
+                <strong style="color: var(--text-main);">SGN ➔ HAN</strong><br>
+                <small style="color: var(--text-muted);">Ga T1 (Quốc nội) ➔ Ga T1 (Nội Bài)</small>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">20:30</strong>
+              </td>
+              <td>
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">22:40</strong>
+              </td>
+              <td>
+                <span class="badge-frequency daily">Hàng Ngày</span>
+              </td>
+              <td class="sched-aircraft-cell">
+                Boeing 787-10
+              </td>
+              <td>
+                <div class="otp-cell-container">
+                  <div class="otp-progress-track">
+                    <div class="otp-progress-fill" style="width: 97.8%;"></div>
+                  </div>
+                  <span class="otp-label-val">97.8%</span>
+                </div>
+              </td>
+              <td class="sched-action-cell">
+                <a href="flights.html?from=SGN&to=HAN" class="btn-schedule-action" title="Xem chi tiết và giá vé chuyến bay SV-824">
+                  Chi Tiết &amp; Đặt Vé ➔
+                </a>
+              </td>
+            </tr>
+
+            <!-- Row 10: FZ-512 -->
+            <tr class="schedule-row" data-code="FZ-512" data-route="SGN-HAN" data-days="T2,T3,T4,T5,T6,T7,CN">
+              <td style="padding: 1.15rem 1.1rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="font-weight: 850; font-family: 'JetBrains Mono', monospace; font-size: 1.02rem; color: var(--text-main);">FZ-512</span>
+                  <span style="font-size: 0.68rem; font-weight: 800; background: rgba(59, 130, 246, 0.1); color: #2563eb; padding: 0.1rem 0.4rem; border-radius: 4px;">Flydubai</span>
+                </div>
+              </td>
+              <td style="padding: 1.15rem 1.1rem;">
+                <strong style="color: var(--text-main);">SGN ➔ HAN</strong><br>
+                <small style="color: var(--text-muted);">Ga T1 (Quốc nội) ➔ Ga T1 (Nội Bài)</small>
+              </td>
+              <td style="padding: 1.15rem 1.1rem;">
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">22:30</strong>
+              </td>
+              <td style="padding: 1.15rem 1.1rem;">
+                <strong style="font-size: 1.05rem; font-family: 'JetBrains Mono', monospace; color: var(--text-main);">00:40</strong>
+              </td>
+              <td style="padding: 1.15rem 1.1rem;">
+                <span class="badge-frequency daily">Hàng Ngày</span>
+              </td>
+              <td style="padding: 1.15rem 1.1rem; color: var(--text-muted); font-weight: 600;">
+                Boeing 737 MAX 8
+              </td>
+              <td style="padding: 1.15rem 1.1rem;">
+                <div class="otp-cell-container">
+                  <div class="otp-progress-track">
+                    <div class="otp-progress-fill" style="width: 98.2%;"></div>
+                  </div>
+                  <span class="otp-label-val">98.2%</span>
+                </div>
+              </td>
+              <td style="padding: 1.15rem 1.1rem; text-align: right;">
+                <a href="flights.html?from=SGN&to=HAN" class="btn-schedule-action" title="Xem chi tiết và giá vé chuyến bay FZ-512">
+                  Chi Tiết &amp; Đặt Vé ➔
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- No match fallback -->
+      <div id="schedule-empty-state" style="display: none; text-align: center; padding: 3rem 1rem;">
+        <span style="font-size: 2.5rem; display: block; margin-bottom: 0.5rem;">🔍</span>
+        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.25rem;">Không tìm thấy lịch bay phù hợp</h3>
+        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">Vui lòng kiểm tra lại số hiệu chuyến bay hoặc chọn tuyến bay khác.</p>
+        <button type="button" id="btn-clear-empty-search" style="padding: 0.6rem 1.25rem; border-radius: var(--radius-full); border: 1px solid var(--accent-orange); background: var(--accent-light); color: var(--accent-orange); font-weight: 700; cursor: pointer;">
+          Hiển Thị Tất Cả Lịch Bay
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ==================== CHÂN TRANG CAO CẤP ==================== -->
+  <footer style="background: #ffffff; border-top: 1px solid var(--c-border); padding: 40px 20px; text-align: center; color: var(--c-text-sub); margin-top: auto;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+    <div style="display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 20px; color: var(--c-text-main);">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+      </svg>
+      FlyNest
+    </div>
+    <div style="font-size: 14px;">Bản quyền &copy; 2026 FlyNest. Đã đăng ký bản quyền.</div>
+  </div>
+</footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <script src="../js/core-store.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thẻ Lên Tàu Bay (Boarding Pass) - FlyNest</title>
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <!-- Phông chữ tiếng Việt chuẩn đẹp số 1: Be Vietnam Pro -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Top Navbar -->
+  <!-- FlyNest Reusable Header -->
+<header style="background: #ffffff; border-bottom: 1px solid var(--c-border); width: 100%; position: sticky; top: 0; z-index: 50;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 16px 20px;">
+    
+    <!-- Logo -->
+    <a href="../index.html" class="fn-logo-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--c-text-main); font-weight: bold; font-size: 24px;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+      </svg>
+      FlyNest
+    </a>
+
+    <!-- Navigation -->
+    <nav>
+      <ul style="display: flex; gap: 32px; list-style: none; margin: 0; padding: 0;">
+        <li><a href="../index.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Trang chủ</a></li>
+        <li><a href="../pages/flights.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Chuyến bay</a></li>
+        <li><a href="../pages/booking.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Đặt vé</a></li>
+        <li><a href="../pages/schedule.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Lịch trình</a></li>
+      </ul>
+    </nav>
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 16px; align-items: center;">
+      <a href="../pages/login.html" class="fn-clickable fn-btn-outline" style="text-decoration: none; font-weight: 600; padding: 8px 20px; border-radius: 8px;">Đăng nhập</a>
+      <a href="../pages/register.html" class="fn-clickable fn-btn-primary" style="text-decoration: none; font-weight: 600; padding: 8px 20px; border-radius: 8px;">Đăng ký</a>
+    </div>
+
+  </div>
+</header>
+
+
+  <main class="container" style="padding-top: 2rem; padding-bottom: 4rem;">
+
+    <!-- FLIGHT CONTEXT STRIP — Ticket/Boarding Pass page (green success accent) -->
+    <div class="flight-context-strip fcs-ticket" id="ticket-context-strip" aria-label="Thẻ lên tàu bay đã xác nhận">
+      <!-- Left: Confirmed badge + page title -->
+      <div class="fcs-left">
+        <div class="fcs-confirmed-badge">
+          <span>✓</span>
+          Thanh Toán Thành Công
+        </div>
+        <h1 class="fcs-title" style="margin: 0; font-size: 1.2rem; font-weight: 800;">Thẻ Lên Tàu Bay</h1>
+      </div>
+
+      <!-- Center: Route visualization -->
+      <div class="fcs-route">
+        <div class="fcs-airport">
+          <div class="fcs-airport-code">SGN</div>
+          <div class="fcs-airport-name">Tân Sơn Nhất</div>
+        </div>
+
+        <div class="fcs-route-line">
+          <div class="fcs-route-track">
+            <span class="fcs-plane-icon">✈</span>
+          </div>
+          <div class="fcs-duration">SW-882 · Khởi hành 08:00</div>
+        </div>
+
+        <div class="fcs-airport">
+          <div class="fcs-airport-code">HAN</div>
+          <div class="fcs-airport-name">Nội Bài</div>
+        </div>
+      </div>
+
+      <!-- Right: Boarding info chips -->
+      <div class="fcs-right">
+        <div class="fcs-chip">
+          <span class="fcs-chip-icon">🚪</span>
+          Cửa 14B
+        </div>
+        <div class="fcs-chip">
+          <span class="fcs-chip-icon">💺</span>
+          Ghế 02A · Zone 1
+        </div>
+        <div class="fcs-chip">
+          <span class="fcs-chip-icon">🕒</span>
+          Lên tàu 07:15
+        </div>
+      </div>
+    </div>
+
+
+
+    <!-- TIẾN TRÌNH ĐẶT VÉ TRỰC QUAN (VISUAL PROGRESS STEPPER) -->
+    <nav class="modern-stepper-container" aria-label="Tiến trình đặt vé">
+      <!-- Chỉ báo bước thu gọn trên di động (Mobile Compact Step Indicator) -->
+      <div class="stepper-compact-indicator" aria-hidden="true">
+        <span class="stepper-compact-badge">Bước 5/5</span>
+        <span class="stepper-compact-title">Thẻ Lên Tàu Bay</span>
+      </div>
+
+      <div class="modern-stepper-track">
+        <div class="stepper-progress-line">
+          <div class="stepper-progress-fill" style="width: 100%;"></div>
+        </div>
+
+        <a href="flights.html" class="modern-step-node completed" title="Bước 1: Chọn Chuyến Bay">
+          <div class="step-circle">
+            <span class="step-circle-icon">✓</span>
+          </div>
+          <span class="step-label">1. Chọn Chuyến Bay</span>
+        </a>
+
+        <a href="booking.html" class="modern-step-node completed" title="Bước 2: Thông Tin Khách">
+          <div class="step-circle">
+            <span class="step-circle-icon">✓</span>
+          </div>
+          <span class="step-label">2. Thông Tin Khách</span>
+        </a>
+
+        <a href="seats.html" class="modern-step-node completed" title="Bước 3: Chọn Chỗ Ngồi">
+          <div class="step-circle">
+            <span class="step-circle-icon">✓</span>
+          </div>
+          <span class="step-label">3. Chọn Chỗ Ngồi</span>
+        </a>
+
+        <a href="payment.html" class="modern-step-node completed" title="Bước 4: Thanh Toán">
+          <div class="step-circle">
+            <span class="step-circle-icon">✓</span>
+          </div>
+          <span class="step-label">4. Thanh Toán</span>
+        </a>
+
+        <a href="ticket.html" class="modern-step-node active" aria-current="step" title="Bước 5: Thẻ Lên Tàu Bay">
+          <div class="step-circle">
+            <span class="step-circle-icon">★</span>
+            <div class="step-circle-pulse"></div>
+          </div>
+          <span class="step-label">5. Thẻ Lên Tàu Bay</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- Boarding Pass Card with Perforated Notches -->
+    <div class="boarding-pass-ngefly">
+      
+      <!-- Top Bar: Airline & PNR -->
+      <div class="pass-top-bar">
+        <div>
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <span id="ticket-airline-logo" class="airline-logo"><img src="../assets/images/airlines/flynest.svg" alt="FlyNest Airlines" class="airline-logo-img" onerror="if(this.dataset.fallback){this.style.display='none';}else{this.dataset.fallback='1';this.src='../assets/images/airlines/flynest.svg';}"></span>
+            <span id="ticket-airline-title" style="font-size: 1.45rem; font-weight: 900; letter-spacing: -0.3px;">FlyNest Airlines</span>
+            <span id="ticket-seat-class" class="meta-pill" style="background: var(--accent-light); color: var(--accent-orange); font-weight: 800;">Hạng Thương Gia</span>
+          </div>
+          <small style="color: var(--text-muted); margin-top: 0.25rem; display: block;">Thẻ Lên Tàu Bay Điện Tử Chính Thức • Vé Điện Tử IATA</small>
+        </div>
+
+        <div class="pnr-box-ngefly">
+          <small style="display: block; font-size: 0.72rem; text-transform: uppercase; color: var(--accent-orange); font-weight: 800; letter-spacing: 0.8px;">Mã Đặt Chỗ (PNR)</small>
+          <div style="display: flex; align-items: center; gap: 0.6rem;">
+            <span class="pnr-val-text" id="ticket-pnr-display">SW882P</span>
+            <button type="button" id="btn-copy-pnr" class="btn-copy-pnr" title="Copy Mã Đặt Chỗ (PNR)" aria-label="Copy PNR to clipboard">
+              <span id="copy-pnr-icon">📋</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Route Visual Timeline -->
+      <div class="pass-flight-row">
+        <div>
+          <div id="ticket-dep-code" style="font-size: 2.2rem; font-weight: 900; letter-spacing: -0.5px;">SGN</div>
+          <small id="ticket-dep-city" style="color: var(--text-muted); font-weight: 600;">TP. Hồ Chí Minh (Ga T1 - Quốc nội)</small>
+          <strong id="ticket-dep-time" style="display: block; color: var(--accent-orange); font-size: 1.25rem; margin-top: 0.35rem;">07:40 AM</strong>
+        </div>
+
+        <div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.35rem;">Chuyến bay <strong id="ticket-flight-no">SW-882</strong></div>
+          <div style="color: var(--accent-orange); font-size: 1.4rem; font-weight: 800;">➔ ✈ ➔</div>
+          <small id="ticket-duration" style="color: var(--badge-green); font-weight: 800; background: var(--badge-green-bg); padding: 0.2rem 0.6rem; border-radius: var(--radius-full); display: inline-block; margin-top: 0.35rem;">Bay thẳng • 02h 10m</small>
+        </div>
+
+        <div>
+          <div id="ticket-arr-code" style="font-size: 2.2rem; font-weight: 900; letter-spacing: -0.5px;">HAN</div>
+          <small id="ticket-arr-city" style="color: var(--text-muted); font-weight: 600;">Hà Nội (Ga Quốc Nội T1)</small>
+          <strong id="ticket-arr-time" style="display: block; color: var(--accent-orange); font-size: 1.25rem; margin-top: 0.35rem;">09:50 AM</strong>
+        </div>
+      </div>
+
+      <!-- 4-Column Passenger & Flight Meta Grid -->
+      <div class="pass-grid-4">
+        <div class="pass-meta-cell">
+          <div style="display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.2rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2.2" stroke-linecap="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <small class="field-meta-tag" style="margin-bottom: 0;">Tên Hành Khách</small>
+          </div>
+          <strong id="ticket-passenger-name" style="font-size: 1.05rem;">JONATHAN BEN</strong>
+        </div>
+        <div class="pass-meta-cell">
+          <div style="display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.2rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2.2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            <small class="field-meta-tag" style="margin-bottom: 0;">Ngày Khởi Hành</small>
+          </div>
+          <strong id="ticket-flight-date" style="font-size: 1.05rem;">10 THÁNG 9, 2026</strong>
+        </div>
+        <div class="pass-meta-cell">
+          <div style="display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.2rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-orange)" stroke-width="2.2" stroke-linecap="round"><path d="M7 13h10a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2z"/><path d="M5 13v6a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-6"/></svg>
+            <small class="field-meta-tag" style="margin-bottom: 0; color: var(--accent-orange);">Số Ghế Chỉ Định</small>
+          </div>
+          <strong id="ticket-seat-number" style="color: var(--accent-orange); font-size: 1.35rem;">10F (Window)</strong>
+        </div>
+        <div class="pass-meta-cell">
+          <div style="display: flex; align-items: center; gap: 0.35rem; margin-bottom: 0.2rem;">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <small class="field-meta-tag" style="margin-bottom: 0;">Cửa Ra Máy Bay / Giờ Lên Tàu</small>
+          </div>
+          <strong id="ticket-gate-boarding" style="font-size: 1.35rem;">B12 / 07:00 AM</strong>
+        </div>
+      </div>
+
+      <!-- Perforated Tear-off Section: Barcode & QR Code -->
+      <div class="boarding-pass-tear-line" style="text-align: center; border-top: 2px dashed var(--border-subtle); padding-top: 2rem;">
+        
+        <!-- Check-in Action Area (Item 17) -->
+        <div id="ticket-checkin-area" class="print-hide" style="margin-bottom: 1.75rem;">
+          <div id="ticket-checkin-pending" class="ticket-checkin-box" style="background: linear-gradient(135deg, rgba(255, 95, 56, 0.08), rgba(255, 140, 66, 0.05)); border: 1.5px dashed var(--accent-orange); border-radius: var(--radius-lg); padding: 1.1rem 1.4rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; text-align: left;">
+            <div style="max-width: 420px;">
+              <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem;">
+                <span style="font-size: 1.15rem;">🕒</span>
+                <strong style="color: var(--accent-orange); font-size: 0.98rem; font-weight: 800;">Cổng Check-in Trực Tuyến Đang Mở</strong>
+              </div>
+              <p style="margin: 0; font-size: 0.82rem; color: var(--text-muted); line-height: 1.4;">
+                Quý khách vui lòng làm thủ tục bay để mở khóa thẻ lên tàu bay chính thức và nhận chỗ ngồi ưu tiên.
+              </p>
+            </div>
+            <button type="button" id="btn-checkin-now" class="btn-view-details" style="padding: 0.65rem 1.35rem; font-size: 0.92rem; font-weight: 800; background: linear-gradient(135deg, #ff5f38, #ff8c42); box-shadow: 0 4px 14px rgba(255, 95, 56, 0.35); border-radius: var(--radius-full); cursor: pointer; white-space: nowrap;">
+              ✈️ Check-in Ngay
+            </button>
+          </div>
+          
+          <div id="ticket-checkin-completed" class="ticket-checkin-box" style="display: none; background: rgba(16, 185, 129, 0.08); border: 1.5px solid rgba(16, 185, 129, 0.35); border-radius: var(--radius-lg); padding: 0.85rem 1.25rem; text-align: center;">
+            <span style="color: var(--badge-green); font-weight: 800; font-size: 0.95rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;">
+              <span style="background: var(--badge-green); color: #fff; width: 22px; height: 22px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 0.8rem;">✓</span>
+              Đã Check-in Trực Tuyến Thành Công · Thẻ Lên Tàu Hợp Lệ
+            </span>
+          </div>
+        </div>
+
+        <!-- Simulated Barcode -->
+        <div class="barcode-strip" title="Automated Scanner Barcode"></div>
+        <div style="font-family: monospace; font-size: 0.82rem; letter-spacing: 2px; color: var(--text-muted); margin-top: 0.35rem; word-break: break-all;" id="ticket-barcode-text">
+          SW882-20260910-SGNHAN-10F
+        </div>
+
+        <!-- High-Resolution Crisp Vector QR Code -->
+        <div style="margin-top: 1.5rem;">
+          <div class="qr-code-wrapper">
+            <svg width="140" height="140" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: block; shape-rendering: crispEdges;" aria-label="Official Boarding Pass QR Code">
+              <rect width="100" height="100" fill="#ffffff"/>
+              <!-- Top-Left Finder (7x7 modules) -->
+              <rect x="6" y="6" width="28" height="28" fill="#0f172a"/>
+              <rect x="10" y="10" width="20" height="20" fill="#ffffff"/>
+              <rect x="14" y="14" width="12" height="12" fill="#0f172a"/>
+              <!-- Top-Right Finder (7x7 modules) -->
+              <rect x="66" y="6" width="28" height="28" fill="#0f172a"/>
+              <rect x="70" y="10" width="20" height="20" fill="#ffffff"/>
+              <rect x="74" y="14" width="12" height="12" fill="#0f172a"/>
+              <!-- Bottom-Left Finder (7x7 modules) -->
+              <rect x="6" y="66" width="28" height="28" fill="#0f172a"/>
+              <rect x="10" y="70" width="20" height="20" fill="#ffffff"/>
+              <rect x="14" y="74" width="12" height="12" fill="#0f172a"/>
+              <!-- Alignment Pattern (Bottom-Right 5x5) -->
+              <rect x="66" y="66" width="20" height="20" fill="#0f172a"/>
+              <rect x="70" y="70" width="12" height="12" fill="#ffffff"/>
+              <rect x="74" y="74" width="4" height="4" fill="#0f172a"/>
+              <!-- Timing Lines -->
+              <rect x="38" y="18" width="4" height="4" fill="#0f172a"/>
+              <rect x="46" y="18" width="4" height="4" fill="#0f172a"/>
+              <rect x="54" y="18" width="4" height="4" fill="#0f172a"/>
+              <rect x="18" y="38" width="4" height="4" fill="#0f172a"/>
+              <rect x="18" y="46" width="4" height="4" fill="#0f172a"/>
+              <rect x="18" y="54" width="4" height="4" fill="#0f172a"/>
+              <!-- High Density Crisp Data Modules -->
+              <rect x="38" y="6" width="6" height="8" fill="#0f172a"/>
+              <rect x="48" y="6" width="14" height="6" fill="#ff6b00"/>
+              <rect x="38" y="26" width="10" height="8" fill="#0f172a"/>
+              <rect x="52" y="26" width="10" height="6" fill="#0f172a"/>
+              <rect x="6" y="38" width="8" height="8" fill="#0f172a"/>
+              <rect x="28" y="38" width="6" height="12" fill="#ff6b00"/>
+              <rect x="66" y="38" width="12" height="6" fill="#0f172a"/>
+              <rect x="82" y="38" width="12" height="6" fill="#0f172a"/>
+              <rect x="82" y="48" width="8" height="14" fill="#0f172a"/>
+              <rect x="6" y="50" width="8" height="12" fill="#0f172a"/>
+              <rect x="28" y="54" width="6" height="8" fill="#0f172a"/>
+              <rect x="38" y="66" width="10" height="12" fill="#0f172a"/>
+              <rect x="52" y="66" width="10" height="8" fill="#ff6b00"/>
+              <rect x="38" y="82" width="24" height="8" fill="#0f172a"/>
+              <rect x="66" y="88" width="14" height="6" fill="#0f172a"/>
+              <rect x="84" y="82" width="10" height="12" fill="#0f172a"/>
+              <!-- Center Aviation Emblem -->
+              <circle cx="50" cy="49" r="10" fill="#ffffff" stroke="#ff6b00" stroke-width="2"/>
+              <path d="M50 43 L52 47 L57 48 L53 51 L54 55 L50 53 L46 55 L47 51 L43 48 L48 47 Z" fill="#ff6b00"/>
+            </svg>
+          </div>
+          <!-- Item 16: Dimmed/Toggleable SECURE-TOKEN -->
+          <div style="margin-top: 0.65rem;">
+            <button type="button" id="btn-toggle-security-details" class="btn-security-toggle" style="background: transparent; border: 1px solid var(--border-subtle); color: var(--text-muted); font-size: 0.76rem; border-radius: var(--radius-full); padding: 0.25rem 0.75rem; cursor: pointer; display: inline-flex; align-items: center; gap: 0.35rem; transition: all 0.2s ease;">
+              <span>🔒</span> <span id="toggle-security-text">Xem chi tiết bảo mật</span>
+            </button>
+            <div id="ticket-security-details" style="display: none; font-family: monospace; font-size: 0.72rem; color: var(--text-muted); opacity: 0.75; margin-top: 0.45rem; letter-spacing: 0.8px; word-break: break-all;">
+              <span id="ticket-qr-token">SECURE-TOKEN: enc_v2_U1c4ODJQOlBSRVZJRVctMDBB</span>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-top: 0.85rem; max-width: 460px; margin-left: auto; margin-right: auto;">
+          Xuất trình mã QR chuẩn IATA này tại cổng kiểm soát tự động tại sân bay để vào phòng chờ VIP và ưu tiên lên tàu bay.
+        </p>
+
+        <!-- Payment Verification Badge -->
+        <div style="margin-top: 0.85rem;">
+          <span style="font-size: 0.82rem; font-weight: 700; color: var(--badge-green); background: var(--badge-green-bg); padding: 0.35rem 0.9rem; border-radius: var(--radius-full); display: inline-flex; align-items: center; gap: 0.4rem;">
+            <span>✓</span> <span id="ticket-payment-status">Đã Thanh Toán Hợp Lệ</span> • Vé Điện Tử Chuẩn IATA
+          </span>
+        </div>
+
+        <!-- Action Buttons (Items 13, 14, 15) -->
+        <div class="print-hide" style="margin-top: 2rem;">
+          <!-- Primary Actions Row: PDF, Apple Wallet, Google Wallet, Email/SMS -->
+          <div style="display: flex; justify-content: center; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 0.85rem;">
+            <!-- Item 13: Download PDF -->
+            <button type="button" id="btn-download-pdf" class="btn-view-details" style="background: var(--bg-card); color: var(--text-main); border: 1.5px solid var(--border-subtle); font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; border-radius: var(--radius-md); cursor: pointer;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-orange)" stroke-width="2.2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Tải Xuống PDF
+            </button>
+
+            <!-- Item 14: Apple Wallet -->
+            <button type="button" id="btn-apple-wallet" class="btn-view-details" style="background: #000000; color: #ffffff; border: 1.5px solid #334155; font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; border-radius: var(--radius-md); cursor: pointer;">
+              <span style="font-size: 1.15rem; line-height: 1;"></span> Thêm vào Apple Wallet
+            </button>
+
+            <!-- Item 14: Google Wallet -->
+            <button type="button" id="btn-google-wallet" class="btn-view-details" style="background: var(--bg-card); color: var(--text-main); border: 1.5px solid var(--border-subtle); font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; border-radius: var(--radius-md); cursor: pointer;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z" fill="#4285F4"/>
+                <path d="M12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" fill="#EA4335"/>
+              </svg>
+              Google Wallet
+            </button>
+
+            <!-- Item 15: Resend via Email/SMS -->
+            <button type="button" id="btn-resend-ticket" class="btn-view-details" style="background: rgba(0, 104, 255, 0.08); color: #0068ff; border: 1.5px solid rgba(0, 104, 255, 0.3); font-weight: 700; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.75rem 1.25rem; border-radius: var(--radius-md); cursor: pointer;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              Gửi Lại Vé Qua Email/SMS
+            </button>
+          </div>
+
+          <!-- Secondary Row: Print & New Flight -->
+          <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+            <button type="button" id="btn-print-pass" class="btn-view-details btn-print-action">
+              🖨 In Thẻ Lên Tàu Bay
+            </button>
+            <a href="../index.html" class="btn-view-details">
+              ✈ Đặt Thêm Chuyến Bay Khác
+            </a>
+          </div>
+        </div>
+
+        <!-- Print-Only Verification Footer -->
+        <div class="print-only-footer" style="text-align: center; margin-top: 1.8rem; font-size: 0.76rem; color: #475569; border-top: 1px solid #cbd5e1; padding-top: 0.75rem;">
+          Thẻ lên tàu bay điện tử chính thức phát hành bởi Hệ Thống Hàng Không Toàn Cầu FlyNest • Có giá trị bay cùng giấy tờ tùy thân hợp lệ.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Modal: Gửi Lại Vé Qua Email / SMS (Item 15) -->
+    <div id="modal-resend-ticket" class="ticket-resend-modal-overlay" style="display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(6px); z-index: 9999; align-items: center; justify-content: center; padding: 1rem;">
+      <div class="ticket-resend-modal-card" style="background: var(--bg-card); border: 1.5px solid var(--border-subtle); border-radius: var(--radius-xl); max-width: 460px; width: 100%; padding: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.35); position: relative;">
+        <button type="button" id="btn-close-resend-modal" style="position: absolute; top: 1.2rem; right: 1.2rem; background: none; border: none; font-size: 1.3rem; color: var(--text-muted); cursor: pointer; line-height: 1;">✕</button>
+        
+        <div style="text-align: center; margin-bottom: 1.5rem;">
+          <div style="width: 52px; height: 52px; background: rgba(0, 104, 255, 0.1); color: #0068ff; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 0.75rem;">
+            ✉️
+          </div>
+          <h3 style="font-size: 1.35rem; font-weight: 800; margin: 0 0 0.35rem 0;">Gửi Lại Vé Điện Tử & Mã QR</h3>
+          <p style="font-size: 0.88rem; color: var(--text-muted); margin: 0;">
+            Hệ thống sẽ gửi mã đặt chỗ <strong>(PNR)</strong> kèm thẻ lên tàu bay điện tử tức thì.
+          </p>
+        </div>
+
+        <!-- Channel Toggle Tabs -->
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; background: var(--bg-card-alt); padding: 0.3rem; border-radius: var(--radius-md); margin-bottom: 1.25rem;">
+          <button type="button" id="tab-resend-email" class="resend-channel-tab active" style="padding: 0.6rem; border: none; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.88rem; cursor: pointer; background: var(--accent-orange); color: #fff;">
+            📧 Qua Email
+          </button>
+          <button type="button" id="tab-resend-sms" class="resend-channel-tab" style="padding: 0.6rem; border: none; border-radius: var(--radius-sm); font-weight: 700; font-size: 0.88rem; cursor: pointer; background: transparent; color: var(--text-muted);">
+            📱 Qua SMS
+          </button>
+        </div>
+
+        <form id="form-resend-ticket" action="javascript:void(0);">
+          <!-- Email Input Group -->
+          <div id="group-resend-email" style="margin-bottom: 1.25rem;">
+            <label for="input-resend-email" style="display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text-muted);">
+              Địa Chỉ Email Nhận Vé *
+            </label>
+            <input type="email" id="input-resend-email" placeholder="ví dụ: passenger@flynest.vn" style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1.5px solid var(--border-subtle); background: var(--bg-card-alt); color: var(--text-main); font-size: 0.95rem;" required>
+          </div>
+
+          <!-- SMS Input Group -->
+          <div id="group-resend-sms" style="display: none; margin-bottom: 1.25rem;">
+            <label for="input-resend-phone" style="display: block; font-size: 0.82rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--text-muted);">
+              Số Điện Thoại Nhận Tin Nhắn SMS *
+            </label>
+            <input type="tel" id="input-resend-phone" placeholder="ví dụ: 0912 345 678" style="width: 100%; padding: 0.75rem 1rem; border-radius: var(--radius-md); border: 1.5px solid var(--border-subtle); background: var(--bg-card-alt); color: var(--text-main); font-size: 0.95rem;">
+          </div>
+
+          <button type="submit" id="btn-submit-resend" class="btn-view-details" style="width: 100%; padding: 0.85rem; font-size: 1rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-orange), #ff8c42); box-shadow: 0 4px 15px rgba(255, 95, 56, 0.35);">
+            🚀 Gửi Vé Điện Tử Ngay
+          </button>
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- ==================== CHÂN TRANG CAO CẤP (AVIATION LUXURY FOOTER) ==================== -->
+  <footer style="background: #ffffff; border-top: 1px solid var(--c-border); padding: 40px 20px; text-align: center; color: var(--c-text-sub); margin-top: auto;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+    <div style="display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 20px; color: var(--c-text-main);">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+      </svg>
+      FlyNest
+    </div>
+    <div style="font-size: 14px;">Bản quyền &copy; 2026 FlyNest. Đã đăng ký bản quyền.</div>
+  </div>
+</footer>
+
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

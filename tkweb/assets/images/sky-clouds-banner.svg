@@ -1,0 +1,262 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 320" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Sky Gradients -->
+    <linearGradient id="skyBannerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#071527"/>
+      <stop offset="25%" stop-color="#0f2b48"/>
+      <stop offset="60%" stop-color="#1e40af"/>
+      <stop offset="85%" stop-color="#0284c7"/>
+      <stop offset="100%" stop-color="#38bdf8"/>
+    </linearGradient>
+
+    <!-- Sun Glow & Rays -->
+    <radialGradient id="bannerSunGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+      <stop offset="30%" stop-color="#fed7aa" stop-opacity="0.85"/>
+      <stop offset="65%" stop-color="#f59e0b" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+
+    <linearGradient id="bannerRayGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Cloud Gradients -->
+    <linearGradient id="bannerCloudLight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="65%" stop-color="#f8fafc"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+
+    <linearGradient id="bannerCloudSunlit" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#ffedd5"/>
+      <stop offset="80%" stop-color="#fed7aa"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+
+    <linearGradient id="bannerCloudShadow" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.9"/>
+      <stop offset="70%" stop-color="#e2e8f0" stop-opacity="0.85"/>
+      <stop offset="100%" stop-color="#94a3b8" stop-opacity="0.75"/>
+    </linearGradient>
+
+    <!-- Airplane Gradients -->
+    <linearGradient id="bannerPlaneBody" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="40%" stop-color="#f8fafc"/>
+      <stop offset="80%" stop-color="#cbd5e1"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+
+    <linearGradient id="bannerPlaneOrange" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ff8c00"/>
+      <stop offset="60%" stop-color="#ff6b00"/>
+      <stop offset="100%" stop-color="#d94e00"/>
+    </linearGradient>
+
+    <!-- Contrail Gradient -->
+    <linearGradient id="contrailGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="40%" stop-color="#ffffff" stop-opacity="0.15"/>
+      <stop offset="80%" stop-color="#ffffff" stop-opacity="0.45"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.75"/>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="bannerShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#071527" flood-opacity="0.3"/>
+    </filter>
+
+    <filter id="bannerGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Sky Canvas -->
+  <rect width="1600" height="320" fill="url(#skyBannerGrad)"/>
+
+  <!-- High-Altitude Sun & Warm Corona -->
+  <g transform="translate(1320, 70)">
+    <circle cx="0" cy="0" r="130" fill="url(#bannerSunGlow)"/>
+    <circle cx="0" cy="0" r="42" fill="#ffffff"/>
+    <circle cx="0" cy="0" r="48" fill="#fef08a" opacity="0.4"/>
+    <!-- Radiating Light Beams -->
+    <polygon points="0,-120 16,-340 -16,-340" fill="url(#bannerRayGrad)" transform="rotate(30)"/>
+    <polygon points="0,-120 20,-380 -20,-380" fill="url(#bannerRayGrad)" transform="rotate(65)"/>
+    <polygon points="0,-120 18,-350 -18,-350" fill="url(#bannerRayGrad)" transform="rotate(105)"/>
+    <polygon points="0,-120 14,-320 -14,-320" fill="url(#bannerRayGrad)" transform="rotate(145)"/>
+    <polygon points="0,-120 22,-360 -22,-360" fill="url(#bannerRayGrad)" transform="rotate(-25)"/>
+    <polygon points="0,-120 16,-330 -16,-330" fill="url(#bannerRayGrad)" transform="rotate(-65)"/>
+  </g>
+
+  <!-- Wispy Cirrus Streaks in Stratosphere -->
+  <g opacity="0.35" stroke="#ffffff" stroke-linecap="round">
+    <path d="M 80,45 Q 260,35 440,55" stroke-width="4"/>
+    <path d="M 220,70 Q 380,58 580,72" stroke-width="3"/>
+    <path d="M 640,35 Q 820,25 1040,42" stroke-width="5"/>
+    <path d="M 920,60 Q 1120,50 1280,68" stroke-width="3.5"/>
+  </g>
+
+  <!-- Background Cloud Layer (Distant & Soft) -->
+  <g opacity="0.6">
+    <ellipse cx="220" cy="240" rx="160" ry="45" fill="#ffffff" opacity="0.5"/>
+    <ellipse cx="480" cy="260" rx="190" ry="50" fill="#ffffff" opacity="0.45"/>
+    <ellipse cx="780" cy="235" rx="170" ry="42" fill="#ffffff" opacity="0.5"/>
+    <ellipse cx="1100" cy="250" rx="200" ry="52" fill="#ffffff" opacity="0.45"/>
+    <ellipse cx="1420" cy="225" rx="160" ry="40" fill="#ffffff" opacity="0.55"/>
+  </g>
+
+  <!-- Twin Condensation Trails (Contrails) streaming from airplane engines -->
+  <!-- Aircraft at (980, 120), flying up-right at angle ~12 degrees -->
+  <g id="contrails">
+    <!-- Left Engine Contrail -->
+    <path d="M -80,240 
+             C 220,205 560,170 910,132" 
+          stroke="url(#contrailGrad)" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.75"/>
+    <!-- Right Engine Contrail -->
+    <path d="M -70,250 
+             C 230,215 570,180 920,144" 
+          stroke="url(#contrailGrad)" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.75"/>
+    <!-- Core high-density contrail ribbon -->
+    <path d="M 200,210 C 500,178 780,148 915,138" 
+          stroke="#ffffff" stroke-width="3" stroke-linecap="round" fill="none" opacity="0.6"/>
+  </g>
+
+  <!-- Cruising Airplane (Twin-Engine Commercial Jetliner) -->
+  <!-- Angled ascending through the skies -->
+  <g id="cruising-jet" transform="translate(980, 120) rotate(-11)" filter="url(#bannerShadow)">
+    <!-- Far Wing (Port Wing) -->
+    <polygon points="-35,-6 -140,-58 -128,-64 -15,-18" fill="#94a3b8"/>
+    <polygon points="-140,-58 -148,-74 -138,-72 -128,-64" fill="url(#bannerPlaneOrange)"/>
+    <circle cx="-146" cy="-72" r="2" fill="#ef4444" filter="url(#bannerGlow)"/>
+
+    <!-- Far Engine Nacelle -->
+    <ellipse cx="-75" cy="-28" rx="14" ry="7" fill="#64748b"/>
+    <ellipse cx="-64" cy="-28" rx="3" ry="6" fill="#1e293b"/>
+
+    <!-- Fuselage Main Body (Streamlined Aerodynamic Profile) -->
+    <path d="M -135,10 
+             L -60,12 
+             L 65,8 
+             Q 115,2 135,-3 
+             Q 132,-12 85,-14 
+             L -55,-12 
+             L -135,-8 
+             Z" 
+          fill="url(#bannerPlaneBody)"/>
+
+    <!-- Orange Cheatline & Horizon Stripe -->
+    <path d="M -130,5 L 75,3 Q 115,0 130,-4 L 126,-6 Q 110,-2 65,0 L -130,2 Z" fill="url(#bannerPlaneOrange)"/>
+
+    <!-- Cockpit Windscreen -->
+    <polygon points="110,-7 125,-4 122,-1 108,-4" fill="#0284c7"/>
+    <polygon points="114,-6 122,-4 120,-2 112,-5" fill="#ffffff" opacity="0.65"/>
+
+    <!-- Cabin Windows (Gleaming dots) -->
+    <g fill="#0f172a" opacity="0.8">
+      <circle cx="85" cy="-2" r="1.6"/>
+      <circle cx="75" cy="-2" r="1.6"/>
+      <circle cx="65" cy="-2" r="1.6"/>
+      <circle cx="55" cy="-2" r="1.6"/>
+      <circle cx="45" cy="-2" r="1.6"/>
+      <circle cx="35" cy="-2" r="1.6"/>
+      <circle cx="25" cy="-2" r="1.6"/>
+      <circle cx="15" cy="-2" r="1.6"/>
+      <circle cx="5" cy="-2" r="1.6"/>
+      <circle cx="-5" cy="-2" r="1.6"/>
+      <circle cx="-15" cy="-2" r="1.6"/>
+      <circle cx="-25" cy="-2" r="1.6"/>
+      <circle cx="-35" cy="-2" r="1.6"/>
+    </g>
+
+    <!-- Tail Fin (Vertical Stabilizer) -->
+    <polygon points="-100,-10 -145,-55 -125,-55 -85,-10" fill="url(#bannerPlaneBody)"/>
+    <polygon points="-115,-25 -145,-55 -125,-55 -100,-25" fill="url(#bannerPlaneOrange)"/>
+    <!-- Tail Emblem -->
+    <path d="M -132,-45 Q -125,-50 -120,-42 Z" fill="#ffffff"/>
+    <circle cx="-135" cy="-54" r="1.8" fill="#ffffff" filter="url(#bannerGlow)"/>
+
+    <!-- Near Wing (Starboard Swept Wing) -->
+    <polygon points="-10,2 25,6 -65,75 -85,70" fill="url(#bannerPlaneBody)"/>
+    <!-- Near Winglet (Curving up with orange cap) -->
+    <polygon points="-85,70 -95,88 -83,86 -75,72" fill="url(#bannerPlaneOrange)"/>
+    <circle cx="-93" cy="86" r="2.2" fill="#22c55e" filter="url(#bannerGlow)"/>
+
+    <!-- Near Engine Nacelle (Starboard Turbofan) -->
+    <g transform="translate(-25, 32)">
+      <ellipse cx="0" cy="0" rx="20" ry="9" fill="url(#bannerPlaneBody)"/>
+      <ellipse cx="14" cy="0" rx="3.5" ry="8" fill="#334155" stroke="#ffffff" stroke-width="1.2"/>
+      <ellipse cx="14" cy="0" rx="2" ry="5" fill="#0f172a"/>
+      <ellipse cx="-16" cy="0" rx="5" ry="4" fill="#0f172a"/>
+    </g>
+
+    <!-- Specular Highlight Glint on Fuselage -->
+    <ellipse cx="40" cy="-10" rx="35" ry="2" fill="#ffffff" opacity="0.6"/>
+  </g>
+
+  <!-- Midground Cumulus Cloud Banks (Rolling Volumetric Tiers) -->
+  <g filter="url(#bannerShadow)">
+    <!-- Left Cloud Mass -->
+    <path d="M -40,340 
+             Q -20,240 50,230 
+             Q 100,165 180,180 
+             Q 240,140 330,170 
+             Q 410,130 490,175 
+             Q 570,160 620,220 
+             Q 670,250 660,340 
+             Z" 
+          fill="url(#bannerCloudLight)"/>
+    <ellipse cx="180" cy="210" rx="75" ry="40" fill="#ffffff" opacity="0.95"/>
+    <ellipse cx="330" cy="200" rx="85" ry="45" fill="#ffffff" opacity="0.95"/>
+    <ellipse cx="480" cy="210" rx="70" ry="38" fill="#ffffff" opacity="0.9"/>
+
+    <!-- Center-Right Cloud Mass (Sun-Kissed) -->
+    <path d="M 720,340 
+             Q 740,260 820,245 
+             Q 880,180 970,195 
+             Q 1040,150 1130,175 
+             Q 1220,135 1300,175 
+             Q 1380,160 1440,215 
+             Q 1510,225 1560,265 
+             Q 1600,285 1640,340 
+             Z" 
+          fill="url(#bannerCloudSunlit)"/>
+    <ellipse cx="960" cy="225" rx="80" ry="42" fill="#ffffff" opacity="0.95"/>
+    <ellipse cx="1120" cy="205" rx="90" ry="45" fill="#ffffff" opacity="0.98"/>
+    <ellipse cx="1290" cy="205" rx="85" ry="42" fill="#ffffff" opacity="0.95"/>
+    <ellipse cx="1430" cy="235" rx="75" ry="38" fill="#ffffff" opacity="0.92"/>
+  </g>
+
+  <!-- Foreground Dreamy Soft Clouds (Bottom Trim) -->
+  <g opacity="0.95">
+    <!-- Fluffy cloud pillows framing the bottom edge -->
+    <path d="M -30,330 
+             Q 120,270 280,300 
+             Q 450,260 620,290 
+             Q 820,250 1020,285 
+             Q 1240,250 1440,285 
+             Q 1560,275 1630,330 
+             L 1630,340 L -30,340 Z" 
+          fill="url(#bannerCloudLight)"/>
+    <ellipse cx="450" cy="305" rx="140" ry="35" fill="#ffffff"/>
+    <ellipse cx="820" cy="295" rx="160" ry="40" fill="#ffffff"/>
+    <ellipse cx="1240" cy="295" rx="150" ry="38" fill="#ffffff"/>
+  </g>
+
+  <!-- Sparkling Golden Star Accents -->
+  <g fill="#ffffff" filter="url(#bannerGlow)" opacity="0.85">
+    <!-- Sparkle 1 -->
+    <path d="M 1220,95 Q 1220,105 1230,105 Q 1220,105 1220,115 Q 1220,105 1210,105 Q 1220,105 1220,95 Z"/>
+    <!-- Sparkle 2 -->
+    <path d="M 1430,65 Q 1430,73 1438,73 Q 1430,73 1430,81 Q 1430,73 1422,73 Q 1430,73 1430,65 Z"/>
+    <!-- Sparkle 3 -->
+    <path d="M 870,75 Q 870,81 876,81 Q 870,81 870,87 Q 870,81 864,81 Q 870,81 870,75 Z"/>
+  </g>
+
+</svg>

@@ -1,0 +1,369 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 750" width="100%" height="100%" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Background Gradients -->
+    <linearGradient id="skyTwilight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#0a1220"/>
+      <stop offset="35%" stop-color="#0f1d33"/>
+      <stop offset="70%" stop-color="#182d4d"/>
+      <stop offset="90%" stop-color="#233a5e"/>
+      <stop offset="100%" stop-color="#2b436a"/>
+    </linearGradient>
+
+    <!-- Tarmac Surface Gradient -->
+    <linearGradient id="tarmacSurface" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#1a2536"/>
+      <stop offset="40%" stop-color="#141d2b"/>
+      <stop offset="100%" stop-color="#0f1622"/>
+    </linearGradient>
+
+    <!-- Center Taxiway Gradient -->
+    <linearGradient id="centerTaxiway" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#223046"/>
+      <stop offset="50%" stop-color="#1a2638"/>
+      <stop offset="100%" stop-color="#131c2a"/>
+    </linearGradient>
+
+    <!-- Green Lawn Grass Gradients -->
+    <linearGradient id="grassLeft" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a24"/>
+      <stop offset="40%" stop-color="#2d5a37"/>
+      <stop offset="80%" stop-color="#3b7448"/>
+      <stop offset="100%" stop-color="#254d30"/>
+    </linearGradient>
+    <linearGradient id="grassRight" x1="100%" y1="0%" x2="0%" y2="0%">
+      <stop offset="0%" stop-color="#1e3a24"/>
+      <stop offset="40%" stop-color="#2d5a37"/>
+      <stop offset="80%" stop-color="#3b7448"/>
+      <stop offset="100%" stop-color="#254d30"/>
+    </linearGradient>
+
+    <!-- Airplane Fuselage Shading (Glossy 3D White) -->
+    <linearGradient id="planeFuselageWhite" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#cbd5e1"/>
+      <stop offset="25%" stop-color="#f1f5f9"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="75%" stop-color="#f1f5f9"/>
+      <stop offset="100%" stop-color="#94a3b8"/>
+    </linearGradient>
+
+    <!-- Wing Top Shading -->
+    <linearGradient id="wingShadingLeft" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+    <linearGradient id="wingShadingRight" x1="100%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#e2e8f0"/>
+      <stop offset="50%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+
+    <!-- Ngefly Orange Accent -->
+    <linearGradient id="ngeflyOrange" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff7b1a"/>
+      <stop offset="100%" stop-color="#ff5100"/>
+    </linearGradient>
+
+    <!-- Cyan Aero Stripe -->
+    <linearGradient id="aeroCyan" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8"/>
+      <stop offset="100%" stop-color="#0284c7"/>
+    </linearGradient>
+
+    <!-- Filters -->
+    <filter id="planeShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="28" stdDeviation="22" flood-color="#050a14" flood-opacity="0.65"/>
+    </filter>
+    <filter id="softGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="beaconGlow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="6" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- ================= 1. SKY / UPPER HORIZON ================= -->
+  <rect width="1600" height="750" fill="url(#skyTwilight)"/>
+
+  <!-- Subtle Constellation Stars in Upper Sky -->
+  <g fill="#ffffff" opacity="0.6">
+    <circle cx="120" cy="45" r="1.2" opacity="0.8"/>
+    <circle cx="280" cy="70" r="1.5" opacity="0.9"/>
+    <circle cx="450" cy="35" r="1"/>
+    <circle cx="680" cy="65" r="1.3"/>
+    <circle cx="920" cy="40" r="1.4"/>
+    <circle cx="1150" cy="75" r="1.1"/>
+    <circle cx="1340" cy="30" r="1.6" opacity="0.9"/>
+    <circle cx="1480" cy="60" r="1"/>
+    <circle cx="200" cy="110" r="0.9"/>
+    <circle cx="1400" cy="100" r="1.2"/>
+  </g>
+
+  <!-- Distant Airport Terminal Horizon Outline -->
+  <path d="M0 240 L300 240 L320 225 L460 225 L480 240 L700 240 L710 215 L780 215 L790 240 L1150 240 L1170 220 L1300 220 L1320 240 L1600 240 L1600 750 L0 750 Z" fill="url(#tarmacSurface)"/>
+
+  <!-- Terminal Glass Reflections & Rooftop Antennas -->
+  <g stroke="#38bdf8" opacity="0.25" stroke-width="1.5">
+    <line x1="330" y1="225" x2="450" y2="225"/>
+    <line x1="720" y1="215" x2="770" y2="215"/>
+    <line x1="1180" y1="220" x2="1290" y2="220"/>
+  </g>
+  <!-- Red Obstruction Lights on Terminal Roof -->
+  <circle cx="400" cy="223" r="2.5" fill="#ef4444" filter="url(#beaconGlow)"/>
+  <circle cx="745" cy="213" r="3" fill="#ef4444" filter="url(#beaconGlow)"/>
+  <circle cx="1235" cy="218" r="2.5" fill="#ef4444" filter="url(#beaconGlow)"/>
+
+  <!-- ================= 2. AIRPORT APRON & TARMAC (EXACT VIDEO 00:04 - 00:07) ================= -->
+  <!-- Wide Main Center Taxiway / Apron -->
+  <polygon points="480,240 1120,240 1260,750 340,750" fill="url(#centerTaxiway)"/>
+
+  <!-- Flanking Green Lawn Islands (Isometric Strips matching frame_7s) -->
+  <!-- Left Green Turf -->
+  <polygon points="120,240 480,240 340,750 0,750" fill="url(#grassLeft)"/>
+  <!-- Right Green Turf -->
+  <polygon points="1120,240 1480,240 1600,750 1260,750" fill="url(#grassRight)"/>
+
+  <!-- Lawn Geometric Grass Texture Ridges -->
+  <g stroke="rgba(255,255,255,0.06)" stroke-width="1.5">
+    <line x1="220" y1="240" x2="100" y2="750"/>
+    <line x1="340" y1="240" x2="220" y2="750"/>
+    <line x1="1260" y1="240" x2="1380" y2="750"/>
+    <line x1="1380" y1="240" x2="1500" y2="750"/>
+  </g>
+
+  <!-- Outer Apron Pavements -->
+  <polygon points="0,240 120,240 0,750" fill="#131b26"/>
+  <polygon points="1480,240 1600,240 1600,750" fill="#131b26"/>
+
+  <!-- Taxiway Centerlines (Crisp Yellow Guidance Stripes matching frame_7s) -->
+  <g stroke="#f59e0b" stroke-width="3.5" opacity="0.85">
+    <!-- Main Center Guide Line -->
+    <line x1="800" y1="240" x2="800" y2="750"/>
+    <!-- Left Boundary Yellow Line -->
+    <line x1="480" y1="240" x2="340" y2="750"/>
+    <!-- Right Boundary Yellow Line -->
+    <line x1="1120" y1="240" x2="1260" y2="750"/>
+  </g>
+
+  <!-- White Runway / Apron Markings (Perspective Dashes) -->
+  <g stroke="#ffffff" stroke-width="4" stroke-dasharray="24 20" opacity="0.75">
+    <line x1="620" y1="250" x2="550" y2="750"/>
+    <line x1="980" y1="250" x2="1050" y2="750"/>
+  </g>
+
+  <!-- Modern Tech Hexagonal Overlay (Subtle Watermark matching frame_7s.png) -->
+  <g stroke="#38bdf8" stroke-width="1.2" fill="none" opacity="0.16">
+    <polygon points="320,380 350,362 380,380 380,415 350,432 320,415"/>
+    <polygon points="350,432 380,415 410,432 410,467 380,485 350,467"/>
+    <polygon points="1220,380 1250,362 1280,380 1280,415 1250,432 1220,415"/>
+    <polygon points="1250,432 1280,415 1310,432 1310,467 1280,485 1250,467"/>
+  </g>
+
+  <!-- Taxiway Ground Lights (Blue Edge Lights & Amber Inset Lights) -->
+  <g filter="url(#softGlow)">
+    <!-- Left Blue Lights -->
+    <circle cx="475" cy="260" r="3" fill="#38bdf8"/>
+    <circle cx="445" cy="360" r="3.5" fill="#38bdf8"/>
+    <circle cx="410" cy="480" r="4" fill="#38bdf8"/>
+    <circle cx="370" cy="620" r="4.5" fill="#38bdf8"/>
+    <!-- Right Blue Lights -->
+    <circle cx="1125" cy="260" r="3" fill="#38bdf8"/>
+    <circle cx="1155" cy="360" r="3.5" fill="#38bdf8"/>
+    <circle cx="1190" cy="480" r="4" fill="#38bdf8"/>
+    <circle cx="1230" cy="620" r="4.5" fill="#38bdf8"/>
+
+    <!-- Centerline Green Taxiway Inset Lights -->
+    <circle cx="800" cy="270" r="2.5" fill="#10b981"/>
+    <circle cx="800" cy="330" r="3" fill="#10b981"/>
+    <circle cx="800" cy="390" r="3" fill="#10b981"/>
+    <circle cx="800" cy="450" r="3.5" fill="#10b981"/>
+    <circle cx="800" cy="520" r="3.5" fill="#10b981"/>
+    <circle cx="800" cy="600" r="4" fill="#10b981"/>
+  </g>
+
+  <!-- ================= 3. AIRPORT SERVICE VEHICLES (EXACT VIDEO 00:06) ================= -->
+  <!-- Left Apron Vehicles (White & Red Baggage Tugs / Service Vans) -->
+  <!-- Vehicle 1: White Catering Truck -->
+  <g transform="translate(240, 360)">
+    <rect x="-16" y="-24" width="32" height="48" rx="6" fill="#f8fafc" stroke="#64748b" stroke-width="1.5"/>
+    <rect x="-12" y="-20" width="24" height="12" rx="3" fill="#1e293b"/>
+    <!-- Headlights -->
+    <circle cx="-10" cy="-24" r="2.5" fill="#fef08a" filter="url(#softGlow)"/>
+    <circle cx="10" cy="-24" r="2.5" fill="#fef08a" filter="url(#softGlow)"/>
+    <!-- Red Taillights -->
+    <rect x="-14" y="22" width="6" height="3" fill="#ef4444"/>
+    <rect x="8" y="22" width="6" height="3" fill="#ef4444"/>
+  </g>
+
+  <!-- Vehicle 2: Red Airport Marshaller Car -->
+  <g transform="translate(260, 440)">
+    <rect x="-14" y="-20" width="28" height="40" rx="5" fill="#ef4444" stroke="#991b1b" stroke-width="1.5"/>
+    <rect x="-10" y="-16" width="20" height="10" rx="3" fill="#0f172a"/>
+    <rect x="-4" y="-3" width="8" height="6" rx="1.5" fill="#facc15"/>
+    <!-- Headlights -->
+    <circle cx="-9" cy="-20" r="2" fill="#ffffff" filter="url(#softGlow)"/>
+    <circle cx="9" cy="-20" r="2" fill="#ffffff" filter="url(#softGlow)"/>
+  </g>
+
+  <!-- Right Apron Vehicles (Service Tugs) -->
+  <g transform="translate(1360, 360)">
+    <rect x="-16" y="-24" width="32" height="48" rx="6" fill="#f8fafc" stroke="#64748b" stroke-width="1.5"/>
+    <rect x="-12" y="-20" width="24" height="12" rx="3" fill="#1e293b"/>
+    <!-- Headlights -->
+    <circle cx="-10" cy="-24" r="2.5" fill="#fef08a" filter="url(#softGlow)"/>
+    <circle cx="10" cy="-24" r="2.5" fill="#fef08a" filter="url(#softGlow)"/>
+  </g>
+
+  <g transform="translate(1340, 440)">
+    <rect x="-14" y="-20" width="28" height="40" rx="5" fill="#ef4444" stroke="#991b1b" stroke-width="1.5"/>
+    <rect x="-10" y="-16" width="20" height="10" rx="3" fill="#0f172a"/>
+    <!-- Headlights -->
+    <circle cx="-9" cy="-20" r="2" fill="#ffffff" filter="url(#softGlow)"/>
+    <circle cx="9" cy="-20" r="2" fill="#ffffff" filter="url(#softGlow)"/>
+  </g>
+
+  <!-- ================= 4. MODERN COMMERCIAL AIRLINER (CENTERED, FACING UPWARDS!) ================= -->
+  <!-- Exactly matching frame_7s.png: Nose points UP towards "Ready to take off?" in natural climbing / taxiing pose -->
+  <g id="ngefly-flagship-airliner" transform="translate(800, 415) scale(0.92)" filter="url(#planeShadow)">
+    
+    <!-- Starboard (Right) Wing & Winglet -->
+    <g id="right-wing">
+      <!-- Main Wing Surface -->
+      <path d="M 18 -15 L 290 105 L 295 125 L 25 35 Z" fill="url(#wingShadingRight)"/>
+      <!-- Slat & Flap Panel Lines -->
+      <path d="M 22 -5 L 285 108 L 275 116 L 30 32 Z" fill="#94a3b8" opacity="0.35"/>
+      <!-- Right Winglet (Ngefly Vibrant Orange) -->
+      <path d="M 290 105 L 302 85 L 308 88 L 295 125 Z" fill="url(#ngeflyOrange)"/>
+      <!-- Green Navigation Light (Starboard Tip) -->
+      <circle cx="304" cy="86" r="4" fill="#10b981" filter="url(#beaconGlow)"/>
+
+      <!-- Twin Jet Engine Right (High-Bypass Turbofan) -->
+      <!-- Engine 1 (Inboard) -->
+      <g transform="translate(95, 30)">
+        <ellipse cx="0" cy="18" rx="12" ry="5" fill="#0f172a"/>
+        <rect x="-12" y="-24" width="24" height="42" rx="8" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+        <ellipse cx="0" cy="-24" rx="11" ry="5" fill="#1e293b"/>
+        <ellipse cx="0" cy="-24" rx="6" ry="2.5" fill="#0284c7"/>
+        <!-- Engine Pylon to Wing -->
+        <rect x="-2" y="-12" width="4" height="20" fill="#64748b"/>
+      </g>
+      <!-- Engine 2 (Outboard) -->
+      <g transform="translate(185, 75)">
+        <ellipse cx="0" cy="16" rx="10" ry="4" fill="#0f172a"/>
+        <rect x="-10" y="-20" width="20" height="36" rx="7" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+        <ellipse cx="0" cy="-20" rx="9" ry="4" fill="#1e293b"/>
+        <ellipse cx="0" cy="-20" rx="5" ry="2" fill="#0284c7"/>
+      </g>
+    </g>
+
+    <!-- Port (Left) Wing & Winglet -->
+    <g id="left-wing">
+      <!-- Main Wing Surface -->
+      <path d="M -18 -15 L -290 105 L -295 125 L -25 35 Z" fill="url(#wingShadingLeft)"/>
+      <!-- Slat & Flap Panel Lines -->
+      <path d="M -22 -5 L -285 108 L -275 116 L -30 32 Z" fill="#94a3b8" opacity="0.35"/>
+      <!-- Left Winglet (Ngefly Vibrant Orange) -->
+      <path d="M -290 105 L -302 85 L -308 88 L -295 125 Z" fill="url(#ngeflyOrange)"/>
+      <!-- Red Navigation Light (Port Tip) -->
+      <circle cx="-304" cy="86" r="4" fill="#ef4444" filter="url(#beaconGlow)"/>
+
+      <!-- Twin Jet Engine Left (High-Bypass Turbofan) -->
+      <!-- Engine 1 (Inboard) -->
+      <g transform="translate(-95, 30)">
+        <ellipse cx="0" cy="18" rx="12" ry="5" fill="#0f172a"/>
+        <rect x="-12" y="-24" width="24" height="42" rx="8" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+        <ellipse cx="0" cy="-24" rx="11" ry="5" fill="#1e293b"/>
+        <ellipse cx="0" cy="-24" rx="6" ry="2.5" fill="#0284c7"/>
+        <rect x="-2" y="-12" width="4" height="20" fill="#64748b"/>
+      </g>
+      <!-- Engine 2 (Outboard) -->
+      <g transform="translate(-185, 75)">
+        <ellipse cx="0" cy="16" rx="10" ry="4" fill="#0f172a"/>
+        <rect x="-10" y="-20" width="20" height="36" rx="7" fill="#e2e8f0" stroke="#94a3b8" stroke-width="1"/>
+        <ellipse cx="0" cy="-20" rx="9" ry="4" fill="#1e293b"/>
+        <ellipse cx="0" cy="-20" rx="5" ry="2" fill="#0284c7"/>
+      </g>
+    </g>
+
+    <!-- Horizontal Stabilizers (Rear Tail Wings) -->
+    <!-- Right Horizontal Stabilizer -->
+    <path d="M 12 145 L 95 185 L 92 195 L 8 165 Z" fill="#cbd5e1"/>
+    <path d="M 90 183 L 98 172 L 102 174 L 92 195 Z" fill="url(#ngeflyOrange)"/>
+    <!-- Left Horizontal Stabilizer -->
+    <path d="M -12 145 L -95 185 L -92 195 L -8 165 Z" fill="#cbd5e1"/>
+    <path d="M -90 183 L -98 172 L -102 174 L -92 195 Z" fill="url(#ngeflyOrange)"/>
+
+    <!-- Main Aerodynamic Fuselage Body (Sleek Airbus A350 Silhouette) -->
+    <g id="main-fuselage">
+      <!-- Fuselage Contour: Nose at TOP (Y = -185), Tail Cone at BOTTOM (Y = 195) -->
+      <path d="M 0 -185 C 24 -155, 28 -50, 26 80 C 24 135, 14 175, 0 195 C -14 175, -24 135, -26 80 C -28 -50, -24 -155, 0 -185 Z" fill="url(#planeFuselageWhite)"/>
+
+      <!-- Center Cyan/Blue Aero Racing Stripe (Signature Ngefly Identity) -->
+      <path d="M -3 -155 L 3 -155 L 3 175 L -3 175 Z" fill="url(#aeroCyan)" opacity="0.85"/>
+      <circle cx="0" cy="-145" r="3.5" fill="#ff6b00"/>
+
+      <!-- Cockpit Windshield (Sleek Panoramic Dark Glazing at TOP Nose) -->
+      <path d="M -14 -148 Q 0 -158 14 -148 Q 12 -138 0 -140 Q -12 -138 -14 -148 Z" fill="#0b1329"/>
+      <path d="M -11 -146 Q 0 -154 11 -146 Q 9 -140 0 -141 Q -9 -140 -11 -146 Z" fill="#38bdf8" opacity="0.85"/>
+      <line x1="0" y1="-155" x2="0" y2="-140" stroke="#ffffff" stroke-width="1.2" opacity="0.8"/>
+
+      <!-- Rows of Passenger Cabin Windows (Gleaming dots along fuselage sides) -->
+      <g fill="#0284c7" opacity="0.85">
+        <!-- Right Cabin Windows -->
+        <circle cx="18" cy="-115" r="1.6"/>
+        <circle cx="19" cy="-98" r="1.6"/>
+        <circle cx="19" cy="-81" r="1.6"/>
+        <circle cx="19" cy="-64" r="1.6"/>
+        <circle cx="19" cy="-47" r="1.6"/>
+        <circle cx="19" cy="-30" r="1.6"/>
+        <circle cx="19" cy="-13" r="1.6"/>
+        <circle cx="19" cy="4" r="1.6"/>
+        <circle cx="18" cy="21" r="1.6"/>
+        <circle cx="18" cy="38" r="1.6"/>
+        <circle cx="17" cy="55" r="1.6"/>
+        <circle cx="16" cy="72" r="1.6"/>
+        <circle cx="15" cy="89" r="1.6"/>
+        <circle cx="13" cy="106" r="1.6"/>
+        <circle cx="11" cy="123" r="1.6"/>
+
+        <!-- Left Cabin Windows -->
+        <circle cx="-18" cy="-115" r="1.6"/>
+        <circle cx="-19" cy="-98" r="1.6"/>
+        <circle cx="-19" cy="-81" r="1.6"/>
+        <circle cx="-19" cy="-64" r="1.6"/>
+        <circle cx="-19" cy="-47" r="1.6"/>
+        <circle cx="-19" cy="-30" r="1.6"/>
+        <circle cx="-19" cy="-13" r="1.6"/>
+        <circle cx="-19" cy="4" r="1.6"/>
+        <circle cx="-18" cy="21" r="1.6"/>
+        <circle cx="-18" cy="38" r="1.6"/>
+        <circle cx="-17" cy="55" r="1.6"/>
+        <circle cx="-16" cy="72" r="1.6"/>
+        <circle cx="-15" cy="89" r="1.6"/>
+        <circle cx="-13" cy="106" r="1.6"/>
+        <circle cx="-11" cy="123" r="1.6"/>
+      </g>
+    </g>
+
+    <!-- Vertical Stabilizer (Tail Fin - Swept back at the bottom Y = 100 to 195) -->
+    <g id="tail-fin">
+      <path d="M 0 100 L 0 192 L 6 195 L 7 130 Z" fill="url(#ngeflyOrange)"/>
+      <path d="M 0 100 L 0 192 L -6 195 L -7 130 Z" fill="#d94300"/>
+      <!-- Tail Cone White Navigation Strobe -->
+      <circle cx="0" cy="195" r="3" fill="#ffffff" filter="url(#beaconGlow)"/>
+    </g>
+
+    <!-- Fuselage Anti-Collision Strobe Beacons (Red flashing beacons on top) -->
+    <circle cx="0" cy="-35" r="3.5" fill="#ef4444" filter="url(#beaconGlow)"/>
+    <circle cx="0" cy="70" r="3" fill="#ef4444" filter="url(#beaconGlow)"/>
+  </g>
+
+</svg>

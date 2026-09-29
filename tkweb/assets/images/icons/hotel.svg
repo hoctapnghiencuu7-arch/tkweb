@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="100%" height="100%">
+  <defs>
+    <linearGradient id="hotelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <!-- Main High-Rise Building -->
+  <rect x="10" y="10" width="28" height="34" rx="2" fill="url(#hotelGrad)" stroke="#334155" stroke-width="1.5"/>
+  <!-- Illuminated Gold Windows -->
+  <g fill="#fde047">
+    <rect x="14" y="14" width="4" height="4" rx="1"/>
+    <rect x="22" y="14" width="4" height="4" rx="1"/>
+    <rect x="30" y="14" width="4" height="4" rx="1"/>
+    <rect x="14" y="21" width="4" height="4" rx="1"/>
+    <rect x="22" y="21" width="4" height="4" rx="1"/>
+    <rect x="30" y="21" width="4" height="4" rx="1"/>
+    <rect x="14" y="28" width="4" height="4" rx="1"/>
+    <rect x="22" y="28" width="4" height="4" rx="1"/>
+    <rect x="30" y="28" width="4" height="4" rx="1"/>
+  </g>
+  <!-- Grand Hotel Lobby Entrance -->
+  <rect x="20" y="36" width="8" height="8" rx="1" fill="#ff6b00"/>
+  <!-- Canopy Roof -->
+  <polygon points="18,36 30,36 28,34 20,34" fill="#ca8a04"/>
+
+  <!-- Hotel Star Rating (Top Roof Crest) -->
+  <polygon points="24,3 25,6 28,6 25.5,8 26.5,11 24,9.5 21.5,11 22.5,8 20,6 23,6" fill="#f59e0b"/>
+</svg>

@@ -1,0 +1,15 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" width="120" height="120">
+  <defs>
+    <linearGradient id="swGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ff6b00"/>
+      <stop offset="100%" stop-color="#ff9e00"/>
+    </linearGradient>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0d1b2a"/>
+      <stop offset="100%" stop-color="#1b263b"/>
+    </linearGradient>
+  </defs>
+  <circle cx="60" cy="60" r="56" fill="url(#bgGrad)" stroke="#ff6b00" stroke-width="3"/>
+  <!-- Jet wings vector -->
+  <path d="M78 82 L70 50 L84 36 C89 31 92 27 90 25 C88 23 84 26 79 31 L65 45 L33 37 C31 36.5 29 37.5 28 39 C27 41 28 43 30 44 L55 54 L47 66 L35 66 C32 66 30 68 31 70 C32 72 34 72 36 72 L46 72 L50 82 C51 84 53 85 55 84 C57 83 58 81 57 79 L54 69 L68 76 L75 87 C76 89 78 89 79 88 C80 87 80 84 78 82 Z" fill="url(#swGrad)"/>
+</svg>

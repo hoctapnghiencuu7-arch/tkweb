@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thanh toán - FlyNest</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: var(--c-bg);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto 80px;
+      padding: 0 20px;
+      flex: 1;
+      width: 100%;
+    }
+
+
+    /* ── Progress Steps ─────────────────────────────────────────────── */
+    .progress-wrapper {
+      margin-top: 32px;
+      margin-bottom: 32px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeUp 0.6s ease forwards 0.1s;
+    }
+    .progress-bar {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      min-width: 72px;
+    }
+    .step-connector {
+      flex: 1;
+      height: 2px;
+      background: var(--c-border);
+      margin-top: 15px;
+      transition: background 0.4s ease;
+      min-width: 24px;
+      max-width: 120px;
+    }
+    .step-connector.done {
+      background: var(--c-primary);
+    }
+    .step-circle {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: #ffffff;
+      border: 2px solid var(--c-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--c-text-sub);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      flex-shrink: 0;
+    }
+    .step.completed .step-circle {
+      background: var(--c-primary);
+      border-color: var(--c-primary);
+      color: #ffffff;
+    }
+    .step.active .step-circle {
+      background: #ffffff;
+      border: 2px solid var(--c-primary);
+      color: var(--c-primary);
+      box-shadow: 0 0 0 4px rgba(10, 102, 194, 0.1);
+    }
+    .step-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--c-text-sub);
+      text-align: center;
+      white-space: nowrap;
+    }
+    .step.completed .step-label,
+    .step.active .step-label {
+      color: var(--c-text-main);
+      font-weight: 600;
+    }
+    a.step {
+      text-decoration: none;
+      color: inherit;
+      cursor: pointer;
+    }
+    a.step:hover .step-circle {
+      transform: scale(1.08);
+    }
+    a.step:hover .step-label {
+      color: var(--c-primary);
+    }
+    @media (max-width: 480px) {
+      .step { min-width: 32px; }
+      .step-label { display: none; }
+      .step-connector { min-width: 12px; }
+    }
+    @keyframes fadeUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+
+    /* === Payment Layout === */
+    .payment-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 24px;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: fadeUp 0.6s ease forwards 0.2s;
+    }
+
+    /* === Payment Form Styles === */
+    .payment-section {
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 32px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    .payment-section h2 {
+      font-size: 20px;
+      font-weight: 700;
+      margin: 0 0 24px;
+      color: var(--c-text-main);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .card-brands {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .card-brand {
+      height: 24px;
+      opacity: 0.6;
+    }
+    
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .field.full {
+      grid-column: 1 / -1;
+    }
+    .field label {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--c-text-sub);
+    }
+    .field input {
+      padding: 12px 16px;
+      border: 1.5px solid var(--c-border);
+      border-radius: 8px;
+      font-size: 15px;
+      font-family: inherit;
+      color: var(--c-text-main);
+      transition: all 0.2s;
+      background: #fff;
+    }
+    .field input:focus {
+      outline: none;
+      border-color: var(--c-primary);
+      box-shadow: 0 0 0 4px rgba(10, 102, 194, 0.1);
+    }
+    .field input.error {
+      border-color: #EF4444;
+      background: #FEF2F2;
+    }
+    .error-msg {
+      color: #EF4444;
+      font-size: 12px;
+      margin-top: 4px;
+      display: none;
+    }
+    .field input.error + .error-msg {
+      display: block;
+    }
+    
+    /* === Booking Summary Styles === */
+    .booking-summary {
+      position: sticky;
+      top: 100px;
+      background: #ffffff;
+      border-radius: 12px;
+      padding: 24px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    }
+    .booking-summary h3 {
+      font-size: 18px;
+      font-weight: 700;
+      margin: 0 0 20px;
+      color: var(--c-text-main);
+      border-bottom: 1px solid var(--c-border);
+      padding-bottom: 12px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 12px;
+      font-size: 14px;
+      color: var(--c-text-sub);
+    }
+    .summary-row .val {
+      color: var(--c-text-main);
+      font-weight: 500;
+    }
+    .summary-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 20px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--c-border);
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--c-text-main);
+    }
+    .summary-total .total-val {
+      font-size: 24px;
+      color: var(--c-primary);
+    }
+
+    #pay-button {
+      width: 100%;
+      padding: 16px;
+      margin-top: 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      background: var(--c-primary);
+      color: #fff;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+    #pay-button:hover:not(:disabled) {
+      background: #084c91;
+      transform: scale(1.02);
+      box-shadow: 0 4px 12px rgba(10, 102, 194, 0.2);
+    }
+    #pay-button:disabled {
+      background: var(--c-border);
+      color: var(--c-text-sub);
+      cursor: not-allowed;
+    }
+
+    .spinner {
+      display: none;
+      width: 20px;
+      height: 20px;
+      border: 3px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #fff;
+      animation: spin 1s ease-in-out infinite;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 900px) {
+      .payment-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- FlyNest Reusable Header -->
+<header style="background: #ffffff; border-bottom: 1px solid var(--c-border); width: 100%; position: sticky; top: 0; z-index: 50;">
+  <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; padding: 16px 20px;">
+    
+    <!-- Logo -->
+    <a href="../index.html" class="fn-logo-link" style="display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--c-text-main); font-weight: bold; font-size: 24px;">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+      </svg>
+      FlyNest
+    </a>
+
+    <!-- Navigation -->
+    <nav>
+      <ul style="display: flex; gap: 32px; list-style: none; margin: 0; padding: 0;">
+        <li><a href="../index.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Trang chủ</a></li>
+        <li><a href="../pages/flights.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Chuyến bay</a></li>
+        <li><a href="../pages/booking.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Đặt vé</a></li>
+        <li><a href="../pages/schedule.html" class="fn-nav-link" style="text-decoration: none; color: var(--c-text-main); font-weight: 500;">Lịch trình</a></li>
+      </ul>
+    </nav>
+
+    <!-- Actions -->
+    <div style="display: flex; gap: 16px; align-items: center;">
+      <a href="../pages/login.html" class="fn-clickable fn-btn-outline" style="text-decoration: none; font-weight: 600; padding: 8px 20px; border-radius: 8px;">Đăng nhập</a>
+      <a href="../pages/register.html" class="fn-clickable fn-btn-primary" style="text-decoration: none; font-weight: 600; padding: 8px 20px; border-radius: 8px;">Đăng ký</a>
+    </div>
+
+  </div>
+</header>
+
+
+  <div class="container">
+
+    <!-- Progress Steps -->
+    <div class="progress-wrapper">
+      <div class="progress-bar">
+
+        <!-- Step 1 -->
+        <a href="flights.html" class="step completed" title="Quay lại chọn chuyến bay">
+          <div class="step-circle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg></div>
+          <div class="step-label">Chọn ghế</div>
+        </a>
+
+        <!-- Connector 1->2 -->
+        <div class="step-connector done"></div>
+
+        <!-- Step 2 -->
+        <div class="step completed">
+          <div class="step-circle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="20 6 9 17 4 12"></polyline>
+            </svg></div>
+          <div class="step-label">Thông tin hành khách</div>
+        </div>
+
+        <!-- Connector 2->3 -->
+        <div class="step-connector done"></div>
+
+        <!-- Step 3 -->
+        <div class="step active">
+          <div class="step-circle">3</div>
+          <div class="step-label">Thanh toán</div>
+        </div>
+
+        <!-- Connector 3->4 -->
+        <div class="step-connector "></div>
+
+        <!-- Step 4 -->
+        <div class="step ">
+          <div class="step-circle">4</div>
+          <div class="step-label">Hoàn tất</div>
+        </div>
+
+      </div>
+    </div>
+
+
+    <div class="payment-layout">
+      <!-- Form thanh toán -->
+      <div class="payment-section">
+        <h2>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg>
+          Thanh toán bằng thẻ
+        </h2>
+        
+        <div class="card-brands">
+          <!-- Placeholder SVG for Visa/Mastercard styling -->
+          <div style="font-weight:bold; font-style:italic; color:#1a1f71; font-size:18px; margin-right: 12px;">VISA</div>
+          <div style="display:flex; align-items:center;">
+            <div style="width:16px;height:16px;border-radius:50%;background:#eb001b;margin-right:-6px;z-index:2;"></div>
+            <div style="width:16px;height:16px;border-radius:50%;background:#f79e1b;z-index:1;"></div>
+          </div>
+        </div>
+
+        <form id="payment-form" novalidate>
+          <div class="form-grid">
+            <div class="field full">
+              <label for="card-number">Số thẻ tín dụng / Ghi nợ</label>
+              <input id="card-number" type="tel" inputmode="numeric" maxlength="19" placeholder="0000 0000 0000 0000" autocomplete="cc-number">
+              <div id="card-number-error" class="error-msg">Vui lòng nhập 16 chữ số thẻ hợp lệ</div>
+            </div>
+            
+            <div class="field full">
+              <label for="card-holder">Tên in trên thẻ (Không dấu)</label>
+              <input id="card-holder" type="text" placeholder="VD: NGUYEN VAN A" autocomplete="cc-name">
+              <div id="card-holder-error" class="error-msg">Vui lòng nhập tên in trên thẻ</div>
+            </div>
+            
+            <div class="field">
+              <label for="expiry">Hạn dùng (MM/YY)</label>
+              <input id="expiry" type="tel" inputmode="numeric" maxlength="5" placeholder="MM/YY" autocomplete="cc-exp">
+              <div id="expiry-error" class="error-msg">Tháng/Năm không hợp lệ</div>
+            </div>
+            
+            <div class="field">
+              <label for="cvv">Mã bảo mật (CVV)</label>
+              <input id="cvv" type="tel" inputmode="numeric" maxlength="4" placeholder="123" autocomplete="cc-csc">
+              <div id="cvv-error" class="error-msg">Mã CVV gồm 3-4 chữ số</div>
+            </div>
+          </div>
+          
+          <button type="submit" id="pay-button" disabled>
+            <span class="btn-text">Thanh toán ngay</span>
+            <div class="spinner"></div>
+          </button>
+        </form>
+      </div>
+
+      <!-- Tóm tắt đơn hàng -->
+      <aside class="booking-summary">
+        <h3>Tóm tắt đơn hàng</h3>
+        <div class="summary-row">
+          <span>Vé máy bay & Phí</span>
+          <span class="val">1.700.000 ₫</span>
+        </div>
+        <div class="summary-row">
+          <span>Tiện ích & Ghế</span>
+          <span class="val" id="addon-price">0 ₫</span>
+        </div>
+        
+        <div class="summary-total">
+          <span>Tổng thanh toán</span>
+          <span class="total-val" id="total-price">1.700.000 ₫</span>
+        </div>
+        
+        <div style="margin-top: 16px; font-size: 12px; color: var(--c-text-sub); text-align: center; display: flex; align-items: center; justify-content: center; gap: 6px;">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+          Thanh toán bảo mật chuẩn PCI-DSS
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer style="background: #ffffff; border-top: 1px solid var(--c-border); padding: 40px 20px; text-align: center; color: var(--c-text-sub); margin-top: auto;">
+    <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+      <div style="display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 20px; color: var(--c-text-main);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--c-primary)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>
+        </svg>
+        FlyNest
+      </div>
+      <div style="font-size: 14px;">Bản quyền &copy; 2026 FlyNest. Đã đăng ký bản quyền.</div>
+    </div>
+  </footer>
+
+  <script>
+    function formatMoney(num) {
+      return num.toLocaleString('vi-VN') + ' ₫';
+    }
+
+    // Load dynamic price if stored
+    document.addEventListener('DOMContentLoaded', () => {
+      let extra = 0;
+      let seatPriceStr = sessionStorage.getItem('flynest_seat_price');
+      if(seatPriceStr) extra = parseInt(seatPriceStr, 10);
+      
+      document.getElementById('addon-price').textContent = formatMoney(extra);
+      document.getElementById('total-price').textContent = formatMoney(1700000 + extra);
+    });
+
+    const cardNumberInput = document.getElementById('card-number');
+    const cardHolderInput = document.getElementById('card-holder');
+    const expiryInput = document.getElementById('expiry');
+    const cvvInput = document.getElementById('cvv');
+    const payButton = document.getElementById('pay-button');
+
+    // Auto-formatting
+    cardNumberInput.addEventListener('input', (e) => {
+      let value = e.target.value.replace(/\D/g, '').substring(0, 16);
+      let formatted = value.match(/.{1,4}/g)?.join(' ') || '';
+      e.target.value = formatted;
+      validateForm();
+    });
+
+    expiryInput.addEventListener('input', (e) => {
+      let value = e.target.value.replace(/\D/g, '').substring(0, 4);
+      if (value.length > 2) {
+        e.target.value = value.slice(0, 2) + '/' + value.slice(2);
+      } else {
+        e.target.value = value;
+      }
+      validateForm();
+    });
+
+    cvvInput.addEventListener('input', (e) => {
+      e.target.value = e.target.value.replace(/\D/g, '').substring(0, 4);
+      validateForm();
+    });
+    
+    cardHolderInput.addEventListener('input', () => validateForm());
+
+    // Validation
+    function validateForm() {
+      let valid = true;
+
+      // Card Number
+      const digits = cardNumberInput.value.replace(/\s/g, '');
+      if (digits.length !== 16) {
+        valid = false;
+        if(digits.length === 16 || cardNumberInput.value.length > 16) cardNumberInput.classList.add('error');
+      } else {
+        cardNumberInput.classList.remove('error');
+      }
+      
+      // Card Holder
+      if (cardHolderInput.value.trim().length < 3) {
+        valid = false;
+        if(cardHolderInput.value.length > 0) cardHolderInput.classList.add('error');
+      } else {
+        cardHolderInput.classList.remove('error');
+      }
+
+      // Expiry
+      const exp = expiryInput.value;
+      const expPattern = /^(0[1-9]|1[0-2])\/\d{2}$/;
+      if (!expPattern.test(exp) && exp.length === 5) {
+        expiryInput.classList.add('error');
+        valid = false;
+      } else if (expPattern.test(exp)) {
+        const parts = exp.split('/');
+        const month = parseInt(parts[0], 10);
+        const year = parseInt('20' + parts[1], 10);
+        const today = new Date();
+        const expDate = new Date(year, month - 1, 1);
+        if (expDate <= today) {
+          expiryInput.classList.add('error');
+          valid = false;
+        } else {
+          expiryInput.classList.remove('error');
+        }
+      } else {
+        valid = false;
+      }
+
+      // CVV
+      if (cvvInput.value.length < 3) {
+        valid = false;
+      } else {
+        cvvInput.classList.remove('error');
+      }
+
+      payButton.disabled = !valid;
+    }
+
+    // Submit Simulation
+    document.getElementById('payment-form').addEventListener('submit', e => {
+      e.preventDefault();
+      
+      // UI state
+      payButton.disabled = true;
+      payButton.querySelector('.btn-text').textContent = 'Đang xử lý...';
+      payButton.querySelector('.spinner').style.display = 'block';
+
+      // Mock API call
+      setTimeout(() => {
+        window.location.href = 'ticket.html';
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
