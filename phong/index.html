@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Góc Nhỏ Blog - Chia sẻ kiến thức & cuộc sống</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Header & Navigation -->
+  <header class="header">
+    <div class="container nav-container">
+      <a href="#" class="logo">
+        <span class="logo-icon">✍️</span>
+        <span class="logo-text">Góc Nhỏ<strong>Blog</strong></span>
+      </a>
+      <nav class="nav-menu">
+        <a href="#home" class="nav-link active">Trang chủ</a>
+        <a href="#featured" class="nav-link">Bài viết</a>
+        <a href="#categories" class="nav-link">Chuyên mục</a>
+        <a href="#about" class="nav-link">Về tác giả</a>
+      </nav>
+      <div class="header-actions">
+        <button id="themeToggle" class="icon-btn" title="Chuyển chế độ sáng/tối">🌙</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section with 3 Special Interactive Buttons -->
+  <section class="hero" id="home">
+    <div class="container hero-content">
+      <span class="badge">✨ Chào mừng bạn ghé thăm</span>
+      <h1 class="hero-title">Không gian chia sẻ về Lập trình, Sáng tạo & Cuộc sống</h1>
+      <p class="hero-desc">
+        Nơi ghi chép những trải nghiệm học hỏi công nghệ, thủ thuật lập trình web hiện đại và những câu chuyện thường nhật truyền cảm hứng.
+      </p>
+
+      <!-- 3 Featured Buttons (Hover: đổi màu nền, đổi màu chữ, nhô lên một chút) -->
+      <div class="hero-buttons">
+        <button class="btn-lift btn-explore" id="btnExplore">
+          <span class="btn-icon">🚀</span>
+          <span>Khám phá bài viết</span>
+        </button>
+
+        <button class="btn-lift btn-subscribe" id="btnSubscribe">
+          <span class="btn-icon">💌</span>
+          <span>Đăng ký nhận tin</span>
+        </button>
+
+        <button class="btn-lift btn-contact" id="btnContact">
+          <span class="btn-icon">☕</span>
+          <span>Liên hệ tác giả</span>
+        </button>
+      </div>
+      <p class="button-hint">💡 <em>Hãy rê chuột thử vào 3 nút trên để xem hiệu ứng đổi màu & nhô lên nhé!</em></p>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container main-layout">
+    <!-- Articles Feed -->
+    <section class="posts-section" id="featured">
+      <div class="section-header">
+        <h2 class="section-title">Bài viết mới nhất</h2>
+        <div class="filter-tabs">
+          <button class="tab-btn active" data-category="all">Tất cả</button>
+          <button class="tab-btn" data-category="frontend">Frontend</button>
+          <button class="tab-btn" data-category="tips">Kinh nghiệm</button>
+          <button class="tab-btn" data-category="lifestyle">Đời sống</button>
+        </div>
+      </div>
+
+      <div class="posts-grid" id="postsContainer">
+        <!-- Post 1 -->
+        <article class="post-card" data-category="frontend">
+          <div class="post-thumb thumb-1">
+            <span class="post-tag">Frontend</span>
+          </div>
+          <div class="post-body">
+            <div class="post-meta">
+              <span>📅 28 Tháng 9, 2026</span>
+              <span>•</span>
+              <span>⏱️ 5 phút đọc</span>
+            </div>
+            <h3 class="post-title">Cách tạo hiệu ứng Hover mượt mà bằng CSS Transitions và Transform</h3>
+            <p class="post-summary">
+              Khám phá bí quyết nâng cao trải nghiệm người dùng với các hiệu ứng rê chuột (hover) siêu mượt, tận dụng thuộc tính translateY và box-shadow.
+            </p>
+            <div class="post-footer">
+              <div class="author-info">
+                <div class="author-avatar">🧑‍💻</div>
+                <span class="author-name">Alex dev</span>
+              </div>
+              <a href="javascript:void(0)" class="read-more-link" onclick="openPostModal('hover-guide')">Đọc tiếp →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Post 2 -->
+        <article class="post-card" data-category="tips">
+          <div class="post-thumb thumb-2">
+            <span class="post-tag">Kinh nghiệm</span>
+          </div>
+          <div class="post-body">
+            <div class="post-meta">
+              <span>📅 25 Tháng 9, 2026</span>
+              <span>•</span>
+              <span>⏱️ 7 phút đọc</span>
+            </div>
+            <h3 class="post-title">5 Thói quen giúp bạn viết code sạch (Clean Code) mỗi ngày</h3>
+            <p class="post-summary">
+              Những nguyên tắc đặt tên biến, tách hàm đơn nhiệm và cách tư duy giúp dự án của bạn dễ bảo trì và mở rộng hơn bao giờ hết.
+            </p>
+            <div class="post-footer">
+              <div class="author-info">
+                <div class="author-avatar">👩‍🎨</div>
+                <span class="author-name">Linh Đan</span>
+              </div>
+              <a href="javascript:void(0)" class="read-more-link" onclick="openPostModal('clean-code')">Đọc tiếp →</a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Post 3 -->
+        <article class="post-card" data-category="lifestyle">
+          <div class="post-thumb thumb-3">
+            <span class="post-tag">Đời sống</span>
+          </div>
+          <div class="post-body">
+            <div class="post-meta">
+              <span>📅 20 Tháng 9, 2026</span>
+              <span>•</span>
+              <span>⏱️ 4 phút đọc</span>
+            </div>
+            <h3 class="post-title">Cân bằng giữa công việc lập trình và cuộc sống: Bài học sau 3 năm</h3>
+            <p class="post-summary">
+              Rời xa màn hình máy tính, sắp xếp thời gian hợp lý và duy trì thói quen tập luyện thể thao để tránh tình trạng burnout trong ngành công nghệ.
+            </p>
+            <div class="post-footer">
+              <div class="author-info">
+                <div class="author-avatar">☕</div>
+                <span class="author-name">Hải Nam</span>
+              </div>
+              <a href="javascript:void(0)" class="read-more-link" onclick="openPostModal('work-life')">Đọc tiếp →</a>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="about">
+      <div class="sidebar-card author-card">
+        <div class="author-card-avatar">👨‍💻</div>
+        <h4 class="author-card-name">Tác giả Blog</h4>
+        <p class="author-card-bio">
+          Chào bạn! Mình là một Web Developer đam mê giao diện đẹp, UX mượt mà và chia sẻ những điều hữu ích về lập trình.
+        </p>
+        <div class="social-links">
+          <a href="#" class="social-icon">🐙 GitHub</a>
+          <a href="#" class="social-icon">🌐 Portfolio</a>
+        </div>
+      </div>
+
+      <div class="sidebar-card">
+        <h4 class="sidebar-title">Chủ đề quan tâm</h4>
+        <div class="tag-cloud">
+          <span class="tag-chip">#HTML5</span>
+          <span class="tag-chip">#ModernCSS</span>
+          <span class="tag-chip">#JavaScript</span>
+          <span class="tag-chip">#UI/UX</span>
+          <span class="tag-chip">#SelfCare</span>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <!-- Modal Dialog for interactive notifications / reading -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-card">
+      <button class="modal-close" id="modalClose">✕</button>
+      <div id="modalContent"></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <p>© 2026 Góc Nhỏ Blog. Thiết kế với HTML, CSS & JavaScript hiện đại.</p>
+      <p class="footer-sub">Hiệu ứng nút tương tác: Smooth CSS Transform & Elevation.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
