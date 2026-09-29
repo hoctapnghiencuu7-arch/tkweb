@@ -27,111 +27,6 @@
       width: 100%;
     }
 
-    /* ── Progress Steps ─────────────────────────────────────────────── */
-    .progress-wrapper {
-      margin-bottom: 32px;
-      opacity: 0;
-      transform: translateY(10px);
-      animation: fadeUp 0.6s ease forwards 0.1s;
-    }
-
-    /* Outer flex row: steps + connectors */
-    .progress-bar {
-      display: flex;
-      align-items: flex-start;   /* top-align so circles line up */
-      justify-content: center;
-    }
-
-    /* Individual step column */
-    .step {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 8px;
-      flex-shrink: 0;
-      min-width: 72px;          /* prevent labels from collapsing */
-    }
-
-    /* Connector segment between steps */
-    .step-connector {
-      flex: 1;
-      height: 2px;
-      background: var(--c-border);
-      margin-top: 15px;         /* align with center of 32px circle */
-      transition: background 0.4s ease;
-      min-width: 24px;
-      max-width: 120px;
-    }
-    .step-connector.done {
-      background: var(--c-primary);
-    }
-
-    /* Circle */
-    .step-circle {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      background: #ffffff;
-      border: 2px solid var(--c-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 14px;
-      color: var(--c-text-sub);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      flex-shrink: 0;
-    }
-
-    /* Completed */
-    .step.completed .step-circle {
-      background: var(--c-primary);
-      border-color: var(--c-primary);
-      color: #ffffff;
-    }
-
-    /* Active / current */
-    .step.active .step-circle {
-      background: #ffffff;
-      border: 2px solid var(--c-primary);
-      color: var(--c-primary);
-      box-shadow: 0 0 0 4px rgba(10, 102, 194, 0.1);
-    }
-
-    /* Labels */
-    .step-label {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--c-text-sub);
-      text-align: center;
-      white-space: nowrap;
-    }
-    .step.completed .step-label,
-    .step.active    .step-label {
-      color: var(--c-text-main);
-      font-weight: 600;
-    }
-
-    /* ── Clickable step (step 1) ─────────────────────────────────────── */
-    a.step {
-      text-decoration: none;   /* kill default blue underline */
-      color: inherit;
-      cursor: pointer;
-    }
-    a.step:hover .step-circle {
-      transform: scale(1.08);
-    }
-    a.step:hover .step-label {
-      color: var(--c-primary);
-    }
-
-    /* ── Mobile ─────────────────────────────────────────────────────── */
-    @media (max-width: 480px) {
-      .step { min-width: 32px; }
-      .step-label { display: none; }    /* hide labels, keep circles */
-      .step-connector { min-width: 12px; }
-    }
-
     /* Flight Summary Card */
     .flight-summary-card {
       background: #ffffff;
@@ -509,50 +404,62 @@
   <div class="booking-container">
     
 
-    <!-- Progress Steps -->
-    <div class="progress-wrapper">
-      <div class="progress-bar">
+    <!-- TIẾN TRÌNH ĐẶT VÉ TRỰC QUAN (VISUAL PROGRESS STEPPER) -->
+    <nav class="modern-stepper-container" aria-label="Tiến trình đặt vé">
+      <!-- Chỉ báo thu gọn trên di động (Mobile Compact Step Indicator) -->
+      <div class="stepper-compact-indicator" aria-hidden="true">
+        <span class="stepper-compact-badge">Bước 2/5</span>
+        <span class="stepper-compact-title">Thông Tin Hành Khách</span>
+      </div>
 
-        <!-- Step 1 — clickable, wrapped in <a> -->
-        <a href="flights.html" class="step completed" title="Quay lại chọn chuyến bay">
+      <!-- Thanh kết nối nền (Track) -->
+      <div class="modern-stepper-track">
+        <div class="stepper-progress-line">
+          <div class="stepper-progress-fill" style="width: 25%;"></div>
+        </div>
+
+        <!-- Bước 1: Hoàn thành -->
+        <a href="flights.html" class="modern-step-node completed" title="Bước 1: Chọn Chuyến Bay">
           <div class="step-circle">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-              <polyline points="20 6 9 17 4 12"></polyline>
-            </svg>
+            <span class="step-circle-icon">✓</span>
           </div>
-          <div class="step-label">Chọn chuyến bay</div>
+          <span class="step-label">1. Chọn Chuyến Bay</span>
         </a>
 
-        <!-- Connector 1→2 (done) -->
-        <div class="step-connector done"></div>
-
-        <!-- Step 2 — active, not clickable -->
-        <div class="step active">
-          <div class="step-circle">2</div>
-          <div class="step-label">Thông tin hành khách</div>
+        <!-- Bước 2: Đang làm -->
+        <div class="modern-step-node active" aria-current="step" title="Bước 2: Thông Tin Khách">
+          <div class="step-circle">
+            <span class="step-circle-icon">2</span>
+            <div class="step-circle-pulse"></div>
+          </div>
+          <span class="step-label">2. Thông Tin Khách</span>
         </div>
 
-        <!-- Connector 2→3 (pending) -->
-        <div class="step-connector"></div>
-
-        <!-- Step 3 — pending, not clickable -->
-        <div class="step">
-          <div class="step-circle">3</div>
-          <div class="step-label">Thanh toán</div>
+        <!-- Bước 3: Chờ -->
+        <div class="modern-step-node pending" title="Bước 3: Chọn Chỗ Ngồi">
+          <div class="step-circle">
+            <span class="step-circle-icon">3</span>
+          </div>
+          <span class="step-label">3. Chọn Chỗ Ngồi</span>
         </div>
 
-        <!-- Connector 3→4 (pending) -->
-        <div class="step-connector"></div>
-
-        <!-- Step 4 — pending, not clickable -->
-        <div class="step">
-          <div class="step-circle">4</div>
-          <div class="step-label">Hoàn tất</div>
+        <!-- Bước 4: Chờ -->
+        <div class="modern-step-node pending" title="Bước 4: Thanh Toán">
+          <div class="step-circle">
+            <span class="step-circle-icon">4</span>
+          </div>
+          <span class="step-label">4. Thanh Toán</span>
         </div>
 
+        <!-- Bước 5: Chờ -->
+        <div class="modern-step-node pending" title="Bước 5: Thẻ Lên Tàu Bay">
+          <div class="step-circle">
+            <span class="step-circle-icon">5</span>
+          </div>
+          <span class="step-label">5. Thẻ Lên Tàu Bay</span>
+        </div>
       </div>
-    </div>
-
+    </nav>
     <!-- Flight Summary Card -->
     <div class="flight-summary-card">
       <div class="fsc-left">
