@@ -43,3 +43,9 @@ desktop.ini
 # Test Outputs
 tkweb/tests/screenshots/
 tkweb/tests/e2e-report.json
+
+# Cache
+.cache/
+
+# Agent logs
+.agents/
